@@ -1,0 +1,27 @@
+﻿@helper Truncate(string input, int length)
+{
+    if (input.Length < length)
+    {
+        @input
+    }
+    else
+    {
+        @input.Substring(0, length)<text>...</text>
+    }
+}
+<div class="slick-multiItemSlider">
+    @foreach (var items in Model)
+    {
+        <!-- Film Single -->
+        <div class="movie-item">
+            <div class="mv-img">
+                <img src="~/images/films/@items.image_link" alt="" width="285" height="437">
+            </div>
+            <div class="title-in">
+                @Html.Action("Category_film", "Home", new { id = items.id })
+                <h6><a href="@Url.Action("Film_detail", "Home", new { id = items.id})">@Truncate(items.name, 18)</a></h6>
+                <p><i class="ion-android-star"></i><span>@items.rate</span> /10</p>
+            </div>
+        </div>
+    }
+</div>
