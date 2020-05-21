@@ -79,7 +79,7 @@
       <Column Name="description" Type="System.String" DbType="VarChar(5000)" CanBeNull="true" />
       <Column Name="created" Type="System.DateTime" DbType="Date" CanBeNull="true" />
       <Column Name="form_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="rate" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="rate" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="film_chapter" Member="chapters" ThisKey="id" OtherKey="film_id" Type="chapter" />
       <Association Name="film_favorite_film" Member="favorite_films" ThisKey="id" OtherKey="film_id" Type="favorite_film" />
       <Association Name="film_film_cast" Member="film_casts" ThisKey="id" OtherKey="film_id" Type="film_cast" />
@@ -94,6 +94,7 @@
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="film_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="celeb_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="characters" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
       <Association Name="celebrity_film_cast" Member="celebrity" ThisKey="celeb_id" OtherKey="id" Type="celebrity" IsForeignKey="true" />
       <Association Name="film_film_cast" Member="film" ThisKey="film_id" OtherKey="id" Type="film" IsForeignKey="true" />
     </Type>

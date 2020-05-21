@@ -1587,7 +1587,7 @@ namespace BlockBuster.Models
 		
 		private System.Nullable<int> _form_id;
 		
-		private System.Nullable<double> _rate;
+		private System.Nullable<int> _rate;
 		
 		private EntitySet<chapter> _chapters;
 		
@@ -1625,7 +1625,7 @@ namespace BlockBuster.Models
     partial void OncreatedChanged();
     partial void Onform_idChanging(System.Nullable<int> value);
     partial void Onform_idChanged();
-    partial void OnrateChanging(System.Nullable<double> value);
+    partial void OnrateChanging(System.Nullable<int> value);
     partial void OnrateChanged();
     #endregion
 		
@@ -1825,8 +1825,8 @@ namespace BlockBuster.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rate", DbType="Float")]
-		public System.Nullable<double> rate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rate", DbType="Int")]
+		public System.Nullable<int> rate
 		{
 			get
 			{
@@ -2062,6 +2062,8 @@ namespace BlockBuster.Models
 		
 		private System.Nullable<int> _celeb_id;
 		
+		private string _characters;
+		
 		private EntityRef<celebrity> _celebrity;
 		
 		private EntityRef<film> _film;
@@ -2076,6 +2078,8 @@ namespace BlockBuster.Models
     partial void Onfilm_idChanged();
     partial void Onceleb_idChanging(System.Nullable<int> value);
     partial void Onceleb_idChanged();
+    partial void OncharactersChanging(string value);
+    partial void OncharactersChanged();
     #endregion
 		
 		public film_cast()
@@ -2149,6 +2153,26 @@ namespace BlockBuster.Models
 					this._celeb_id = value;
 					this.SendPropertyChanged("celeb_id");
 					this.Onceleb_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_characters", DbType="VarChar(20)")]
+		public string characters
+		{
+			get
+			{
+				return this._characters;
+			}
+			set
+			{
+				if ((this._characters != value))
+				{
+					this.OncharactersChanging(value);
+					this.SendPropertyChanging();
+					this._characters = value;
+					this.SendPropertyChanged("characters");
+					this.OncharactersChanged();
 				}
 			}
 		}

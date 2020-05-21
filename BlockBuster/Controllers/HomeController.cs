@@ -108,11 +108,11 @@ namespace BlockBuster.Controllers
                        select jo;
             return PartialView(job);
         }
-        // Lay diem so danh gia cua tung phim
-        public ActionResult Rate(int id)
+        // Lay so luot nhan xet cua tung phim
+        public ActionResult Review_count(int id)
         {
-            double? ratepoint = data.reviews.Where(or => or.film_id == id).Average(rp => rp.point);
-            return PartialView(ratepoint);
+            int? review_count = data.reviews.Count(or => or.film_id == id);
+            return PartialView(review_count);
         }
         public ActionResult Film_detail(int id)
         {
