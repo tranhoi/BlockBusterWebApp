@@ -9,7 +9,7 @@
       <Column Name="position_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.users" Member="users">
+  <Table Name="dbo.[user]" Member="users">
     <Type Name="user">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="username" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
@@ -45,9 +45,10 @@
       <Column Name="name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="description" Type="System.String" DbType="VarChar(5000)" CanBeNull="true" />
       <Column Name="avatar" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="birthday" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="country_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="celebrity_celeb_job" Member="celeb_jobs" ThisKey="id" OtherKey="celeb_id" Type="celeb_job" />
-      <Association Name="celebrity_film_cast" Member="film_casts" ThisKey="id" OtherKey="celeb_id" Type="film_cast" />
-      <Association Name="celebrity_film_director" Member="film_directors" ThisKey="id" OtherKey="celeb_id" Type="film_director" />
+      <Association Name="celebrity_film_celebrity" Member="film_celebrities" ThisKey="id" OtherKey="celeb_id" Type="film_celebrity" />
     </Type>
   </Table>
   <Table Name="dbo.chapter" Member="chapters">
@@ -57,6 +58,13 @@
       <Column Name="film_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="source" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
       <Association Name="film_chapter" Member="film" ThisKey="film_id" OtherKey="id" Type="film" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.country" Member="countries">
+    <Type Name="country">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Association Name="country_film_country" Member="film_countries" ThisKey="id" OtherKey="country_id" Type="film_country" />
     </Type>
   </Table>
   <Table Name="dbo.favorite_film" Member="favorite_films">
@@ -77,26 +85,15 @@
       <Column Name="source" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
       <Column Name="view_count" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="description" Type="System.String" DbType="VarChar(5000)" CanBeNull="true" />
-      <Column Name="created" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="created" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="form_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="rate" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="film_chapter" Member="chapters" ThisKey="id" OtherKey="film_id" Type="chapter" />
       <Association Name="film_favorite_film" Member="favorite_films" ThisKey="id" OtherKey="film_id" Type="favorite_film" />
-      <Association Name="film_film_cast" Member="film_casts" ThisKey="id" OtherKey="film_id" Type="film_cast" />
       <Association Name="film_film_category" Member="film_categories" ThisKey="id" OtherKey="film_id" Type="film_category" />
-      <Association Name="film_film_director" Member="film_directors" ThisKey="id" OtherKey="film_id" Type="film_director" />
+      <Association Name="film_film_celebrity" Member="film_celebrities" ThisKey="id" OtherKey="film_id" Type="film_celebrity" />
+      <Association Name="film_film_country" Member="film_countries" ThisKey="id" OtherKey="film_id" Type="film_country" />
       <Association Name="film_review" Member="reviews" ThisKey="id" OtherKey="film_id" Type="review" />
       <Association Name="form_film" Member="form" ThisKey="form_id" OtherKey="id" Type="form" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.film_cast" Member="film_casts">
-    <Type Name="film_cast">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="film_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="celeb_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="characters" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
-      <Association Name="celebrity_film_cast" Member="celebrity" ThisKey="celeb_id" OtherKey="id" Type="celebrity" IsForeignKey="true" />
-      <Association Name="film_film_cast" Member="film" ThisKey="film_id" OtherKey="id" Type="film" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.film_category" Member="film_categories">
@@ -108,13 +105,24 @@
       <Association Name="film_film_category" Member="film" ThisKey="film_id" OtherKey="id" Type="film" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.film_director" Member="film_directors">
-    <Type Name="film_director">
+  <Table Name="dbo.film_celebrity" Member="film_celebrities">
+    <Type Name="film_celebrity">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="film_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="celeb_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="celebrity_film_director" Member="celebrity" ThisKey="celeb_id" OtherKey="id" Type="celebrity" IsForeignKey="true" />
-      <Association Name="film_film_director" Member="film" ThisKey="film_id" OtherKey="id" Type="film" IsForeignKey="true" />
+      <Column Name="role_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="celebrity_film_celebrity" Member="celebrity" ThisKey="celeb_id" OtherKey="id" Type="celebrity" IsForeignKey="true" />
+      <Association Name="film_film_celebrity" Member="film" ThisKey="film_id" OtherKey="id" Type="film" IsForeignKey="true" />
+      <Association Name="role_film_celebrity" Member="role" ThisKey="role_id" OtherKey="id" Type="role" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.film_country" Member="film_countries">
+    <Type Name="film_country">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="film_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="country_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="country_film_country" Member="country" ThisKey="country_id" OtherKey="id" Type="country" IsForeignKey="true" />
+      <Association Name="film_film_country" Member="film" ThisKey="film_id" OtherKey="id" Type="film" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.form" Member="forms">
@@ -135,11 +143,20 @@
     <Type Name="review">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="point" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="comment" Type="System.String" DbType="VarChar(1000)" CanBeNull="true" />
+      <Column Name="title" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="comment" Type="System.String" DbType="VarChar(2000)" CanBeNull="true" />
       <Column Name="film_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="user_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="user_review" Member="user" ThisKey="user_id" OtherKey="id" Type="user" IsForeignKey="true" />
       <Association Name="film_review" Member="film" ThisKey="film_id" OtherKey="id" Type="film" IsForeignKey="true" />
+      <Association Name="user_review" Member="user" ThisKey="user_id" OtherKey="id" Type="user" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.role" Member="roles">
+    <Type Name="role">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="display" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="role_film_celebrity" Member="film_celebrities" ThisKey="id" OtherKey="role_id" Type="film_celebrity" />
     </Type>
   </Table>
   <Table Name="dbo.trailer" Member="trailers">

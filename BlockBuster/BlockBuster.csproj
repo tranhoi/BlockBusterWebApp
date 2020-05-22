@@ -136,10 +136,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dbBBuster.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Models\filmm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".ex\404.html" />
+    <Content Include=".ex\celebritysingle.html" />
     <Content Include=".ex\index.html" />
     <Content Include=".ex\moviesingle.html" />
     <Content Include="Content\ajax-loader.html" />
@@ -161,32 +163,32 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="images\blank.html" />
-    <Content Include="images\casts\Adam_Ferency.jpg" />
-    <Content Include="images\casts\Annie_Potts.jpg" />
-    <Content Include="images\casts\Anthony_russo.jpg" />
-    <Content Include="images\casts\Bong_Joon-ho.jpg" />
-    <Content Include="images\casts\Brad_Pitt.jpg" />
-    <Content Include="images\casts\Chad_Stahelski.jpg" />
-    <Content Include="images\casts\Choi_Woo-shik.jpg" />
-    <Content Include="images\casts\Chris_Evans.jpg" />
-    <Content Include="images\casts\Dean_DeBlois.jpg" />
-    <Content Include="images\casts\Jay_Baruchel.jpg" />
-    <Content Include="images\casts\Joaquin_Phoenix.jpg" />
-    <Content Include="images\casts\Josh_Cooley.jpg" />
-    <Content Include="images\casts\Jung_Ji-so.jpg" />
-    <Content Include="images\casts\Keanu_Reeves.jpg" />
-    <Content Include="images\casts\Lance_Reddick.jpg" />
-    <Content Include="images\casts\L_DiCaprio.jpg" />
-    <Content Include="images\casts\Park_So-dam.jpg" />
-    <Content Include="images\casts\Q_Tarantino.jpg" />
-    <Content Include="images\casts\Robert_De_Niro.jpg" />
-    <Content Include="images\casts\Robert_Downey.jpg" />
-    <Content Include="images\casts\Slavko_Sobin.jpg" />
-    <Content Include="images\casts\S_Johansson.jpg" />
-    <Content Include="images\casts\Tim_Allen.jpg" />
-    <Content Include="images\casts\Todd_Phillips.jpg" />
-    <Content Include="images\casts\Tom_Hanks.jpg" />
-    <Content Include="images\casts\Zazie_Beetz.jpg" />
+    <Content Include="images\celeb\Adam_Ferency.jpg" />
+    <Content Include="images\celeb\Annie_Potts.jpg" />
+    <Content Include="images\celeb\Anthony_russo.jpg" />
+    <Content Include="images\celeb\Bong_Joon-ho.jpg" />
+    <Content Include="images\celeb\Brad_Pitt.jpg" />
+    <Content Include="images\celeb\Chad_Stahelski.jpg" />
+    <Content Include="images\celeb\Choi_Woo-shik.jpg" />
+    <Content Include="images\celeb\Chris_Evans.jpg" />
+    <Content Include="images\celeb\Dean_DeBlois.jpg" />
+    <Content Include="images\celeb\Jay_Baruchel.jpg" />
+    <Content Include="images\celeb\Joaquin_Phoenix.jpg" />
+    <Content Include="images\celeb\Josh_Cooley.jpg" />
+    <Content Include="images\celeb\Jung_Ji-so.jpg" />
+    <Content Include="images\celeb\Keanu_Reeves.jpg" />
+    <Content Include="images\celeb\Lance_Reddick.jpg" />
+    <Content Include="images\celeb\L_DiCaprio.jpg" />
+    <Content Include="images\celeb\Park_So-dam.jpg" />
+    <Content Include="images\celeb\Q_Tarantino.jpg" />
+    <Content Include="images\celeb\Robert_De_Niro.jpg" />
+    <Content Include="images\celeb\Robert_Downey.jpg" />
+    <Content Include="images\celeb\Slavko_Sobin.jpg" />
+    <Content Include="images\celeb\S_Johansson.jpg" />
+    <Content Include="images\celeb\Tim_Allen.jpg" />
+    <Content Include="images\celeb\Todd_Phillips.jpg" />
+    <Content Include="images\celeb\Tom_Hanks.jpg" />
+    <Content Include="images\celeb\Zazie_Beetz.jpg" />
     <Content Include="images\fancybox_loading%402x.gif" />
     <Content Include="images\fancybox_loading.gif" />
     <Content Include="images\fancybox_overlay.png" />
@@ -451,16 +453,23 @@
     <Content Include="Views\Shared\Home_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Newfilm.cshtml" />
-    <Content Include="Views\Home\Category_film.cshtml" />
-    <Content Include="Views\Home\Popular_movie.cshtml" />
-    <Content Include="Views\Home\Popular_drama.cshtml" />
-    <Content Include="Views\Home\Toprate_movie.cshtml" />
-    <Content Include="Views\Home\Toprate_drama.cshtml" />
     <Content Include="Views\Home\Celebrities.cshtml" />
     <Content Include="Views\Home\Newtrailer.cshtml" />
     <Content Include="Views\Home\Celeb_job.cshtml" />
-    <Content Include="Views\Home\Film_detail.cshtml" />
     <Content Include="Views\Home\Review_count.cshtml" />
+    <Content Include=".ex\film_director.cshtml" />
+    <Content Include="Views\Home\Film_single.cshtml" />
+    <Content Include="Views\Home\Film_role.cshtml" />
+    <Content Include="Views\Home\Category_film_2.cshtml" />
+    <Content Include="Views\Home\Category_film.cshtml" />
+    <Content Include="Views\Home\Film_review.cshtml" />
+    <Content Include="Views\Home\Film_allreview.cshtml" />
+    <Content Include="Views\Home\Film_related.cshtml" />
+    <Content Include="Views\Home\Watch_now.cshtml" />
+    <Content Include="Views\Home\Celebrity_single.cshtml" />
+    <Content Include="Views\Home\Film_celebrity.cshtml" />
+    <Content Include="Views\Home\Celebrity_film.cshtml" />
+    <Content Include="Views\Home\Top_film.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,15 @@
+﻿<div class="mvcast-item">
+    @foreach (var items in Model)
+    {
+        <div class="cast-it">
+            <div class="cast-left cebleb-film">
+                <img width="50" height="100" src="~/images/films/@items.image_link" alt="">
+                <div>
+                    <a href="#">@items.name </a>
+                </div>
+
+            </div>
+            <p>...  @items.release</p>
+        </div>
+    }
+</div>

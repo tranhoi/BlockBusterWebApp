@@ -1,7 +1,9 @@
-﻿<div class="cate">
-    @foreach (var items in Model)
-    {
-        <!-- Category Single -->
-        <span class="@items.category.color"><a href="#">@items.category.name</a></span>
-    }
+﻿<div class="sb-it">
+    <h6>Genres:</h6>
+    <p>
+        @foreach (var items in Model)
+        {
+            <a href="#">@items.category.name, </a>
+        }
+    </p>
 </div>

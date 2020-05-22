@@ -1,0 +1,22 @@
+﻿@helper Truncate(string input, int length)
+{
+    if (input.Length < length)
+    {
+        @input
+    }
+    else
+    {
+        @input.Substring(0, length)<text>...</text>
+    }
+}
+@foreach (var items in Model)
+{
+    <div class="movie-item-style-2">
+        <img src="~/images/films/@items.image_link" alt="">
+        <div class="mv-item-infor">
+            <h6><a href="@Url.Action("Film_single", "Home", new { id = items.id})">@items.name<span> (2013)  </span></a></h6>
+            <p class="rate"><i class="ion-android-star"></i><span>@items.rate</span> /10</p>
+            <p class="describe">@Truncate(items.description, 100)</p>
+        </div>
+    </div>
+}

@@ -1,0 +1,21 @@
+﻿@foreach (var items in Model)
+{
+    <div class="title-hd">
+        <h2>@items.name</h2>
+        <a href="#" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
+    </div>
+    <div class="tabs">
+        <ul class="tab-links">
+            <li class="active"><a href="#tab1">#Popular</a></li>
+            <li><a href="#tab2"> #Top rated</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="tab1" class="tab active">
+                @Html.Action("Top_film_detail", "Home",new { id = 1 })
+            </div>
+            <div id="tab2" class="tab">
+                @Html.Action("Top_film_detail", "Home", new { id = 1 })
+            </div>
+        </div>
+    </div>
+}

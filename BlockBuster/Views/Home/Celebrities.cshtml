@@ -3,7 +3,7 @@
     <div class="celeb-item">
         <a href="#"><img src="~/images/casts/@items.avatar" alt="" width="70" height="70"></a>
         <div class="celeb-author">
-            <h6><a href="#">@items.name</a></h6>
+            <h6><a href="@Url.Action("Celebrity_single", "Home", new { id = items.id})">@items.name</a></h6>
             @Html.Action("Celeb_job", "Home", new { id = items.id })
         </div>
     </div>

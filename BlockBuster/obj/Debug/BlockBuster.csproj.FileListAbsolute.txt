@@ -76,8 +76,8 @@ C:\Visual Project\BlockBuster\BlockBuster\obj\Debug\BlockBuster.csproj.CoreCompi
 C:\Visual Project\BlockBuster\BlockBuster\obj\Debug\BlockBuster.csproj.CopyComplete
 C:\Visual Project\BlockBuster\BlockBuster\obj\Debug\BlockBuster.dll
 C:\Visual Project\BlockBuster\BlockBuster\obj\Debug\BlockBuster.pdb
-C:\Visual Project\BlockBuster\BlockBuster\obj\Debug\BlockBuster.csprojAssemblyReference.cache
 C:\Visual Project\BlockBuster\BlockBuster\bin\PagedList.dll
 C:\Visual Project\BlockBuster\BlockBuster\bin\PagedList.Mvc.dll
 C:\Visual Project\BlockBuster\BlockBuster\bin\PagedList.xml
 C:\Visual Project\BlockBuster\BlockBuster\bin\PagedList.Mvc.xml
+C:\Visual Project\BlockBuster\BlockBuster\obj\Debug\BlockBuster.csprojAssemblyReference.cache
