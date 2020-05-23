@@ -1022,6 +1022,8 @@ namespace BlockBuster.Models
 		
 		private EntitySet<film_celebrity> _film_celebrities;
 		
+		private EntityRef<country> _country;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -1044,6 +1046,7 @@ namespace BlockBuster.Models
 		{
 			this._celeb_jobs = new EntitySet<celeb_job>(new Action<celeb_job>(this.attach_celeb_jobs), new Action<celeb_job>(this.detach_celeb_jobs));
 			this._film_celebrities = new EntitySet<film_celebrity>(new Action<film_celebrity>(this.attach_film_celebrities), new Action<film_celebrity>(this.detach_film_celebrities));
+			this._country = default(EntityRef<country>);
 			OnCreated();
 		}
 		
@@ -1158,6 +1161,10 @@ namespace BlockBuster.Models
 			{
 				if ((this._country_id != value))
 				{
+					if (this._country.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.Oncountry_idChanging(value);
 					this.SendPropertyChanging();
 					this._country_id = value;
@@ -1190,6 +1197,40 @@ namespace BlockBuster.Models
 			set
 			{
 				this._film_celebrities.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="country_celebrity", Storage="_country", ThisKey="country_id", OtherKey="id", IsForeignKey=true)]
+		public country country
+		{
+			get
+			{
+				return this._country.Entity;
+			}
+			set
+			{
+				country previousValue = this._country.Entity;
+				if (((previousValue != value) 
+							|| (this._country.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._country.Entity = null;
+						previousValue.celebrities.Remove(this);
+					}
+					this._country.Entity = value;
+					if ((value != null))
+					{
+						value.celebrities.Add(this);
+						this._country_id = value.id;
+					}
+					else
+					{
+						this._country_id = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("country");
+				}
 			}
 		}
 		
@@ -1423,6 +1464,8 @@ namespace BlockBuster.Models
 		
 		private string _name;
 		
+		private EntitySet<celebrity> _celebrities;
+		
 		private EntitySet<film_country> _film_countries;
 		
     #region Extensibility Method Definitions
@@ -1437,6 +1480,7 @@ namespace BlockBuster.Models
 		
 		public country()
 		{
+			this._celebrities = new EntitySet<celebrity>(new Action<celebrity>(this.attach_celebrities), new Action<celebrity>(this.detach_celebrities));
 			this._film_countries = new EntitySet<film_country>(new Action<film_country>(this.attach_film_countries), new Action<film_country>(this.detach_film_countries));
 			OnCreated();
 		}
@@ -1481,6 +1525,19 @@ namespace BlockBuster.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="country_celebrity", Storage="_celebrities", ThisKey="id", OtherKey="country_id")]
+		public EntitySet<celebrity> celebrities
+		{
+			get
+			{
+				return this._celebrities;
+			}
+			set
+			{
+				this._celebrities.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="country_film_country", Storage="_film_countries", ThisKey="id", OtherKey="country_id")]
 		public EntitySet<film_country> film_countries
 		{
@@ -1512,6 +1569,18 @@ namespace BlockBuster.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_celebrities(celebrity entity)
+		{
+			this.SendPropertyChanging();
+			entity.country = this;
+		}
+		
+		private void detach_celebrities(celebrity entity)
+		{
+			this.SendPropertyChanging();
+			entity.country = null;
 		}
 		
 		private void attach_film_countries(film_country entity)
@@ -1743,6 +1812,8 @@ namespace BlockBuster.Models
 		
 		private System.Nullable<int> _form_id;
 		
+		private System.Nullable<int> _rate;
+		
 		private EntitySet<chapter> _chapters;
 		
 		private EntitySet<favorite_film> _favorite_films;
@@ -1779,6 +1850,8 @@ namespace BlockBuster.Models
     partial void OncreatedChanged();
     partial void Onform_idChanging(System.Nullable<int> value);
     partial void Onform_idChanged();
+    partial void OnrateChanging(System.Nullable<int> value);
+    partial void OnrateChanged();
     #endregion
 		
 		public film()
@@ -1973,6 +2046,26 @@ namespace BlockBuster.Models
 					this._form_id = value;
 					this.SendPropertyChanged("form_id");
 					this.Onform_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rate", DbType="Int")]
+		public System.Nullable<int> rate
+		{
+			get
+			{
+				return this._rate;
+			}
+			set
+			{
+				if ((this._rate != value))
+				{
+					this.OnrateChanging(value);
+					this.SendPropertyChanging();
+					this._rate = value;
+					this.SendPropertyChanged("rate");
+					this.OnrateChanged();
 				}
 			}
 		}

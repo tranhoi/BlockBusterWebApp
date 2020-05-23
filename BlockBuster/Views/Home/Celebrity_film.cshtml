@@ -3,13 +3,13 @@
     {
         <div class="cast-it">
             <div class="cast-left cebleb-film">
-                <img width="50" height="100" src="~/images/films/@items.image_link" alt="">
+                <img width="50" height="100" src="~/images/films/@items.Image_link" alt="">
                 <div>
-                    <a href="#">@items.name </a>
+                    <a href="@Url.Action("Film_single", "Home", new { id = items.Id})">@items.Name </a>
                 </div>
 
             </div>
-            <p>...  @items.release</p>
+            <p>...  @items.Year</p>
         </div>
     }
 </div>

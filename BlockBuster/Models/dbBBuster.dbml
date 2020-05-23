@@ -49,6 +49,7 @@
       <Column Name="country_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="celebrity_celeb_job" Member="celeb_jobs" ThisKey="id" OtherKey="celeb_id" Type="celeb_job" />
       <Association Name="celebrity_film_celebrity" Member="film_celebrities" ThisKey="id" OtherKey="celeb_id" Type="film_celebrity" />
+      <Association Name="country_celebrity" Member="country" ThisKey="country_id" OtherKey="id" Type="country" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.chapter" Member="chapters">
@@ -64,6 +65,7 @@
     <Type Name="country">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="name" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Association Name="country_celebrity" Member="celebrities" ThisKey="id" OtherKey="country_id" Type="celebrity" />
       <Association Name="country_film_country" Member="film_countries" ThisKey="id" OtherKey="country_id" Type="film_country" />
     </Type>
   </Table>
@@ -87,6 +89,7 @@
       <Column Name="description" Type="System.String" DbType="VarChar(5000)" CanBeNull="true" />
       <Column Name="created" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="form_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="rate" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="film_chapter" Member="chapters" ThisKey="id" OtherKey="film_id" Type="chapter" />
       <Association Name="film_favorite_film" Member="favorite_films" ThisKey="id" OtherKey="film_id" Type="favorite_film" />
       <Association Name="film_film_category" Member="film_categories" ThisKey="id" OtherKey="film_id" Type="film_category" />

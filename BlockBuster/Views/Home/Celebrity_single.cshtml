@@ -51,6 +51,9 @@
                                 <div id="overviewceb" class="tab active">
                                     <div class="row">
                                         <div class="col-md-8 col-sm-12 col-xs-12">
+                                            <div class="title-hd-sm">
+                                                <h4>Biography</h4>
+                                            </div>
                                             <p>
                                                 @Truncate(Model.description, 100)
                                             </p>
@@ -66,32 +69,15 @@
                                         <div class="col-md-4 col-xs-12 col-sm-12">
                                             <div class="sb-it">
                                                 <h6>Fullname:  </h6>
-                                                <p><a href="#">Hugh Jackman</a></p>
+                                                <p><a>@Model.name</a></p>
                                             </div>
                                             <div class="sb-it">
                                                 <h6>Date of Birth: </h6>
-                                                <p>June 24, 1982</p>
+                                                <p>@ViewBag.birthday</p>
                                             </div>
                                             <div class="sb-it">
                                                 <h6>Country:  </h6>
-                                                <p>Australian</p>
-                                            </div>
-                                            <div class="sb-it">
-                                                <h6>Height:</h6>
-                                                <p>186 cm/p>
-                                            </div>
-                                            <div class="sb-it">
-                                                <h6>Keywords:</h6>
-                                                <p class="tags">
-                                                    <span class="time"><a href="#">jackman</a></span>
-                                                    <span class="time"><a href="#">wolverine</a></span>
-                                                    <span class="time"><a href="#">logan</a></span>
-                                                    <span class="time"><a href="#">blockbuster</a></span>
-                                                    <span class="time"><a href="#">final battle</a></span>
-                                                </p>
-                                            </div>
-                                            <div class="ads">
-                                                <img src="images/uploads/ads1.png" alt="">
+                                                <p>@Model.country.name</p>
                                             </div>
                                         </div>
                                     </div>

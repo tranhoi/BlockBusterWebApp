@@ -140,10 +140,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include=".ex\404.html" />
     <Content Include=".ex\celebritysingle.html" />
     <Content Include=".ex\index.html" />
-    <Content Include=".ex\moviesingle.html" />
     <Content Include="Content\ajax-loader.html" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -457,7 +455,6 @@
     <Content Include="Views\Home\Newtrailer.cshtml" />
     <Content Include="Views\Home\Celeb_job.cshtml" />
     <Content Include="Views\Home\Review_count.cshtml" />
-    <Content Include=".ex\film_director.cshtml" />
     <Content Include="Views\Home\Film_single.cshtml" />
     <Content Include="Views\Home\Film_role.cshtml" />
     <Content Include="Views\Home\Category_film_2.cshtml" />
@@ -469,7 +466,10 @@
     <Content Include="Views\Home\Celebrity_single.cshtml" />
     <Content Include="Views\Home\Film_celebrity.cshtml" />
     <Content Include="Views\Home\Celebrity_film.cshtml" />
-    <Content Include="Views\Home\Top_film.cshtml" />
+    <Content Include="Views\Home\Popular_movie.cshtml" />
+    <Content Include="Views\Home\Popular_drama.cshtml" />
+    <Content Include="Views\Home\Toprate_movie.cshtml" />
+    <Content Include="Views\Home\Toprate_drama.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

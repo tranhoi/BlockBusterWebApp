@@ -21,8 +21,42 @@
     <div class="container">
         <div class="row ipad-width">
             <div class="col-md-8">
-                <!-- top film -->
-                @Html.Action("Top_film", "Home")
+                <div class="title-hd">
+                    <h2>in theater</h2>
+                    <a href="#" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
+                </div>
+                <div class="tabs">
+                    <ul class="tab-links">
+                        <li class="active"><a href="#tab1">#Popular</a></li>
+                        <li><a href="#tab2"> #Top rated</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab1" class="tab active">
+                            @Html.Action("Popular_movie", "Home")
+                        </div>
+                        <div id="tab2" class="tab">
+                            @Html.Action("Toprate_movie", "Home")
+                        </div>
+                    </div>
+                </div>
+                <div class="title-hd">
+                    <h2>on tv</h2>
+                    <a href="#" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
+                </div>
+                <div class="tabs">
+                    <ul class="tab-links-2">
+                        <li><a href="#tab3">#Popular</a></li>
+                        <li class="active"><a href="#tab4"> #Top rated</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab3" class="tab">
+                            @Html.Action("Popular_drama", "Home")
+                        </div>
+                        <div id="tab4" class="tab active">
+                            @Html.Action("Toprate_drama", "Home")
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-md-4">
                 <div class="sidebar">

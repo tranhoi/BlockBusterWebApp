@@ -11,11 +11,11 @@ namespace BlockBuster.Models
         dbBBusterDataContext data = new dbBBusterDataContext();
         public int? Id { set; get; }
         public string Name { set; get; }
-        public int R_year { set; get; }
-        public string R_month { set; get; }
-        public int R_day { set; get; }
-        public int R_hour { set; get; }
-        public int R_minute { set; get; }
+        public int Year { set; get; }
+        public string Month { set; get; }
+        public int Day { set; get; }
+        public int Hour { set; get; }
+        public int Minute { set; get; }
         public string Image_link { set; get; }
         public string Source { set; get; }
         public Double View_count { set; get; }
