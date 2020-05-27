@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/Home_Layout.cshtml";
+}
+<div class="login-wrapper" id="signup-content">
+    <div class="login-content">
+        <a href="#" class="close">x</a>
+        <h3>sign up</h3>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <label for="first_name">
+                    Username:
+                    <input type="text" name="first_name" maxlength="16" required="required" />
+                </label>
+            </div>
+            <div class="row">
+                <label for="last_name">
+                    Username:
+                    <input type="text" name="last_name" maxlength="16" required="required" />
+                </label>
+            </div>
+            <div class="row">
+                <label for="email">
+                    your email:
+                    <input type="email" name="email" maxlength="50" required="required" />
+                </label>
+            </div>
+            <div class="row">
+                <label for="password">
+                    Password:
+                    <input type="password" name="password" minlength="8" maxlength="50" required="required" />
+                </label>
+            </div>
+            <div class="row">
+                <label for="repassword">
+                    re-type Password:
+                    <input type="password" name="repassword" minlength="8" maxlength="50" required="required" />
+                </label>
+            </div>
+            <div class="row">
+                <button type="submit">sign up</button>
+            </div>
+        }
+    </div>
+</div>

@@ -416,7 +416,7 @@ namespace BlockBuster.Models
 		
 		private int _id;
 		
-		private string _username;
+		private string _email;
 		
 		private string _password;
 		
@@ -438,8 +438,8 @@ namespace BlockBuster.Models
     partial void OnCreated();
     partial void OnidChanging(int value);
     partial void OnidChanged();
-    partial void OnusernameChanging(string value);
-    partial void OnusernameChanged();
+    partial void OnemailChanging(string value);
+    partial void OnemailChanged();
     partial void OnpasswordChanging(string value);
     partial void OnpasswordChanged();
     partial void Onfirst_nameChanging(string value);
@@ -479,22 +479,22 @@ namespace BlockBuster.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_username", DbType="VarChar(16)")]
-		public string username
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email", DbType="VarChar(16)")]
+		public string email
 		{
 			get
 			{
-				return this._username;
+				return this._email;
 			}
 			set
 			{
-				if ((this._username != value))
+				if ((this._email != value))
 				{
-					this.OnusernameChanging(value);
+					this.OnemailChanging(value);
 					this.SendPropertyChanging();
-					this._username = value;
-					this.SendPropertyChanged("username");
-					this.OnusernameChanged();
+					this._email = value;
+					this.SendPropertyChanged("email");
+					this.OnemailChanged();
 				}
 			}
 		}

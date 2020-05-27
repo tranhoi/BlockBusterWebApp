@@ -20,7 +20,7 @@
             <div class="title-in">
                 @Html.Action("Category_film_2", "Home", new { id = items.id })
                 <h6><a href="@Url.Action("Film_single", "Home", new { id = items.id})">@Truncate(items.name, 18)</a></h6>
-                <p><i class="ion-android-star"></i><span>10</span> /10</p>
+                <p><i class="ion-android-star"></i><span>@items.rate</span> /10</p>
             </div>
         </div>
     }

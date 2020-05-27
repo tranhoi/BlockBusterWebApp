@@ -1,4 +1,5 @@
-﻿using BlockBuster.Models;
+﻿using Antlr.Runtime.Misc;
+using BlockBuster.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,11 +22,11 @@ namespace BlockBuster.Controllers
         {
             filmm filmm = new filmm(); // khoi tao doi tuong phim
             filmm.Id = film.id;
-            filmm.Name = film.name;
-            filmm.Image_link = film.image_link;
-            filmm.Source = film.source;
+            filmm.Name = film.name.Trim();
+            filmm.Image_link = film.image_link.Trim();
+            filmm.Source = film.source.Trim();
             filmm.View_count = double.Parse((film.view_count).ToString());
-            filmm.Description = film.description;
+            filmm.Description = film.description.Trim();
             filmm.Created = DateTime.Parse((film.created).ToString());
             filmm.Form_id = int.Parse((film.form_id).ToString());
             filmm.Rate = int.Parse((film.rate).ToString());
@@ -87,6 +88,23 @@ namespace BlockBuster.Controllers
             filmm.Minute = release.Minute;
             return (filmm);
         }
+        // Get list film da convert
+        private List<filmm> Get_list_film_convert (List<film> list_film)
+        {
+            List<filmm> list_film_convert = new List<filmm>();
+            if (list_film.Count > 0)
+            {
+                foreach(var item in list_film)
+                {
+                    filmm film = Getfilm(item);
+                    if (!list_film_convert.Contains(film))
+                    {
+                        list_film_convert.Add(film);
+                    }
+                }
+            } else {; }
+            return (list_film_convert);
+        }
         // Partial view danh sach phim moi nhat
         public ActionResult Newfilm() { return PartialView(data.films.OrderByDescending(a => a.created).Take(8).ToList()); }
         // Partial view danh sach phim le duoc xem nhieu nhat
@@ -105,13 +123,202 @@ namespace BlockBuster.Controllers
         public ActionResult Category_film(int id) { return PartialView(data.film_categories.Where(or => or.film_id == id).OrderByDescending(a => a.id).ToList()); }
         // 2 the loai cua moi phim - chi lay 2 de hien thi tai partialview phim moi
         public ActionResult Category_film_2(int id) { return PartialView(data.film_categories.Where(or => or.film_id == id).OrderByDescending(a => a.id).Take(2).ToList()); }
+        // Partial view menu
+        public ActionResult Menu_film() { return PartialView(data.forms.OrderBy(a => a.id).ToList()); }
+        // Partial view menu the loai
+        public ActionResult Menu_category(int id)
+        {
+            ViewBag.form_id = id;
+            return PartialView(data.categories.OrderBy(a => a.name).ToList());
+        }
+        // Partial view menu quoc gia
+        public ActionResult Menu_country(int id)
+        {
+            ViewBag.form_id = id;
+            return PartialView(data.countries.OrderBy(a => a.name).ToList());
+        }
+        // Partial view menu nguoi noi tieng theo quoc gia
+        public ActionResult Menu_celebrity_county() { return PartialView(data.countries.OrderBy(a => a.id).ToList()); }
+        // View danh sach phim
+        public ActionResult Film_list(int form_id, int sort, int cate_id, int coun_id, int rate)
+        {
+            List<film> list_film = new List<film>();
+            // chon cach sap xep phim
+            switch (sort)
+            {
+                case 0:
+                    list_film = data.films.Where(or => or.form_id == form_id).OrderByDescending(a => a.view_count).ToList();
+                    break;
+                case 1:
+                    list_film = data.films.Where(or => or.form_id == form_id).OrderByDescending(a => a.rate).ToList();
+                    break;
+                case 2:
+                    list_film = data.films.Where(or => or.form_id == form_id).OrderByDescending(a => a.release).ToList();
+                    break;
+                case 3:
+                    list_film = data.films.Where(or => or.form_id == form_id).OrderBy(a => a.release).ToList();
+                    break;
+            }
+            List<film> list_film_ = Get_list_film(list_film, cate_id, coun_id, rate);// loc danh sach phim theo the loai, quoc gia va dien danh gia
+            List<filmm> list_film_convert = Get_list_film_convert(list_film_);// convert lai danh sach phim
+            ViewBag.form_id = form_id;
+            return View(list_film_convert);
+        }
+        // Lay danh sach phim theo the loai
+        List<film> Get_film_cate (int id)
+        {
+            List<film_category> list_cate = data.film_categories.Where(or => or.category_id == id).ToList();
+            List<film> list_film = new List<film>();
+            foreach(var item in list_cate)
+            {
+                list_film.Add(item.film);
+            }
+            return (list_film);
+        }
+        // Lay danh sach phim theo quoc gia
+        List<film> Get_film_country(int id)
+        {
+            List<film_country> list_country = data.film_countries.Where(or => or.country_id == id).ToList();
+            List<film> list_film = new List<film>();
+            foreach (var item in list_country)
+            {
+                list_film.Add(item.film);
+            }
+            return (list_film);
+        }
+        // Lay danh sach phim theo nguoi noi tieng tham gia
+        List<film> Get_film_celebrity(int id)
+        {
+            List<film_celebrity> list_selebrity = data.film_celebrities.Where(or => or.celeb_id == id).ToList();
+            List<film> list_film = new List<film>();
+            foreach (var item in list_selebrity)
+            {
+                list_film.Add(item.film);
+            }
+            return (list_film);
+        }
+        // Lay danh sach phim theo diem danh gia
+        List<film> Get_film_rate(int id)
+        {
+            List<film> list_film = data.films.Where(or => or.rate >= id).ToList();
+            return (list_film);
+        }
+        // Lay danh sach phim theo dieu kien
+        List<film> Get_list_film(List<film> list_film, int cate_id, int coun_id, int rate)
+        {
+            List<int> list_film_remove = new List<int>();
+            if (cate_id > 0)
+            {
+                List<film> list_film_cate = Get_film_cate(cate_id);
+                foreach (var item in list_film)
+                {
+                    if (!list_film_cate.Contains(item))
+                    {
+                        list_film_remove.Add(item.id);
+                    }
+                    else {; }
+                }
+            }
+            else {; }
+            if (coun_id > 0)
+            {
+                List<film> list_film_country = Get_film_country(coun_id);
+                foreach (var item in list_film)
+                {
+                    if (!list_film_country.Contains(item))
+                    {
+                        list_film_remove.Add(item.id);
+                    }
+                    else {; }
+                }
+            }
+            else {; }
+            if (rate > 0)
+            {
+                List<film> list_film_rate = Get_film_rate(rate);
+                foreach (var item in list_film)
+                {
+                    if (!list_film_rate.Contains(item))
+                    {
+                        list_film_remove.Add(item.id);
+                    }
+                    else {; }
+                }
+            }
+            else {; }
+            if(list_film_remove.Count > 0)
+            {
+                foreach (int item in list_film_remove)
+                {
+                    list_film.RemoveAll(r => r.id == item);
+                }
+            }
+            else {; }
+            return (list_film);
+        }
         // Nghe nghiep cua tung nguoi noi tieng
         public ActionResult Celeb_job(int id) { return PartialView(data.celeb_jobs.Where(or => or.celeb_id == id).OrderByDescending(a => a.id).ToList()); }
+        // danh sach nguoi noi tieng
+        public ActionResult Celebrity_list(int coun_id, int sort)
+        {
+            List<celebrity> celeb_list = new List<celebrity>();
+            List<int> celeb_remove_list = new List<int>();
+            // chon cach sap xep phim
+            switch (sort)
+            {
+                case 0:
+                    celeb_list = data.celebrities.OrderBy(a => a.name).ToList();
+                    break;
+                case 1:
+                    celeb_list = data.celebrities.OrderByDescending(a => a.name).ToList();
+                    break;
+                case 2:
+                    celeb_list = data.celebrities.OrderBy(a => a.birthday).ToList();
+                    break;
+                case 3:
+                    celeb_list = data.celebrities.OrderByDescending(a => a.birthday).ToList();
+                    break;
+            }
+            if (coun_id > 0)
+            {
+                List<celebrity> list_celeb_counrty = (data.celebrities.Where(or => or.country_id == coun_id).ToList());
+                foreach (var item in celeb_list)
+                {
+                    if (!list_celeb_counrty.Contains(item))
+                    {
+                        celeb_remove_list.Add(item.id);
+                    }
+                    else {; }
+                }
+            }
+            else {; }
+            if (celeb_remove_list.Count > 0)
+            {
+                foreach (int item in celeb_remove_list)
+                {
+                    celeb_list.RemoveAll(r => r.id == item);
+                }
+            }
+            else {; }
+            return View(celeb_list);
+        }
         // Lay so luot nhan xet cua tung phim
         public ActionResult Review_count(int id)
         {
             int? review_count = data.reviews.Count(or => or.film_id == id);
             return PartialView(review_count);
+        }
+        // Lay so luong toan bo phim hien co
+        public ActionResult Film_count()
+        {
+            int? count = data.films.Count();
+            return PartialView(count);
+        }
+        // Lay so luong toan bo nguoi noi tieng hien co
+        public ActionResult Celeb_count()
+        {
+            int? count = data.celebrities.Count();
+            return PartialView(count);
         }
         // chi tiet moi phim
         public ActionResult Film_single(int id)
@@ -227,7 +434,7 @@ namespace BlockBuster.Controllers
             return View(celebrity);
         }
         //danh sach phim moi nguoi noi tieng tung tham gia
-        public ActionResult Celebrity_film(int id)
+        public ActionResult Celebrity_film(int id, int take)
         {
             List<film_celebrity> celeb_tempfilm = data.film_celebrities.Where(or => or.celeb_id == id).OrderByDescending(a => a.id).ToList(); //danh sach tam cac phim da tham gia
             List<film> celeb_film_list = new List<film>(); //khoi tao danh sach phim da tham gia
@@ -239,14 +446,19 @@ namespace BlockBuster.Controllers
                 }
                 else {; }
             }
-
             // convert lai danh sach phim da tham gia de hien thi
             List<filmm> celeb_film_list_convert = new List<filmm>();
             foreach (var item in celeb_film_list)
             {
                 celeb_film_list_convert.Add(Getfilm(item));
             }
-            return PartialView(celeb_film_list_convert);
+            if (take > 0 && celeb_film_list_convert.Count > take)
+            {
+                ViewBag.take = true;
+                celeb_film_list_convert.RemoveAt(take);
+                return PartialView(celeb_film_list_convert);
+            }
+            else { return PartialView(celeb_film_list_convert); }
         }
     }
 }

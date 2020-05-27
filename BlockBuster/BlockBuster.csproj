@@ -140,8 +140,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include=".ex\celebritysingle.html" />
     <Content Include=".ex\index.html" />
+    <Content Include="404.html" />
     <Content Include="Content\ajax-loader.html" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -447,7 +447,6 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\Home_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Newfilm.cshtml" />
@@ -470,6 +469,17 @@
     <Content Include="Views\Home\Popular_drama.cshtml" />
     <Content Include="Views\Home\Toprate_movie.cshtml" />
     <Content Include="Views\Home\Toprate_drama.cshtml" />
+    <Content Include="Views\Home\Menu_category.cshtml" />
+    <Content Include="Views\Home\Menu_film.cshtml" />
+    <Content Include="Views\Home\Menu_country.cshtml" />
+    <Content Include="Views\Home\Film_list.cshtml" />
+    <Content Include="Views\Home\Film_count.cshtml" />
+    <Content Include="Views\Home\Celebrity_list.cshtml" />
+    <Content Include="Views\Home\Menu_celebrity_county.cshtml" />
+    <Content Include="Views\Home\Celeb_count.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\User\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
