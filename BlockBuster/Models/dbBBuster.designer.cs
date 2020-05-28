@@ -426,8 +426,6 @@ namespace BlockBuster.Models
 		
 		private System.Nullable<System.DateTime> _created;
 		
-		private System.Nullable<bool> _activate;
-		
 		private EntitySet<favorite_film> _favorite_films;
 		
 		private EntitySet<review> _reviews;
@@ -448,8 +446,6 @@ namespace BlockBuster.Models
     partial void Onlast_nameChanged();
     partial void OncreatedChanging(System.Nullable<System.DateTime> value);
     partial void OncreatedChanged();
-    partial void OnactivateChanging(System.Nullable<bool> value);
-    partial void OnactivateChanged();
     #endregion
 		
 		public user()
@@ -479,7 +475,7 @@ namespace BlockBuster.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email", DbType="VarChar(16)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email", DbType="VarChar(50)")]
 		public string email
 		{
 			get
@@ -575,26 +571,6 @@ namespace BlockBuster.Models
 					this._created = value;
 					this.SendPropertyChanged("created");
 					this.OncreatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_activate", DbType="Bit")]
-		public System.Nullable<bool> activate
-		{
-			get
-			{
-				return this._activate;
-			}
-			set
-			{
-				if ((this._activate != value))
-				{
-					this.OnactivateChanging(value);
-					this.SendPropertyChanging();
-					this._activate = value;
-					this.SendPropertyChanged("activate");
-					this.OnactivateChanged();
 				}
 			}
 		}

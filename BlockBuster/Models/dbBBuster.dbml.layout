@@ -2,218 +2,218 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 12, 24" name="dbBBuster">
   <DataContextMoniker Name="/dbBBusterDataContext" />
   <nestedChildShapes>
-    <classShape Id="6fb3973f-3c26-4945-8555-67a9b702ec77" absoluteBounds="0.75, 0.75, 2, 1.7708968098958331">
+    <classShape Id="0955bfaa-8316-4740-b97f-946c97d6f762" absoluteBounds="0.75, 0.75, 2, 1.7708968098958331">
       <DataClassMoniker Name="/dbBBusterDataContext/admin" />
       <nestedChildShapes>
-        <elementListCompartment Id="90e88e80-d880-4101-8806-c00649f4cac1" absoluteBounds="0.765, 1.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="1c33e8c0-de0d-4bca-aa15-69a69b2117c1" absoluteBounds="0.765, 1.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="b4559639-d4ad-4757-b4d5-1ecf52751a6f" absoluteBounds="6.5, 0.875, 2, 2.1554996744791666">
+    <classShape Id="a7a0d045-b73f-49ff-8577-ddaba743f316" absoluteBounds="6.5, 1, 2, 1.9631982421875003">
       <DataClassMoniker Name="/dbBBusterDataContext/user" />
       <nestedChildShapes>
-        <elementListCompartment Id="de943ae2-85e4-4924-a417-658aff660606" absoluteBounds="6.515, 1.335, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="e69e5513-8c7a-4727-939d-95384add9959" absoluteBounds="6.515, 1.46, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="be87df9a-33f3-420e-a62e-e114a65d27f3" absoluteBounds="3.5, 4.25, 2, 1.3862939453125005">
+    <classShape Id="6e59b7f0-db03-44ad-8ae8-5d80a7a273b3" absoluteBounds="3.5, 4.25, 2, 1.3862939453125005">
       <DataClassMoniker Name="/dbBBusterDataContext/category" />
       <nestedChildShapes>
-        <elementListCompartment Id="847b6317-5f0e-4d0f-b8cd-23909e319743" absoluteBounds="3.515, 4.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="202a35c3-a03b-403b-b07e-78bb5b5f4f40" absoluteBounds="3.515, 4.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="d00c3342-cfc6-41df-9c41-9b97ac8e18e8" absoluteBounds="9.25, 19.375, 2, 1.3862939453125023">
+    <classShape Id="0f794156-7709-4239-8f81-13b3299f5e73" absoluteBounds="9.25, 19.375, 2, 1.3862939453125023">
       <DataClassMoniker Name="/dbBBusterDataContext/celeb_job" />
       <nestedChildShapes>
-        <elementListCompartment Id="def8e775-3e1a-4bed-a372-6ef74e18595c" absoluteBounds="9.265, 19.835, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="c9aa035f-6b49-43b3-aa56-7fa5251b43ff" absoluteBounds="9.265, 19.835, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="b2d3bf5f-8281-4028-9802-1a14f5e885ab" absoluteBounds="6.5, 19.125, 2, 1.9631982421875023">
+    <classShape Id="298f721b-d1fd-4aa4-96cf-7bd4fe7680a0" absoluteBounds="6.5, 19.125, 2, 1.9631982421875023">
       <DataClassMoniker Name="/dbBBusterDataContext/celebrity" />
       <nestedChildShapes>
-        <elementListCompartment Id="b873d8ae-2e51-40b3-abf6-abe538863c4c" absoluteBounds="6.515, 19.585, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="43e2108b-4aad-4d0f-b2fc-42697d4ed9c9" absoluteBounds="6.515, 19.585, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="1a4e29aa-26e3-4862-8f61-ed08dda35d21" absoluteBounds="6.25, 13.625, 2, 1.5785953776041666">
+    <classShape Id="4e9ae3e0-c076-4144-8f8f-814211a813c5" absoluteBounds="6.25, 13.625, 2, 1.5785953776041666">
       <DataClassMoniker Name="/dbBBusterDataContext/chapter" />
       <nestedChildShapes>
-        <elementListCompartment Id="7b9cbb03-8fab-4e07-a3ca-3033adc74289" absoluteBounds="6.265, 14.085, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="375e1cff-86f3-4ec1-89f1-c4f8462e890a" absoluteBounds="6.265, 14.085, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="1e8b75fd-e987-4fe2-a490-674b2f7feef3" absoluteBounds="3.75, 19.5, 2, 1.1939925130208309">
+    <classShape Id="b8284b92-7a46-40bd-8739-6224fcc5cf5c" absoluteBounds="3.75, 19.5, 2, 1.1939925130208309">
       <DataClassMoniker Name="/dbBBusterDataContext/country" />
       <nestedChildShapes>
-        <elementListCompartment Id="74df912b-f368-408d-b492-4f49bc0f328c" absoluteBounds="3.765, 19.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="ffa753a0-2720-49aa-85c7-0a32ab3259df" absoluteBounds="3.765, 19.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="dc6a8a43-34c2-438d-b3fc-4f6699e37051" absoluteBounds="6.25, 7.25, 2, 1.3862939453124996">
+    <classShape Id="b349f90a-f51e-403f-8b7f-330d1e3cae28" absoluteBounds="6.25, 7.25, 2, 1.3862939453124996">
       <DataClassMoniker Name="/dbBBusterDataContext/favorite_film" />
       <nestedChildShapes>
-        <elementListCompartment Id="1dd28a8d-18bf-4c6c-a578-42a007933f23" absoluteBounds="6.265, 7.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="ae568827-0138-4ff3-a72d-5f31b917e268" absoluteBounds="6.265, 7.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="8a603cdf-17e2-46a9-a330-894b70f74087" absoluteBounds="3.5, 6.625, 2, 2.7324039713541666">
+    <classShape Id="d19a1404-ec9e-4c40-acda-778ea09a4a73" absoluteBounds="3.5, 6.625, 2, 2.7324039713541666">
       <DataClassMoniker Name="/dbBBusterDataContext/film" />
       <nestedChildShapes>
-        <elementListCompartment Id="c80d1cfc-df53-4a5e-9224-4d1160264e1b" absoluteBounds="3.515, 7.085, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="d7e6a6e7-99a0-4e67-bfcf-ff35ad0192b5" absoluteBounds="3.515, 7.085, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="3b201c0b-9e5c-46ad-add0-7dcb92115693" absoluteBounds="6.25, 4.25, 2, 1.3862939453125005">
+    <classShape Id="c1aa7b7b-504c-40e9-8e5e-4ffe3499e3b9" absoluteBounds="6.25, 4.25, 2, 1.3862939453125005">
       <DataClassMoniker Name="/dbBBusterDataContext/film_category" />
       <nestedChildShapes>
-        <elementListCompartment Id="697b88db-8899-4b13-8cde-dae5c94e2842" absoluteBounds="6.265, 4.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="beaffe61-2a05-4b62-91dc-2e49879a7df6" absoluteBounds="6.265, 4.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="6b74dff0-6d20-47af-a7e0-d2c93b39ddb6" absoluteBounds="9.25, 7.25, 2, 1.5785953776041666">
+    <classShape Id="1828b3a2-6119-4836-82cb-ffc197fcebea" absoluteBounds="9.25, 7.25, 2, 1.5785953776041666">
       <DataClassMoniker Name="/dbBBusterDataContext/film_celebrity" />
       <nestedChildShapes>
-        <elementListCompartment Id="4b4388b2-c70e-45bf-aac5-3791e1b5c9b7" absoluteBounds="9.265, 7.71, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="9b479419-886c-44a8-b900-5aee471ecd5c" absoluteBounds="9.265, 7.71, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="ccafe499-7e48-4653-b163-79bd3fe33298" absoluteBounds="6.25, 10.25, 2, 1.3862939453124987">
+    <classShape Id="1491b602-6b8a-43f8-8268-201db70f784a" absoluteBounds="6.25, 10.25, 2, 1.3862939453124987">
       <DataClassMoniker Name="/dbBBusterDataContext/film_country" />
       <nestedChildShapes>
-        <elementListCompartment Id="db12d043-cf04-4087-97b0-1ce79cc1bcd4" absoluteBounds="6.265, 10.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="5b4d4060-9e6b-4d66-a412-ff2aa19a627c" absoluteBounds="6.265, 10.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="600039a8-83bd-4b5a-b6bc-1ddbd7c84e3b" absoluteBounds="0.75, 7.375, 2, 1.1939925130208344">
+    <classShape Id="fd715f44-2e17-44ec-8e51-0502ccb990c4" absoluteBounds="0.75, 7.375, 2, 1.1939925130208344">
       <DataClassMoniker Name="/dbBBusterDataContext/form" />
       <nestedChildShapes>
-        <elementListCompartment Id="765e9818-cf69-4a2c-984e-65fb98c5439e" absoluteBounds="0.765, 7.835, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="81df5ee5-e2ba-4dec-9b1b-4ff9b5387f07" absoluteBounds="0.765, 7.835, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="d43514f6-2b6b-4201-9f66-db0bfdef6b8f" absoluteBounds="6.5, 22.5, 2, 1.1939925130208309">
+    <classShape Id="021bc203-5227-49c9-bf36-2a1f6ee2fe92" absoluteBounds="6.5, 22.5, 2, 1.1939925130208309">
       <DataClassMoniker Name="/dbBBusterDataContext/job" />
       <nestedChildShapes>
-        <elementListCompartment Id="ab17a6a3-22e5-4957-85a1-d5da70887939" absoluteBounds="6.515, 22.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="e62f6f78-a0af-4ee6-9a72-a38ef1159c50" absoluteBounds="6.515, 22.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="56da38d4-a1e4-41ae-a7cc-25f8fbfb6858" absoluteBounds="9.25, 4, 2, 1.9631982421875005">
+    <classShape Id="2064abeb-10ec-4627-8392-20cac607b689" absoluteBounds="9.25, 4, 2, 1.9631982421875005">
       <DataClassMoniker Name="/dbBBusterDataContext/review" />
       <nestedChildShapes>
-        <elementListCompartment Id="c9b893ed-9165-4e4d-9e9f-e735c842a115" absoluteBounds="9.265, 4.46, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="b684c7d6-0dba-44c8-b80c-86345027f9ab" absoluteBounds="9.265, 4.46, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="3542ae5d-07da-41a3-81f3-41d30b080cb1" absoluteBounds="6.5, 16, 2, 1.3862939453125005">
+    <classShape Id="506122d7-1c4d-4bec-b84c-9122e88edb54" absoluteBounds="6.5, 16, 2, 1.3862939453125005">
       <DataClassMoniker Name="/dbBBusterDataContext/role" />
       <nestedChildShapes>
-        <elementListCompartment Id="13ac82c5-a122-4e2f-8c09-37b3b088aaa8" absoluteBounds="6.515, 16.46, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="de0280d1-f195-4f1f-b671-d471989b0274" absoluteBounds="6.515, 16.46, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="3dd39839-b6d4-4e76-ba5d-a312b5a9c2a8" absoluteBounds="9.75, 0.75, 2, 1.5785953776041666">
+    <classShape Id="18623fe7-f19d-4738-848f-c117e1aced85" absoluteBounds="9.75, 0.75, 2, 1.5785953776041666">
       <DataClassMoniker Name="/dbBBusterDataContext/trailer" />
       <nestedChildShapes>
-        <elementListCompartment Id="8eabff77-8981-4b5e-a24a-f4410357265f" absoluteBounds="9.765, 1.21, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="d8d5b920-5f76-4472-9f44-3750d32646d4" absoluteBounds="9.765, 1.21, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <associationConnector edgePoints="[(8.5 : 20.0681469726563); (9.25 : 20.0681469726563)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/dbBBusterDataContext/celebrity/celebrity_celeb_job" />
       <nodes>
-        <classShapeMoniker Id="b2d3bf5f-8281-4028-9802-1a14f5e885ab" />
-        <classShapeMoniker Id="d00c3342-cfc6-41df-9c41-9b97ac8e18e8" />
+        <classShapeMoniker Id="298f721b-d1fd-4aa4-96cf-7bd4fe7680a0" />
+        <classShapeMoniker Id="0f794156-7709-4239-8f81-13b3299f5e73" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(5.75 : 20.0969962565104); (6.5 : 20.0969962565104)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/dbBBusterDataContext/country/country_celebrity" />
       <nodes>
-        <classShapeMoniker Id="1e8b75fd-e987-4fe2-a490-674b2f7feef3" />
-        <classShapeMoniker Id="b2d3bf5f-8281-4028-9802-1a14f5e885ab" />
+        <classShapeMoniker Id="b8284b92-7a46-40bd-8739-6224fcc5cf5c" />
+        <classShapeMoniker Id="298f721b-d1fd-4aa4-96cf-7bd4fe7680a0" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(8.5 : 3.02896021294071); (8.875 : 3.4039602129407); (8.875 : 6.875); (8.625 : 6.875); (8.25 : 7.25)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(8.5 : 2.9631982421875); (8.875 : 3.3381982421875); (8.875 : 6.875); (8.625 : 6.875); (8.25 : 7.25)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/dbBBusterDataContext/user/user_favorite_film" />
       <nodes>
-        <classShapeMoniker Id="b4559639-d4ad-4757-b4d5-1ecf52751a6f" />
-        <classShapeMoniker Id="dc6a8a43-34c2-438d-b3fc-4f6699e37051" />
+        <classShapeMoniker Id="a7a0d045-b73f-49ff-8577-ddaba743f316" />
+        <classShapeMoniker Id="b349f90a-f51e-403f-8b7f-330d1e3cae28" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(4.5 : 9.35740397135417); (4.5 : 14.4142976888021); (5.04166666666667 : 14.4142976888021 : JumpStart); (5.20833333333333 : 14.4142976888021 : JumpEnd); (6.25 : 14.4142976888021)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/dbBBusterDataContext/film/film_chapter" />
       <nodes>
-        <classShapeMoniker Id="8a603cdf-17e2-46a9-a330-894b70f74087" />
-        <classShapeMoniker Id="1a4e29aa-26e3-4862-8f61-ed08dda35d21" />
+        <classShapeMoniker Id="d19a1404-ec9e-4c40-acda-778ea09a4a73" />
+        <classShapeMoniker Id="4e9ae3e0-c076-4144-8f8f-814211a813c5" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(5.5 : 7.94314697265625); (6.25 : 7.94314697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/dbBBusterDataContext/film/film_favorite_film" />
       <nodes>
-        <classShapeMoniker Id="8a603cdf-17e2-46a9-a330-894b70f74087" />
-        <classShapeMoniker Id="dc6a8a43-34c2-438d-b3fc-4f6699e37051" />
+        <classShapeMoniker Id="d19a1404-ec9e-4c40-acda-778ea09a4a73" />
+        <classShapeMoniker Id="b349f90a-f51e-403f-8b7f-330d1e3cae28" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(5.5 : 4.94314697265625); (6.25 : 4.94314697265625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/dbBBusterDataContext/category/category_film_category" />
       <nodes>
-        <classShapeMoniker Id="be87df9a-33f3-420e-a62e-e114a65d27f3" />
-        <classShapeMoniker Id="3b201c0b-9e5c-46ad-add0-7dcb92115693" />
+        <classShapeMoniker Id="6e59b7f0-db03-44ad-8ae8-5d80a7a273b3" />
+        <classShapeMoniker Id="c1aa7b7b-504c-40e9-8e5e-4ffe3499e3b9" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(5.46769230769231 : 6.625); (5.875 : 6.21769230769231); (5.875 : 5.32097245898438); (6.25 : 5.32097245898438)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/dbBBusterDataContext/film/film_film_category" />
       <nodes>
-        <classShapeMoniker Id="8a603cdf-17e2-46a9-a330-894b70f74087" />
-        <classShapeMoniker Id="3b201c0b-9e5c-46ad-add0-7dcb92115693" />
+        <classShapeMoniker Id="d19a1404-ec9e-4c40-acda-778ea09a4a73" />
+        <classShapeMoniker Id="c1aa7b7b-504c-40e9-8e5e-4ffe3499e3b9" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(8.5 : 19.126509152494); (8.875 : 18.751509152494); (8.875 : 8.03929768880208); (9.25 : 8.03929768880208)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/dbBBusterDataContext/celebrity/celebrity_film_celebrity" />
       <nodes>
-        <classShapeMoniker Id="b2d3bf5f-8281-4028-9802-1a14f5e885ab" />
-        <classShapeMoniker Id="6b74dff0-6d20-47af-a7e0-d2c93b39ddb6" />
+        <classShapeMoniker Id="298f721b-d1fd-4aa4-96cf-7bd4fe7680a0" />
+        <classShapeMoniker Id="1828b3a2-6119-4836-82cb-ffc197fcebea" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(5.5 : 8.76369466145833); (8.79166666666667 : 8.76369466145833 : JumpStart); (8.95833333333333 : 8.76369466145833 : JumpEnd); (9.25 : 8.76369466145833)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/dbBBusterDataContext/film/film_film_celebrity" />
       <nodes>
-        <classShapeMoniker Id="8a603cdf-17e2-46a9-a330-894b70f74087" />
-        <classShapeMoniker Id="6b74dff0-6d20-47af-a7e0-d2c93b39ddb6" />
+        <classShapeMoniker Id="d19a1404-ec9e-4c40-acda-778ea09a4a73" />
+        <classShapeMoniker Id="1828b3a2-6119-4836-82cb-ffc197fcebea" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(5.125 : 19.5); (5.125 : 10.9431469726562); (6.25 : 10.9431469726562)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/dbBBusterDataContext/country/country_film_country" />
       <nodes>
-        <classShapeMoniker Id="1e8b75fd-e987-4fe2-a490-674b2f7feef3" />
-        <classShapeMoniker Id="ccafe499-7e48-4653-b163-79bd3fe33298" />
+        <classShapeMoniker Id="b8284b92-7a46-40bd-8739-6224fcc5cf5c" />
+        <classShapeMoniker Id="1491b602-6b8a-43f8-8268-201db70f784a" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(3.9687475 : 9.35740397135417); (3.9687475 : 10.5653209863281); (4.41666666666667 : 10.5653209863281 : JumpStart); (4.58333333333333 : 10.5653209863281 : JumpEnd); (6.25 : 10.5653209863281)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/dbBBusterDataContext/film/film_film_country" />
       <nodes>
-        <classShapeMoniker Id="8a603cdf-17e2-46a9-a330-894b70f74087" />
-        <classShapeMoniker Id="ccafe499-7e48-4653-b163-79bd3fe33298" />
+        <classShapeMoniker Id="d19a1404-ec9e-4c40-acda-778ea09a4a73" />
+        <classShapeMoniker Id="1491b602-6b8a-43f8-8268-201db70f784a" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(2.75 : 7.97199625651042); (3.5 : 7.97199625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/dbBBusterDataContext/form/form_film" />
       <nodes>
-        <classShapeMoniker Id="600039a8-83bd-4b5a-b6bc-1ddbd7c84e3b" />
-        <classShapeMoniker Id="8a603cdf-17e2-46a9-a330-894b70f74087" />
+        <classShapeMoniker Id="fd715f44-2e17-44ec-8e51-0502ccb990c4" />
+        <classShapeMoniker Id="d19a1404-ec9e-4c40-acda-778ea09a4a73" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(8.5 : 23.0969962565104); (10.25 : 23.0969962565104); (10.25 : 20.7612939453125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/dbBBusterDataContext/job/job_celeb_job" />
       <nodes>
-        <classShapeMoniker Id="d43514f6-2b6b-4201-9f66-db0bfdef6b8f" />
-        <classShapeMoniker Id="d00c3342-cfc6-41df-9c41-9b97ac8e18e8" />
+        <classShapeMoniker Id="021bc203-5227-49c9-bf36-2a1f6ee2fe92" />
+        <classShapeMoniker Id="0f794156-7709-4239-8f81-13b3299f5e73" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(5.5 : 6.65884515384615); (5.90884515384615 : 6.25); (8.79166666666667 : 6.25 : JumpStart); (8.95833333333333 : 6.25 : JumpEnd); (10.25 : 6.25); (10.25 : 5.9631982421875)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/dbBBusterDataContext/film/film_review" />
       <nodes>
-        <classShapeMoniker Id="8a603cdf-17e2-46a9-a330-894b70f74087" />
-        <classShapeMoniker Id="56da38d4-a1e4-41ae-a7cc-25f8fbfb6858" />
+        <classShapeMoniker Id="d19a1404-ec9e-4c40-acda-778ea09a4a73" />
+        <classShapeMoniker Id="2064abeb-10ec-4627-8392-20cac607b689" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(8.40625 : 3.03049967447917); (8.40625 : 5.83099609375); (8.79166666666667 : 5.83099609375 : JumpStart); (8.95833333333333 : 5.83099609375 : JumpEnd); (9.25 : 5.83099609375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.3749975 : 2.9631982421875); (8.3749975 : 5.83099609375); (8.79166666666667 : 5.83099609375 : JumpStart); (8.95833333333333 : 5.83099609375 : JumpEnd); (9.25 : 5.83099609375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/dbBBusterDataContext/user/user_review" />
       <nodes>
-        <classShapeMoniker Id="b4559639-d4ad-4757-b4d5-1ecf52751a6f" />
-        <classShapeMoniker Id="56da38d4-a1e4-41ae-a7cc-25f8fbfb6858" />
+        <classShapeMoniker Id="a7a0d045-b73f-49ff-8577-ddaba743f316" />
+        <classShapeMoniker Id="2064abeb-10ec-4627-8392-20cac607b689" />
       </nodes>
     </associationConnector>
     <associationConnector edgePoints="[(8.40625 : 16); (8.40625 : 8.79494716145833); (8.79166666666667 : 8.79494716145833 : JumpStart); (8.95833333333333 : 8.79494716145833 : JumpEnd); (9.25 : 8.79494716145833)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/dbBBusterDataContext/role/role_film_celebrity" />
       <nodes>
-        <classShapeMoniker Id="3542ae5d-07da-41a3-81f3-41d30b080cb1" />
-        <classShapeMoniker Id="6b74dff0-6d20-47af-a7e0-d2c93b39ddb6" />
+        <classShapeMoniker Id="506122d7-1c4d-4bec-b84c-9122e88edb54" />
+        <classShapeMoniker Id="1828b3a2-6119-4836-82cb-ffc197fcebea" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

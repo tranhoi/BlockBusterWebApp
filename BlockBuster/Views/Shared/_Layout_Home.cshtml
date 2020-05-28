@@ -36,12 +36,6 @@
         </div>
     </div>
     <!--end of preloading-->
-    <!--login form popup-->
-    @*@Html.Action("Login", "User")*@
-    <!--end of login form popup-->
-    <!--signup form popup-->
-    @*@Html.Action("Register", "User")*@
-    <!--end of signup form popup-->
     <!-- BEGIN | Header -->
     <header class="ht-header">
         <div class="container">
@@ -79,8 +73,8 @@
                         </li>
                     </ul>
                     <ul class="nav navbar-nav flex-child-menu menu-right">
-                        <li class="loginLink"><a href="#">LOG In</a></li>
-                        <li class="btn signupLink"><a href="#">sign up</a></li>
+                        <li><a href="@Url.Action("Login", "User")">LOG In</a></li>
+                        <li><a href="@Url.Action("Register", "User")">sign up</a></li>
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->

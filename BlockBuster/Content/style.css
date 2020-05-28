@@ -6750,7 +6750,7 @@ p.ceb-single {
   display: -webkit-flex;
   display: -moz-box;
   display: -ms-flexbox;
-  display: flex;
+  display: block;
   align-items: center;
   justify-content: flex-end;
   align-items: inherit;
