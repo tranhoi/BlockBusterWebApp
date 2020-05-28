@@ -110,7 +110,7 @@ namespace BlockBuster.Controllers
             else
             {
                 // set session account
-                //Session["UserAccount"] = use;
+                Session["UserAccount"] = use;
                 return RedirectToAction("Index", "Home");
             }
             return View();
@@ -131,39 +131,45 @@ namespace BlockBuster.Controllers
             return PartialView();
         }
         // view chi tiet tai khoan nguoi dung
-        public ActionResult MyAccount()
+        [HttpGet]
+        public ActionResult Account_deital()
         {
             user users = (user)Session["UserAccount"];
             user use = data.users.SingleOrDefault(n => n.id == users.id);
             return View(use);
         }
         // Thay doi thong tin tai khoan khach hang
-        [HttpGet]
-        public ActionResult Edit_user(int id)
-        {
-            user use = data.users.SingleOrDefault(n => n.id == id);
-            if (use == null)
-            {
-                // bao loi
-                Response.StatusCode = 404;
-                return null;
-            }
-            return View(use);
-        }
         [HttpPost]
-        [ValidateInput(false)]
-        public ActionResult Edit_user(user users, FormCollection collection)
+        public ActionResult Account_edit(user use, FormCollection collection)
         {
-            user use = data.users.First(n => n.id == users.id);
+            user user = data.users.First(n => n.email == use.email);
             if (ModelState.IsValid)
             {
-                use.first_name = collection["name"];
+                user.first_name = collection["first_name"];
+                user.last_name = collection["last_name"];
                 UpdateModel(use);
                 data.SubmitChanges();
                 ViewBag.Notification = "Updated your information";
-                return RedirectToAction("MyAccount");
+                return RedirectToAction("Account_deital");
             }
-            return this.Edit_user(use.id);
+            return View(use);
+        }
+        // Danh sach phim yeu thich
+        public ActionResult Account_favorite(int id)
+        {
+            user users = (user)Session["UserAccount"];
+            ViewBag.id = users.id;
+            var favors = data.favorites.Where(or => or.user_id == id).OrderByDescending(a => a.created).ToList();
+            ViewBag.count = favors.Count;
+            return View(favors);
+        }
+        // Danh sach phim da danh gia
+        public ActionResult Account_rated(int id) {
+            user users = (user)Session["UserAccount"];
+            ViewBag.id = users.id;
+            var reviews = data.reviews.Where(or => or.user_id == id).OrderByDescending(a => a.created).ToList();
+            ViewBag.count = reviews.Count;
+            return View(reviews);
         }
         [HttpGet]
         public ActionResult Change_pass()
@@ -221,7 +227,7 @@ namespace BlockBuster.Controllers
         public ActionResult Logout()
         {
             Session.Remove("UserAccount");
-            return RedirectToAction("Index", "Bean");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

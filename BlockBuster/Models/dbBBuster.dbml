@@ -16,7 +16,8 @@
       <Column Name="password" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
       <Column Name="first_name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="last_name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="created" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="created" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="user_favorite" Member="favorites" ThisKey="id" OtherKey="user_id" Type="favorite" />
       <Association Name="user_favorite_film" Member="favorite_films" ThisKey="id" OtherKey="user_id" Type="favorite_film" />
       <Association Name="user_review" Member="reviews" ThisKey="id" OtherKey="user_id" Type="review" />
     </Type>
@@ -68,6 +69,16 @@
       <Association Name="country_film_country" Member="film_countries" ThisKey="id" OtherKey="country_id" Type="film_country" />
     </Type>
   </Table>
+  <Table Name="dbo.favorite" Member="favorites">
+    <Type Name="favorite">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="user_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="film_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="created" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="user_favorite" Member="user" ThisKey="user_id" OtherKey="id" Type="user" IsForeignKey="true" />
+      <Association Name="film_favorite" Member="film" ThisKey="film_id" OtherKey="id" Type="film" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.favorite_film" Member="favorite_films">
     <Type Name="favorite_film">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -90,6 +101,7 @@
       <Column Name="form_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="rate" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="film_chapter" Member="chapters" ThisKey="id" OtherKey="film_id" Type="chapter" />
+      <Association Name="film_favorite" Member="favorites" ThisKey="id" OtherKey="film_id" Type="favorite" />
       <Association Name="film_favorite_film" Member="favorite_films" ThisKey="id" OtherKey="film_id" Type="favorite_film" />
       <Association Name="film_film_category" Member="film_categories" ThisKey="id" OtherKey="film_id" Type="film_category" />
       <Association Name="film_film_celebrity" Member="film_celebrities" ThisKey="id" OtherKey="film_id" Type="film_celebrity" />
@@ -149,6 +161,7 @@
       <Column Name="comment" Type="System.String" DbType="VarChar(2000)" CanBeNull="true" />
       <Column Name="film_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="user_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="created" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Association Name="film_review" Member="film" ThisKey="film_id" OtherKey="id" Type="film" IsForeignKey="true" />
       <Association Name="user_review" Member="user" ThisKey="user_id" OtherKey="id" Type="user" IsForeignKey="true" />
     </Type>

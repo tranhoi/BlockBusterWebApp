@@ -144,6 +144,9 @@
     <Content Include=".ex\comingsoon.html" />
     <Content Include=".ex\index.html" />
     <Content Include=".ex\landing.html" />
+    <Content Include=".ex\userfavoritegrid.html" />
+    <Content Include=".ex\userprofile.html" />
+    <Content Include=".ex\userrate.html" />
     <Content Include="404.html" />
     <Content Include="Content\ajax-loader.html" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -485,6 +488,10 @@
     <Content Include="Views\Shared\_Layout_Home_2.cshtml" />
     <Content Include="Views\User\Register_Success.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\User\Account.cshtml" />
+    <Content Include="Views\User\Account_deital.cshtml" />
+    <Content Include="Views\User\Account_favorite.cshtml" />
+    <Content Include="Views\User\Account_rated.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

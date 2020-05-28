@@ -72,10 +72,7 @@
                             </ul>
                         </li>
                     </ul>
-                    <ul class="nav navbar-nav flex-child-menu menu-right">
-                        <li><a href="@Url.Action("Login", "User")">LOG In</a></li>
-                        <li><a href="@Url.Action("Register", "User")">sign up</a></li>
-                    </ul>
+                    @Html.Action("Account", "User")
                 </div>
                 <!-- /.navbar-collapse -->
             </nav>
