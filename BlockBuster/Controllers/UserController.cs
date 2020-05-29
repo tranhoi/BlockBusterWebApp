@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Text.RegularExpressions;
+using PagedList;
+using PagedList.Mvc;
 
 namespace BlockBuster.Controllers
 {
@@ -94,8 +95,15 @@ namespace BlockBuster.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult Login()
+        public ActionResult Login(string noti, int film_id)
         {
+            // kiem tra trang truoc co phai la trang review de tro lai
+            if (noti != "")
+            {
+                ViewBag.Notification = noti;
+                ViewBag.review = film_id;
+            }
+            else {; }
             return View();
         }
         [HttpPost]
@@ -103,6 +111,7 @@ namespace BlockBuster.Controllers
         {
             var email = collection["email"];
             var password = collection["password"];
+            int review = int.Parse(collection["review"]);
             user use = data.users.SingleOrDefault(n => n.email == email && n.password == password);
             // kiem tra ton tai tai khoan
             if (use == null)
@@ -111,7 +120,11 @@ namespace BlockBuster.Controllers
             {
                 // set session account
                 Session["UserAccount"] = use;
-                return RedirectToAction("Index", "Home");
+                if (review != 0)
+                {
+                    return RedirectToAction("Write_review", "Home", new { id = review });
+                } else { return RedirectToAction("Index", "Home"); }
+                
             }
             return View();
         }
@@ -155,79 +168,106 @@ namespace BlockBuster.Controllers
             return View(use);
         }
         // Danh sach phim yeu thich
-        public ActionResult Account_favorite(int id)
+        public ActionResult Account_favorite(int id, int ? page)
         {
-            user users = (user)Session["UserAccount"];
-            ViewBag.id = users.id;
+            // phan trang
+            int pageSize = 5;
+            int pageNum = (page ?? 1);
+
             var favors = data.favorites.Where(or => or.user_id == id).OrderByDescending(a => a.created).ToList();
             ViewBag.count = favors.Count;
-            return View(favors);
+            ViewBag.id = id;
+            return View(favors.ToPagedList(pageNum,pageSize));
         }
         // Danh sach phim da danh gia
-        public ActionResult Account_rated(int id) {
-            user users = (user)Session["UserAccount"];
-            ViewBag.id = users.id;
+        public ActionResult Account_rated(int id, int? page)
+        {
+            // phan trang
+            int pageSize = 5;
+            int pageNum = (page ?? 1);
+
             var reviews = data.reviews.Where(or => or.user_id == id).OrderByDescending(a => a.created).ToList();
             ViewBag.count = reviews.Count;
-            return View(reviews);
+            ViewBag.id = id;
+            return View(reviews.ToPagedList(pageNum, pageSize));
         }
-        [HttpGet]
-        public ActionResult Change_pass()
-        {
-            return View();
-        }
-        [HttpPost]
-        [ValidateInput(false)]
-        public ActionResult Change_pass(FormCollection collection)
-        {
-            if (Session["UserAccount"] == null)
-            {
-                return RedirectToAction("Login");
-            }
-            user users = (user)Session["UserAccount"];
-            user use = data.users.SingleOrDefault(n => n.id == users.id);
-            var pass1 = use.password;
-            var pass2 = collection["old_password"];
-            var pass3 = collection["new_password"];
-            if (Equals(pass1, pass2) == true)
-            {
-                use.password = pass3;
-                UpdateModel(use);
-                data.SubmitChanges();
-                ViewBag.Notification = 1;
-                Session.Remove("UserAccount");
-                return this.Change_pass();
-            }
-            ViewBag.Notification = 0;
-            return this.Change_pass();
-        }
-        [HttpGet]
-        public ActionResult Forgot_pass()
-        {
-            return View();
-        }
-        [HttpPost]
-        [ValidateInput(false)]
-        public ActionResult Forgot_pass(FormCollection collection)
-        {
-            var email = collection["email"];
-            user use = data.users.SingleOrDefault(n => n.email == email);
-            if (use == null)
-            {
-                ViewBag.Notification = 0;
-                return this.Forgot_pass();
-            }
-            use.password = collection["password"];
-            UpdateModel(use);
-            data.SubmitChanges();
-            ViewBag.Notification = 1;
-            Session.Remove("UserAccount");
-            return this.Forgot_pass();
-        }
+        //[HttpGet]
+        //public ActionResult Change_pass()
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //[ValidateInput(false)]
+        //public ActionResult Change_pass(FormCollection collection)
+        //{
+        //    if (Session["UserAccount"] == null)
+        //    {
+        //        return RedirectToAction("Login");
+        //    }
+        //    user users = (user)Session["UserAccount"];
+        //    user use = data.users.SingleOrDefault(n => n.id == users.id);
+        //    var pass1 = use.password;
+        //    var pass2 = collection["old_password"];
+        //    var pass3 = collection["new_password"];
+        //    if (Equals(pass1, pass2) == true)
+        //    {
+        //        use.password = pass3;
+        //        UpdateModel(use);
+        //        data.SubmitChanges();
+        //        ViewBag.Notification = 1;
+        //        Session.Remove("UserAccount");
+        //        return this.Change_pass();
+        //    }
+        //    ViewBag.Notification = 0;
+        //    return this.Change_pass();
+        //}
+        //[HttpGet]
+        //public ActionResult Forgot_pass()
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //[ValidateInput(false)]
+        //public ActionResult Forgot_pass(FormCollection collection)
+        //{
+        //    var email = collection["email"];
+        //    user use = data.users.SingleOrDefault(n => n.email == email);
+        //    if (use == null)
+        //    {
+        //        ViewBag.Notification = 0;
+        //        return this.Forgot_pass();
+        //    }
+        //    use.password = collection["password"];
+        //    UpdateModel(use);
+        //    data.SubmitChanges();
+        //    ViewBag.Notification = 1;
+        //    Session.Remove("UserAccount");
+        //    return this.Forgot_pass();
+        //}
         public ActionResult Logout()
         {
             Session.Remove("UserAccount");
             return RedirectToAction("Index", "Home");
+        }
+        public ActionResult Check_rate(int id)
+        {
+            ViewBag.review = id;
+            if (Session["UserAccount"] != null)
+            {
+                user users = (user)Session["UserAccount"];
+                var review = from re in data.reviews
+                            where re.film_id == id && re.user_id == users.id
+                            select re;
+                if(review.Count() > 0)
+                {
+                    return PartialView(1);
+                }
+                else { return PartialView(-1); }
+            }
+            else
+            {
+                return PartialView(0);
+            }
         }
     }
 }

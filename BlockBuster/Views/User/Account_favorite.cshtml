@@ -1,4 +1,6 @@
-﻿
+﻿@using BlockBuster.Models
+@using PagedList.Mvc;
+@model PagedList.PagedList<favorite>
 @{
     ViewBag.Title = "Account_favorite";
     Layout = "~/Views/Shared/_Layout_Home.cshtml";
@@ -64,19 +66,26 @@
                         </div>
                     }
                 </div>
+                <!--page list-->
                 <div class="topbar-filter">
                     <label>Movies per page:</label>
                     <div class="pagination2">
-                        <span>Page 1 of 2:</span>
-                        <a class="active" href="#">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#">...</a>
-                        <a href="#">78</a>
-                        <a href="#">79</a>
-                        <a href="#"><i class="ion-arrow-right-b"></i></a>
+                        @if (Model.PageCount != 0)
+                        {
+                            <span>Page<a>@Model.PageNumber</a>of @Model.PageCount</span>
+                        }
+                        else
+                        {
+                            <span>no data...</span>
+                        }
                     </div>
                 </div>
+                @if (Model.PageCount > 1)
+                {
+                    @Html.PagedListPager(Model, page => Url.Action("Account_favorite", new { id = ViewBag.id, page = page }))
+                }
+                else {; }
+                <!--end page list-->
             </div>
         </div>
     </div>

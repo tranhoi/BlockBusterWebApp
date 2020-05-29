@@ -141,12 +141,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include=".ex\comingsoon.html" />
-    <Content Include=".ex\index.html" />
-    <Content Include=".ex\landing.html" />
-    <Content Include=".ex\userfavoritegrid.html" />
-    <Content Include=".ex\userprofile.html" />
-    <Content Include=".ex\userrate.html" />
     <Content Include="404.html" />
     <Content Include="Content\ajax-loader.html" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -479,10 +473,8 @@
     <Content Include="Views\Home\Menu_film.cshtml" />
     <Content Include="Views\Home\Menu_country.cshtml" />
     <Content Include="Views\Home\Film_list.cshtml" />
-    <Content Include="Views\Home\Film_count.cshtml" />
     <Content Include="Views\Home\Celebrity_list.cshtml" />
     <Content Include="Views\Home\Menu_celebrity_county.cshtml" />
-    <Content Include="Views\Home\Celeb_count.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\Shared\_Layout_Home_2.cshtml" />
@@ -492,6 +484,8 @@
     <Content Include="Views\User\Account_deital.cshtml" />
     <Content Include="Views\User\Account_favorite.cshtml" />
     <Content Include="Views\User\Account_rated.cshtml" />
+    <Content Include="Views\Home\Write_review.cshtml" />
+    <Content Include="Views\User\Check_rate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

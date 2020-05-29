@@ -6,6 +6,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
+using PagedList.Mvc;
+
 
 namespace BlockBuster.Controllers
 {
@@ -30,17 +33,6 @@ namespace BlockBuster.Controllers
             filmm.Created = DateTime.Parse((film.created).ToString());
             filmm.Form_id = int.Parse((film.form_id).ToString());
             filmm.Rate = int.Parse((film.rate).ToString());
-            //// tinh diem cua phim
-            //List<review> reviewslist = data.reviews.Where(or => or.film_id == film.id).OrderByDescending(a => a.id).ToList(); //danh sach cac review cua phim
-            //if (reviewslist.Count > 0)
-            //{
-            //    int point_sum = 0; // tong diem
-            //    foreach (var item in reviewslist)
-            //    {
-            //        point_sum += int.Parse((item.point).ToString());
-            //    }
-            //    filmm.Rate = int.Parse((Math.Round(double.Parse((point_sum / reviewslist.Count).ToString()))).ToString()); //tinh trung binh cong va lam tron
-            //}
             // convert lai ngay ra mat phim de de hien thi 
             DateTime release = DateTime.Parse((film.release).ToString()); // get ngay ra mat phim
             filmm.Year = release.Year;
@@ -140,8 +132,17 @@ namespace BlockBuster.Controllers
         // Partial view menu nguoi noi tieng theo quoc gia
         public ActionResult Menu_celebrity_county() { return PartialView(data.countries.OrderBy(a => a.id).ToList()); }
         // View danh sach phim
-        public ActionResult Film_list(int form_id, int sort, int cate_id, int coun_id, int rate)
+        public ActionResult Film_list(int form_id, int sort, int cate_id, int coun_id, int rate, int? page)
         {
+            // phan trang
+            int pageSize = 5;
+            int pageNum = (page ?? 1);
+
+            ViewBag.form_id = form_id;
+            ViewBag.sort = sort;
+            ViewBag.cate_id = cate_id;
+            ViewBag.coun_id = coun_id;
+            ViewBag.rate = rate;
             List<film> list_film = new List<film>();
             // chon cach sap xep phim
             switch (sort)
@@ -161,8 +162,8 @@ namespace BlockBuster.Controllers
             }
             List<film> list_film_ = Get_list_film(list_film, cate_id, coun_id, rate);// loc danh sach phim theo the loai, quoc gia va dien danh gia
             List<filmm> list_film_convert = Get_list_film_convert(list_film_);// convert lai danh sach phim
-            ViewBag.form_id = form_id;
-            return View(list_film_convert);
+            ViewBag.count = list_film_convert.Count;
+            return View(list_film_convert.ToPagedList(pageNum, pageSize));
         }
         // Lay danh sach phim theo the loai
         List<film> Get_film_cate (int id)
@@ -259,8 +260,13 @@ namespace BlockBuster.Controllers
         // Nghe nghiep cua tung nguoi noi tieng
         public ActionResult Celeb_job(int id) { return PartialView(data.celeb_jobs.Where(or => or.celeb_id == id).OrderByDescending(a => a.id).ToList()); }
         // danh sach nguoi noi tieng
-        public ActionResult Celebrity_list(int coun_id, int sort)
+        public ActionResult Celebrity_list(int coun_id, int sort, int? page)
         {
+            // phan trang
+            int pageSize = 10;
+            int pageNum = (page ?? 1);
+            ViewBag.coun_id = coun_id;
+            ViewBag.sort = coun_id;
             List<celebrity> celeb_list = new List<celebrity>();
             List<int> celeb_remove_list = new List<int>();
             // chon cach sap xep phim
@@ -300,25 +306,14 @@ namespace BlockBuster.Controllers
                 }
             }
             else {; }
-            return View(celeb_list);
+            ViewBag.count = celeb_list.Count;
+            return View(celeb_list.ToPagedList(pageNum, pageSize));
         }
         // Lay so luot nhan xet cua tung phim
         public ActionResult Review_count(int id)
         {
             int? review_count = data.reviews.Count(or => or.film_id == id);
             return PartialView(review_count);
-        }
-        // Lay so luong toan bo phim hien co
-        public ActionResult Film_count()
-        {
-            int? count = data.films.Count();
-            return PartialView(count);
-        }
-        // Lay so luong toan bo nguoi noi tieng hien co
-        public ActionResult Celeb_count()
-        {
-            int? count = data.celebrities.Count();
-            return PartialView(count);
         }
         // chi tiet moi phim
         public ActionResult Film_single(int id)
@@ -363,15 +358,17 @@ namespace BlockBuster.Controllers
             else { return PartialView(rev); }
         }
         // Tat ca binh luan moi nhat cua moi phim
-        public ActionResult Film_allreview(int id)
+        public ActionResult Film_allreview(int id, int ? page)
         {
+            int pageSize = 5;
+            int pageNum = (page ?? 1);
             var rev = data.reviews.Where(or => or.film_id == id).OrderByDescending(a => a.id).ToList();
             if (rev.Count() == 0)
             {
                 ViewBag.check = false;
                 return PartialView();
             }
-            else { return PartialView(rev); }
+            else { ViewBag.id = id; return PartialView(rev.ToPagedList(pageNum, pageSize)); }
         }
         // 5 phim lien quan - xet theo the loai phim
         public ActionResult Film_related(int id)
@@ -459,6 +456,68 @@ namespace BlockBuster.Controllers
                 return PartialView(celeb_film_list_convert);
             }
             else { return PartialView(celeb_film_list_convert); }
+        }
+        // View viet danh gia phim
+        [HttpGet]
+        public ActionResult Write_review(int id)
+        {
+            ViewBag.film_id = id;
+            user users = (user)Session["UserAccount"];
+            if (Session["UserAccount"] != null)
+            {
+                user use = data.users.SingleOrDefault(n => n.id == users.id);
+                ViewBag.first_name = use.first_name;
+                ViewBag.last_name = use.last_name;
+                ViewBag.email = use.email;
+            }
+            else
+            {
+                return RedirectToAction("Login", "User", new { noti = "You must be login to continue", film_id = id });
+            }
+            return PartialView(data.films.Where(or => or.id == id).FirstOrDefault());
+        }
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Add_review(FormCollection collection)
+        {
+
+            if (ModelState.IsValid)
+            {
+                review revie = new review();
+                if (Session["UserAccount"] == null)
+                        {
+                    return new HttpNotFoundResult(); // 404
+                }
+                else
+                {
+                    user users = (user)Session["UserAccount"];
+                    int film_id = int.Parse(collection["film"]);
+                    revie.created = DateTime.Now;
+                    revie.user_id = users.id;
+                    revie.film_id = film_id;
+                    revie.comment = collection["comment"];
+                    revie.title = collection["title"];
+                    revie.point = int.Parse(collection["point"]);
+                    data.reviews.InsertOnSubmit(revie);
+                    data.SubmitChanges();
+                    return RedirectToAction("Film_single", "Home", new { id = film_id });
+                }
+            }
+            //// tinh diem cua phim
+            //List<review> reviewslist = data.reviews.Where(or => or.film_id == film.id).OrderByDescending(a => a.id).ToList(); //danh sach cac review cua phim
+            //if (reviewslist.Count > 0)
+            //{
+            //    int point_sum = 0; // tong diem
+            //    foreach (var item in reviewslist)
+            //    {
+            //        point_sum += int.Parse((item.point).ToString());
+            //    }
+            //    filmm.Rate = int.Parse((Math.Round(double.Parse((point_sum / reviewslist.Count).ToString()))).ToString()); //tinh trung binh cong va lam tron
+            //}
+            else
+            {
+                return HttpNotFound();
+            }
         }
     }
 }
