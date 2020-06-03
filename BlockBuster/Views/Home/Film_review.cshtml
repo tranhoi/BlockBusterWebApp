@@ -1,4 +1,12 @@
-﻿<div class="mv-user-review-item">
+﻿<div class="title-hd-sm">
+    @if (ViewBag.check == false)
+    {
+        <h4>User reviews</h4>
+    }
+    else {<h4>Your reviews</h4> }
+    </div>
+<!-- movie user review -->
+<div class="mv-user-review-item">
     @if (ViewBag.check == false)
     {
         <h3>This movie has no reviews...</h3>

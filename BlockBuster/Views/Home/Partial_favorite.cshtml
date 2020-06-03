@@ -1,0 +1,26 @@
+﻿@if (Model != -1)
+{
+    if (ViewBag.check == 1)
+    {
+    <li class="loginLink">
+        <a href="" class="parent-btn"><i class="ion-trash-a"></i> Re - Favorite</a>
+    </li>
+    }
+    else
+    {
+        <a href="@Url.Action("Add_favorite", "Home", new { id = Model})" class="parent-btn"><i class="ion-heart"></i> Add to Favorite</a>
+    }
+}
+else {; }
+<!--login form popup-->
+<div class="login-wrapper" id="login-content">
+    <div style="background-color:#0f2133" class="login-content">
+        <div class="row">
+            <p style="color:white">Do you really want to delete this movie from favorites?</p>
+            <div class="social-btn-2">
+                <a style="background-color:#233a50" href="@Url.Action("Remove_favorite", "Home", new { id = Model})">confirm</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end of login form popup-->

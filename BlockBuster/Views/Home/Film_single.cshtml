@@ -37,7 +37,7 @@
                 <div class="movie-single-ct main-content">
                     <h1 class="bd-hd">@Model.Name</h1>
                     <div class="social-btn">
-                        <a href="#" class="parent-btn"><i class="ion-heart"></i> Add to Favorite</a>
+                        @Html.Action("Partial_favorite", "Home", new { id = Model.Id })
                         <div class="hover-bnt">
                             <a href="#" class="parent-btn"><i class="ion-android-share-alt"></i>share</a>
                             <div class="hvr-item">
@@ -50,21 +50,11 @@
                         <div class="rate">
                             <i class="ion-android-star"></i>
                             <p>
-                                <span>@Model.Rate</span> /10<br>
+                                <span>@Model.Rate</span> /5<br>
                                 <span class="rv">@Html.Action("Review_count", "Home") Reviews</span>
                             </p>
                         </div>
-                        <div class="rate-star">
-                            <p>Rate This Movie:  </p>
-                            @for (int i = 0; i < Model.Rate; i++)
-                            {
-                                <i class="ion-ios-star"></i>
-                            }
-                            @for (int i = 0; i < (10 - Model.Rate); i++)
-                            {
-                                <i class="ion-ios-star-outline"></i>
-                            }
-                        </div>
+                        @Html.Action("Check_rate", "Home", new { id = Model.Id })
                     </div>
                     <div class="movie-tabs">
                         <div class="tabs">
@@ -78,10 +68,6 @@
                                     <div class="row">
                                         <div class="col-md-8 col-sm-12 col-xs-12">
                                             <p>@Model.Description</p>
-                                            <div class="title-hd-sm">
-                                                <h4>User reviews</h4>
-                                            </div>
-                                            <!-- movie user review -->
                                             @Html.Action("Film_review", "Home", new { id = Model.Id })
                                         </div>
                                         <div class="col-md-4 col-xs-12 col-sm-12">
@@ -100,7 +86,6 @@
                                             <div class="div">
                                                 <h2>@Model.Name</h2>
                                             </div>
-                                            @Html.Action("Check_rate", "User", new { id = Model.Id })
                                         </div>
                                         @Html.Action("Film_allreview", "Home", new { id = Model.Id })
                                     </div>

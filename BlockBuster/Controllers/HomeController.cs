@@ -81,12 +81,12 @@ namespace BlockBuster.Controllers
             return (filmm);
         }
         // Get list film da convert
-        private List<filmm> Get_list_film_convert (List<film> list_film)
+        private List<filmm> Get_list_film_convert(List<film> list_film)
         {
             List<filmm> list_film_convert = new List<filmm>();
             if (list_film.Count > 0)
             {
-                foreach(var item in list_film)
+                foreach (var item in list_film)
                 {
                     filmm film = Getfilm(item);
                     if (!list_film_convert.Contains(film))
@@ -94,7 +94,8 @@ namespace BlockBuster.Controllers
                         list_film_convert.Add(film);
                     }
                 }
-            } else {; }
+            }
+            else {; }
             return (list_film_convert);
         }
         // Partial view danh sach phim moi nhat
@@ -166,11 +167,11 @@ namespace BlockBuster.Controllers
             return View(list_film_convert.ToPagedList(pageNum, pageSize));
         }
         // Lay danh sach phim theo the loai
-        List<film> Get_film_cate (int id)
+        List<film> Get_film_cate(int id)
         {
             List<film_category> list_cate = data.film_categories.Where(or => or.category_id == id).ToList();
             List<film> list_film = new List<film>();
-            foreach(var item in list_cate)
+            foreach (var item in list_cate)
             {
                 list_film.Add(item.film);
             }
@@ -247,7 +248,7 @@ namespace BlockBuster.Controllers
                 }
             }
             else {; }
-            if(list_film_remove.Count > 0)
+            if (list_film_remove.Count > 0)
             {
                 foreach (int item in list_film_remove)
                 {
@@ -320,7 +321,6 @@ namespace BlockBuster.Controllers
         {
             var film = from f in data.films
                        where f.id == id
-                       where f.id == id
                        select f;
             return View(Getfilm(film.Single()));
         }
@@ -346,19 +346,51 @@ namespace BlockBuster.Controllers
             }
             else { return PartialView(celeb); }
         }
-        // Binh luan moi nhat cua moi phim
+        // Binh luan noi bat - neu chua dang nhap hoac da dang nhap nhung chua danh gia phim nay thi lay binh luan moi nhat,
+        //neu da danh gia thi lay binh luan cua tai khoan dang dang nhap
         public ActionResult Film_review(int id)
         {
-            var rev = data.reviews.Where(or => or.film_id == id).OrderByDescending(a => a.id).FirstOrDefault();
-            if (rev == null)
+            if (Session["UserAccount"] != null)
             {
-                ViewBag.check = false;
-                return PartialView();
+                user users = (user)Session["UserAccount"];
+                var review = from re in data.reviews
+                             where re.user_id == users.id && re.film_id == id
+                             select re;
+                if (review.Count() > 0)
+                {
+                    ViewBag.check = true;
+                    return PartialView(review.Single());
+                }
+                else
+                {
+                    var rev = data.reviews.Where(or => or.film_id == id).OrderByDescending(a => a.id).FirstOrDefault();
+                    if (rev != null)
+                    {
+                        return PartialView(rev);
+                    }
+                    else
+                    {
+                        ViewBag.check = false;
+                        return PartialView();
+                    }
+                }
             }
-            else { return PartialView(rev); }
+            else
+            {
+                var rev = data.reviews.Where(or => or.film_id == id).OrderByDescending(a => a.id).FirstOrDefault();
+                if (rev != null)
+                {
+                    return PartialView(rev);
+                }
+                else
+                {
+                    ViewBag.check = false;
+                    return PartialView();
+                }
+            }
         }
         // Tat ca binh luan moi nhat cua moi phim
-        public ActionResult Film_allreview(int id, int ? page)
+        public ActionResult Film_allreview(int id, int? page)
         {
             int pageSize = 5;
             int pageNum = (page ?? 1);
@@ -457,11 +489,33 @@ namespace BlockBuster.Controllers
             }
             else { return PartialView(celeb_film_list_convert); }
         }
+        // Kiem tra danh gia
+        public ActionResult Check_rate(int id)
+        {
+            ViewBag.id = id;
+            if (Session["UserAccount"] != null)
+            {
+                user users = (user)Session["UserAccount"];
+                var review = from re in data.reviews
+                             where re.film_id == id && re.user_id == users.id
+                             select re;
+                if (review.Count() != 0)
+                {
+                    return PartialView(review.Single());
+                }
+                else { return PartialView(); }
+            }
+            else
+            {
+                return PartialView();
+            }
+        }
         // View viet danh gia phim
         [HttpGet]
-        public ActionResult Write_review(int id)
+        public ActionResult Write_review(int id, int rate)
         {
             ViewBag.film_id = id;
+            ViewBag.rate = rate;
             user users = (user)Session["UserAccount"];
             if (Session["UserAccount"] != null)
             {
@@ -485,7 +539,7 @@ namespace BlockBuster.Controllers
             {
                 review revie = new review();
                 if (Session["UserAccount"] == null)
-                        {
+                {
                     return new HttpNotFoundResult(); // 404
                 }
                 else
@@ -518,6 +572,63 @@ namespace BlockBuster.Controllers
             {
                 return HttpNotFound();
             }
+        }
+        public ActionResult Partial_favorite(int id)
+        {
+            user users = (user)Session["UserAccount"];
+            var fav = from f in data.favorites
+                      where f.film_id == id && f.user_id == users.id
+                      select f;
+            if (users != null)
+            {
+                if (fav.Count() > 0)
+                {
+                    ViewBag.check = 1;
+                    return PartialView(id);
+                }
+                return PartialView(id);
+            }
+            else
+            {
+                return PartialView(-1);
+            }
+        }
+        public ActionResult Add_favorite(int id)
+        {
+            if (Session["UserAccount"] != null)
+            {
+                user users = (user)Session["UserAccount"];
+                favorite fav = new favorite();
+                fav.user_id = users.id;
+                fav.film_id = id;
+                fav.created = DateTime.Now;
+                data.favorites.InsertOnSubmit(fav);
+                data.SubmitChanges();
+                return RedirectToAction("Film_single", "Home", new { id = id });
+            }
+            else
+            {
+                return HttpNotFound();
+            }
+        }
+        public ActionResult Remove_favorite(int id)
+        {
+            user users = (user)Session["UserAccount"];
+            var fav = from f in data.favorites
+                      where f.film_id == id && f.user_id == users.id
+                      select f;
+            if (users != null)
+            {
+                if (fav.Count() > 0)
+                {
+                    data.favorites.DeleteOnSubmit(fav.Single());
+                    data.SubmitChanges();
+                    return RedirectToAction("Film_single", "Home", new { id = id });
+                }
+                else { return HttpNotFound(); }
+            }
+            else
+            { return HttpNotFound(); }
         }
     }
 }

@@ -407,6 +407,7 @@
     <Content Include="images\uploads\vd-item2.jpg" />
     <Content Include="images\uploads\vd-item3.jpg" />
     <Content Include="images\uploads\vd-item4.jpg" />
+    <Content Include="NewFolder1\moviesingle.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\fontawesome-webfont93e3.eot" />
@@ -485,7 +486,8 @@
     <Content Include="Views\User\Account_favorite.cshtml" />
     <Content Include="Views\User\Account_rated.cshtml" />
     <Content Include="Views\Home\Write_review.cshtml" />
-    <Content Include="Views\User\Check_rate.cshtml" />
+    <Content Include="Views\Home\Check_rate.cshtml" />
+    <Content Include="Views\Home\Partial_favorite.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

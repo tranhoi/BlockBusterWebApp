@@ -122,7 +122,7 @@ namespace BlockBuster.Controllers
                 Session["UserAccount"] = use;
                 if (review != 0)
                 {
-                    return RedirectToAction("Write_review", "Home", new { id = review });
+                    return RedirectToAction("Film_single", "Home", new { id = review });
                 } else { return RedirectToAction("Index", "Home"); }
                 
             }
@@ -248,26 +248,6 @@ namespace BlockBuster.Controllers
         {
             Session.Remove("UserAccount");
             return RedirectToAction("Index", "Home");
-        }
-        public ActionResult Check_rate(int id)
-        {
-            ViewBag.review = id;
-            if (Session["UserAccount"] != null)
-            {
-                user users = (user)Session["UserAccount"];
-                var review = from re in data.reviews
-                            where re.film_id == id && re.user_id == users.id
-                            select re;
-                if(review.Count() > 0)
-                {
-                    return PartialView(1);
-                }
-                else { return PartialView(-1); }
-            }
-            else
-            {
-                return PartialView(0);
-            }
         }
     }
 }
