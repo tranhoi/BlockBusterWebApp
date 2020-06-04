@@ -1,0 +1,63 @@
+﻿@using BlockBuster.Models
+@using PagedList.Mvc;
+@model PagedList.PagedList<BlockBuster.Models.celebrity>
+
+@{
+    ViewBag.Title = "Celebrities";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@if (ViewBag.Notification == "empty")
+{
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        Did not find the product you requested.
+    </div>
+}
+@using (Html.BeginForm())
+{
+    <div>
+        <input type="text" name="txtKey" placeholder="Enter your keyword">
+        <button type="submit"><i class="fa fa-search"></i></button>
+        <p style="color:#FF6600; font-style:italic">(*) You can search by name.</p>
+    </div>
+}
+<hr />
+<h2>Celebrity Management</h2>
+<p>
+    @Html.ActionLink("Create new celebrity", "Create_celebrity", "Admin")
+</p>
+<table class="table">
+    <tr>
+        <th style="width:20%">Name</th>
+        <th style="width:10%">Birthday</th>
+        <th style="width:10%">Avatar</th>
+        <th style="width:5%"></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.birthday)
+            </td>
+            <td>
+                <img class="miniimg-products" src="~/images/celeb/@item.avatar" />
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details_celeb", new { id = item.id }) |
+                @Html.ActionLink("Edit", "Edit_celeb", new { id = item.id }) |
+                @Html.ActionLink("Delete", "Delete_celeb", new { id = item.id })
+            </td>
+        </tr>
+    }
+</table>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+    <div class="MenuTrang">
+        @Html.PagedListPager(Model, page => Url.Action("List_celebrity", new { page = page }))
+    </div>
+    <div>
+        @Html.ActionLink("Back to home", "Home")
+    </div>

@@ -1,0 +1,96 @@
+﻿@using BeanStore.Models
+@using PagedList.Mvc;
+@model PagedList.PagedList<BeanStore.Models.order>
+@{
+    ViewBag.Title = "Order";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@if (@ViewBag.Notification == "empty")
+{
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        Did not find the order you requested.
+    </div>
+}
+@using (Html.BeginForm())
+{
+    <div>
+        <input type="text" name="txtKey" placeholder="Enter your keyword">
+        <button type="submit"><i class="fa fa-search"></i></button>
+        <p style="color:#FF6600; font-style:italic">(*) You can search by customer name or order id.</p>
+    </div>
+}
+<hr />
+<h2>Order Management</h2>
+<hr />
+<table class="table">
+    <tr>
+        <th style="width:50px">Id</th>
+        <th style="width:150px">Customer name</th>
+        <th style="width:200px">Order date</th>
+        <th style="width:100px">Total price</th>
+        <th style="width:200px">Delivery date</th>
+        <th style="width:300px">Status</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.user.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.order_date)
+            </td>
+            <td>
+                @Html.Action("Total_price", "Admin", new { id = item.id })
+            </td>
+            @if (item.delivery_date == null)
+            {
+                <td>
+                    -------
+                </td>
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.delivery_date)
+                </td>
+            }
+            @if (item.status_id == 1)
+            {
+                <td style="color:#FF6600">
+                    @Html.DisplayFor(modelItem => item.status.name)
+                    | @Html.ActionLink("Shipped", "Change_shipped", new { id = item.id })
+                    | @Html.ActionLink("Delivered", "Change_delivered", new { id = item.id })
+                </td>
+            }
+            else
+            {
+                if (item.status_id == 2)
+                {
+                    <td style="color:#FF6600">
+                        @Html.ActionLink("Processed", "Change_processed", new { id = item.id })
+                        | @Html.DisplayFor(modelItem => item.status.name)
+                        | @Html.ActionLink("Delivered", "Change_delivered", new { id = item.id })
+                    </td>
+                }
+                else
+                {
+                    <td style="color:#FF6600">
+                        @Html.ActionLink("Processed", "Change_processed", new { id = item.id })
+                        | @Html.ActionLink("Shipped", "Change_shipped", new { id = item.id })
+                        | @Html.DisplayFor(modelItem => item.status.name)
+                    </td>
+                }
+            }
+            <td>
+                @Html.ActionLink("Details", "Details_order", new { id = item.id }) |
+                @Html.ActionLink("Delete", "Delete_order", new { id = item.id })
+            </td>
+        </tr>
+    }
+</table>

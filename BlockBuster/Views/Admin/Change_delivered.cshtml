@@ -1,0 +1,38 @@
+﻿@model BeanStore.Models.order
+@{
+    ViewBag.Title = "Change_delivered";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<h3>Do you want to change this order to delivered status?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Order id
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.id)
+        </dd>
+        <dt>
+            User name
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.user.name)
+        </dd>
+        <dt>
+            Old state
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.status.name)
+        </dd>
+    </dl>
+    <p>The delivery date will be saved with the current date</p>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-actions no-color">
+            <input type="submit" value="Confirm" class="btn btn-default" /> |
+            @Html.ActionLink("Cancel", "Orders")
+        </div>
+    }
+</div>

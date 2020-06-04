@@ -1,0 +1,63 @@
+﻿@model IEnumerable<BlockBuster.Models.user>
+@{
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@if (ViewBag.Notification == "empty")
+{
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        The account you requested was not found.
+    </div>
+}
+@using (Html.BeginForm())
+{
+    <div>
+        <input type="text" name="txtKey" placeholder="Enter your keyword">
+        <button type="submit"><i class="fa fa-search"></i></button>
+        <p style="color:#FF6600; font-style:italic">(*) You can search by name or email.</p>
+    </div>
+}
+<hr />
+<h2>User Managemen</h2>
+<p>
+    @Html.ActionLink("Create new user", "Create_user", "Admin")
+</p>
+<hr />
+<table class="table">
+    <tr>
+        <th style="width:30%">Email</th>
+        <th style="width:10%">Name</th>
+        <th style="width:10%"></th>
+        <th style="width:10%">Created</th>
+        <th style="width:10%">Password</th>
+        <th style="width:5%"></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.first_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.last_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.created)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.password)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit_user", new { id = item.id }) |
+                @Html.ActionLink("Delete", "Delete_user", new { id = item.id })
+            </td>
+        </tr>
+    }
+</table>
+<div>
+    @Html.ActionLink("Back to home", "Home")
+</div>

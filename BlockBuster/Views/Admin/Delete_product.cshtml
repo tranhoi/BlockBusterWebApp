@@ -1,0 +1,36 @@
+﻿@model BeanStore.Models.item
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<h3 style="color:#FF6600">Are you sure you want to delete this product?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            <img src="@Url.Content("~/images_product/"+  Model.image_link)"  width="150px" height="auto" />
+        </dt>
+        <dd style="color:#FF6600">
+            @Html.DisplayFor(model => model.name)
+        </dd>
+        <dd style="color:#FF6600">
+            Brand:  @Html.DisplayFor(model => model.brand.name)
+        </dd>
+        <dd style="color:#FF6600">
+            Catalog:  @Html.DisplayFor(model => model.catalog.name)
+        </dd>
+        <dd style="color:#FF6600">
+            Created:  @Html.DisplayFor(model => model.created)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color" style="padding-left: 180px">
+            <input style="background-color:#FF6600" type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Items")
+        </div>
+    }
+</div>

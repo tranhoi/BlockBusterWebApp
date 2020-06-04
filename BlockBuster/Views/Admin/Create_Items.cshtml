@@ -1,0 +1,122 @@
+﻿@model BeanStore.Models.item
+@{
+    ViewBag.Title = "Create_Items";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@if (ViewBag.Notification != null)
+{
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        <strong>Error!</strong> @ViewBag.Notification.
+    </div>
+}
+<h2>Create new product</h2>
+@using (Html.BeginForm("Create_Items", "Admin", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true)
+    <div class="form-group">
+        @Html.LabelFor(model => model.name, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.name)
+            @Html.ValidationMessageFor(model => model.name)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.price, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.price)
+            @Html.ValidationMessageFor(model => model.price)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.description, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <textarea name="description">Describe book information</textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2" for="image_link">Cover image</label>
+        <div class="col-md-10">
+            <input type="file" name="fileUpload" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2" for="image_link2">Image 2</label>
+        <div class="col-md-10">
+            <input type="file" name="fileUpload2" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2" for="image_link3">Image 3</label>
+        <div class="col-md-10">
+            <input type="file" name="fileUpload3" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2" for="image_link4">Image 4</label>
+        <div class="col-md-10">
+            <input type="file" name="fileUpload4" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2" for="image_link5">Image 5</label>
+        <div class="col-md-10">
+            <input type="file" name="fileUpload5" />
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.created, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            Now: @DateTime.Now
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.discount, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.discount)
+            @Html.ValidationMessageFor(model => model.discount)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2" for="brand_id">Brand</label>
+        <div class="col-md-10">
+            @Html.DropDownList("Brand_id")
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2" for="catalog_id">Catalog</label>
+        <div class="col-md-10">
+            @Html.DropDownList("Catalog_id")
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2" for="ranked_id">Ranked</label>
+        <div class="col-md-10">
+            @Html.DropDownList("Ranked_id")
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.sale, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.sale)
+            @Html.ValidationMessageFor(model => model.sale)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Created" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Items")
+</div>
+<style>
+    .form-control {
+        width: 500px;
+    }
+</style>

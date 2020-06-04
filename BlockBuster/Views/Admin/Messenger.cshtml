@@ -1,0 +1,15 @@
+﻿@model IEnumerable<BeanStore.Models.messeage>
+@foreach (var item in Model)
+{
+    <li>
+        <a href="#">
+            <div>
+                <strong>@item.name</strong>
+                <span class="pull-right text-muted">
+                    <em>Today</em>
+                </span>
+            </div>
+            <div>@item.message</div>
+        </a>
+    </li>
+}
