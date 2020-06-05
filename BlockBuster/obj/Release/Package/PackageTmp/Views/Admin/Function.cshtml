@@ -1,0 +1,44 @@
+﻿@if (ViewBag.position == "Admin")
+{
+    <li>
+        <a href=""><i class="fa fa-sitemap"></i> Films <span class="fa arrow"></span></a>
+        <ul class="nav nav-second-level">
+            <li>
+                <a href="List_movies">Movies</a>
+            </li>
+            <li>
+                <a href="List_dramas">Dramas</a>
+            </li>
+            <li>
+                <a href="List_celebrities">Celebrities</a>
+            </li>
+            <li>
+                <a href="List_trailers">Trailers </a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="List_categories"><i class="fa fa-table"></i> Catagories </a>
+    </li>
+    <li>
+        <a href="List_countries"><i class="fa fa-desktop"></i> Countries </a>
+    </li>
+    <li>
+        <a href="List_users"><i class="fa fa-user fa-fw"></i> Users </a>
+    </li>
+}
+else
+{
+    if (ViewBag.position == "Viewer")
+    {
+        <li>
+            <p style="color:white ; padding-left:15%">Google Analytics</p>
+        </li>
+    }
+    else
+    {
+        <li>
+            <a href="List_admins"><i class="fa fa-edit"></i> Admin </a>
+        </li>
+    }
+}

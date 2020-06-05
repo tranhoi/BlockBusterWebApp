@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Delete_country";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div>
+    <div id="overlay">
+        <div style="background-color:#0f2133; position:center" id="noti_box">
+            <div class="row" style="margin:40px">
+                <p style="color:white">Do you really want to delete this?</p>
+                <div style="margin:20px">
+                    <p>Country</p>
+                    <p>Id: @Model.id</p>
+                    <p>Name: @Model.name</p>
+                </div>
+                <div style="margin-top:2em; float:right">
+                    <a style="margin:1.5em" href="@Url.Action("Delete_country_confirm", "Admin", new { id = Model.id})">Confirm</a>
+                    <a style="margin-right:0.5em" href="@Url.Action("List_countries", "Admin")">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    p {
+        color: teal
+    }
+</style>

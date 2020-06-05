@@ -27,7 +27,6 @@ namespace BlockBuster.Controllers
             filmm.Id = film.id;
             filmm.Name = film.name.Trim();
             filmm.Image_link = film.image_link.Trim();
-            filmm.Source = film.source.Trim();
             filmm.View_count = double.Parse((film.view_count).ToString());
             filmm.Description = film.description.Trim();
             filmm.Created = DateTime.Parse((film.created).ToString());

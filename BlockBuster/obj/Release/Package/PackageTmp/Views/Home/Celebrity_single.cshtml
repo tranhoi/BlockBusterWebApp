@@ -1,0 +1,113 @@
+﻿@{
+    ViewBag.Title = "Celebrity_single";
+    Layout = "~/Views/Shared/_Layout_Home.cshtml";
+}
+@helper Truncate(string input, int length) //helper gioi han so ky tu hien thi
+{
+    if (input.Length < length)
+    {
+        @input
+    }
+    else
+    {
+        @input.Substring(0, length)<text>...</text>
+    }
+}
+<div class="hero hero3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- <h1> movie listing - list</h1>
+                <ul class="breadcumb">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li> <span class="ion-ios-arrow-right"></span> movie listing</li>
+                </ul> -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- celebrity single section-->
+
+<div class="page-single movie-single cebleb-single">
+    <div class="container">
+        <div class="row ipad-width">
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="mv-ceb">
+                    <img src="~/images/celeb/@Model.avatar" alt="">
+                </div>
+            </div>
+            <div class="col-md-8 col-sm-12 col-xs-12">
+                <div class="movie-single-ct">
+                    <h1 class="bd-hd">@Model.name</h1>
+                    <p class="ceb-single">@Html.Action("Celeb_job", "Home", new { id = Model.id })</p>
+                    <div class="movie-tabs">
+                        <div class="tabs">
+                            <ul class="tab-links tabs-mv">
+                                <li class="active"><a href="#overviewceb">Overview</a></li>
+                                <li><a href="#biography"> biography</a></li>
+                                <li><a href="#filmography">filmography</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="overviewceb" class="tab active">
+                                    <div class="row">
+                                        <div class="col-md-8 col-sm-12 col-xs-12">
+                                            <div class="title-hd-sm">
+                                                <h4>Biography</h4>
+                                            </div>
+                                            <p>
+                                                @Truncate(Model.description, 100)
+                                            </p>
+                                            <div class="mvsingle-item ov-item">
+                                                <!-- ///////////// -->
+                                            </div>
+                                            <div class="title-hd-sm">
+                                                <h4>filmography</h4>
+                                            </div>
+                                            <!-- movie cast -->
+                                            @Html.Action("Celebrity_film", "Home", new { id = Model.id, take = 5 })
+                                        </div>
+                                        <div class="col-md-4 col-xs-12 col-sm-12">
+                                            <div class="sb-it">
+                                                <h6>Fullname:  </h6>
+                                                <p><a>@Model.name</a></p>
+                                            </div>
+                                            <div class="sb-it">
+                                                <h6>Date of Birth: </h6>
+                                                <p>@ViewBag.birthday</p>
+                                            </div>
+                                            <div class="sb-it">
+                                                <h6>Country:  </h6>
+                                                <p>@Model.country.name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="biography" class="tab">
+                                    <div class="row">
+                                        <div class="rv-hd">
+                                            <div>
+                                                <h3>Biography of</h3>
+                                                <h2>@Model.name</h2>
+                                            </div>
+                                        </div>
+                                        <p>
+                                            @Model.description
+                                        </p>
+                                    </div>
+                                </div>
+                                <div id="filmography" class="tab">
+                                    <div class="row">
+                                        <!-- movie cast -->
+                                        <div class="mvcast-item">
+                                            @Html.Action("Celebrity_film", "Home", new { id = Model.id, take = 0 })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -13,6 +13,34 @@ namespace BlockBuster.Controllers
     public class AdminController : Controller
     {
         dbBBusterDataContext data = new dbBBusterDataContext();
+        // ham kiem tra mat khau
+        private bool CheckPassword(string pass)
+        {
+            //min 8 ky tu, max 16 ky tu
+            if (pass.Length < 8 || pass.Length > 16)
+                return false;
+
+            //khong chua khoan trang
+            if (pass.Contains(" "))
+                return false;
+
+            //gom it nhat mot chu in hoa
+            if (!pass.Any(char.IsUpper))
+                return false;
+
+            //gom it nhat mot chu thuong
+            if (!pass.Any(char.IsLower))
+                return false;
+            //gom it nhat mot ky tu dat biet
+            string specialCharacters = @"%!@#$%^&*()?/>.<,:;'\|}]{[_~`+=-" + "\"";
+            char[] specialCharactersArray = specialCharacters.ToCharArray();
+            foreach (char c in specialCharactersArray)
+            {
+                if (pass.Contains(c))
+                    return true;
+            }
+            return false;
+        }
         [HttpGet]
         public ActionResult Login()
         {
@@ -90,7 +118,7 @@ namespace BlockBuster.Controllers
                 ViewBag.key = key;
                 if (key == null || key == "")
                 {
-                    return View(data.films.ToList().OrderBy(n => n.created).Where(or => or.form_id == 1).ToPagedList(pageNumber, pageSize));
+                    return View(data.films.ToList().OrderByDescending(n => n.created).Where(or => or.form_id == 1).ToPagedList(pageNumber, pageSize));
                 }
                 else
                 {
@@ -124,7 +152,7 @@ namespace BlockBuster.Controllers
                 ViewBag.key = key;
                 if (key == null || key == "")
                 {
-                    return View(data.films.ToList().OrderBy(n => n.created).Where(or => or.form_id == 2).ToPagedList(pageNumber, pageSize));
+                    return View(data.films.ToList().OrderByDescending(n => n.created).Where(or => or.form_id == 2).ToPagedList(pageNumber, pageSize));
                 }
                 else
                 {
@@ -156,14 +184,14 @@ namespace BlockBuster.Controllers
                 ViewBag.key = key;
                 if (key == null || key == "")
                 {
-                    return View(data.admins.ToList().OrderBy(n => n.id).ToPagedList(pageNumber, pageSize));
+                    return View(data.admins.ToList().OrderByDescending(n => n.id).ToPagedList(pageNumber, pageSize));
                 }
                 var admins = from admin in data.admins where admin.name.ToUpper().Contains(key.ToUpper()) || admin.username.ToUpper().Contains(key.ToUpper()) select admin;
 
                 if (admins.Count() == 0)
                 {
                     ViewBag.Notification = "empty";
-                    return View(data.admins.ToList().OrderBy(n => n.id).ToPagedList(pageNumber, pageSize));
+                    return View(data.admins.ToList().OrderByDescending(n => n.id).ToPagedList(pageNumber, pageSize));
                 }
                 return View(admins.OrderBy(n => n.id).ToPagedList(pageNumber, pageSize));
             }
@@ -185,7 +213,7 @@ namespace BlockBuster.Controllers
                 ViewBag.key = key;
                 if (key == null || key == "")
                 {
-                    return View(data.celebrities.ToList().OrderBy(n => n.name).ToPagedList(pageNumber, pageSize));
+                    return View(data.celebrities.ToList().OrderByDescending(n => n.id).ToPagedList(pageNumber, pageSize));
                 }
                 else
                 {
@@ -193,7 +221,7 @@ namespace BlockBuster.Controllers
                     if (cele.Count() == 0)
                     {
                         ViewBag.Notification = "empty";
-                        return View(data.films.ToList().OrderByDescending(n => n.created).ToPagedList(pageNumber, pageSize));
+                        return View(data.celebrities.ToList().OrderByDescending(n => n.id).ToPagedList(pageNumber, pageSize));
                     }
                     else
                     {
@@ -219,7 +247,7 @@ namespace BlockBuster.Controllers
                 ViewBag.key = key;
                 if (key == null || key == "")
                 {
-                    return View(data.trailers.ToList().OrderBy(n => n.name).ToPagedList(pageNumber, pageSize));
+                    return View(data.trailers.ToList().OrderByDescending(n => n.id).ToPagedList(pageNumber, pageSize));
                 }
                 else
                 {
@@ -231,7 +259,7 @@ namespace BlockBuster.Controllers
                     }
                     else
                     {
-                        return View(trai.OrderByDescending(n => n.name).ToPagedList(pageNumber, pageSize));
+                        return View(trai.OrderByDescending(n => n.id).ToPagedList(pageNumber, pageSize));
                     }
                 }
             }
@@ -251,14 +279,14 @@ namespace BlockBuster.Controllers
                 ViewBag.key = key;
                 if (key == null || key == "")
                 {
-                    return View(data.users.ToList().OrderBy(n => n.id).ToPagedList(pageNumber, pageSize));
+                    return View(data.users.ToList().OrderByDescending(n => n.id).ToPagedList(pageNumber, pageSize));
                 }
                 var user = from use in data.users where use.first_name.ToUpper().Contains(key.ToUpper()) || use.last_name.ToUpper().Contains(key.ToUpper()) || use.email.ToUpper().Contains(key.ToUpper()) select use;
 
                 if (user.Count() == 0)
                 {
                     ViewBag.Notification = "empty";
-                    return View(data.users.ToList().OrderBy(n => n.id).ToPagedList(pageNumber, pageSize));
+                    return View(data.users.ToList().OrderByDescending(n => n.id).ToPagedList(pageNumber, pageSize));
                 }
                 return View(user.OrderBy(n => n.id).ToPagedList(pageNumber, pageSize));
             }
@@ -272,7 +300,7 @@ namespace BlockBuster.Controllers
             }
             else
             {
-                return View(data.categories.ToList().OrderBy(n => n.id));
+                return View(data.categories.ToList().OrderByDescending(n => n.id));
             }
         }
         public ActionResult List_countries()
@@ -287,314 +315,490 @@ namespace BlockBuster.Controllers
                 return View(data.countries.ToList().OrderBy(n => n.id));
             }
         }
-        public ActionResult Get_film_celebrity(int id)
+        public ActionResult Delete_movie(int id)
         {
-            return PartialView(data.film_celebrities.ToList().Where(or => or.film_id == id).OrderByDescending(n => n.id));
-        }
-        public ActionResult Banner()
-        {
-            admin adm = (admin)Session["AdminAccount"];
-            if (Session["AdminAccount"] == null)
+            film fil = data.films.SingleOrDefault(n => n.id == id);
+            if (fil == null)
             {
-                return RedirectToAction("Login", "Admin");
+                Response.StatusCode = 404;
+                return null;
+            }
+            else { return View(fil); }
+        }
+        public ActionResult Delete_movie_confirm(int id)
+        {
+            film fil = data.films.SingleOrDefault(n => n.id == id);
+            if (fil == null)
+            {
+                Response.StatusCode = 404;
+                return null;
             }
             else
             {
-                return View(data.categories.ToList().OrderByDescending(n => n.id));
-            }
-        }
-        public ActionResult Catalog()
-        {
-            admin adm = (admin)Session["AdminAccount"];
-            if (Session["AdminAccount"] == null)
-            {
-                return RedirectToAction("Login", "Admin");
-            }
-            else
-            {
-                return View(data.countries.ToList().OrderBy(n => n.id));
-            }
-        }
-        [HttpGet]
-        public ActionResult Created_admin()
-        {
-            admin adm = (admin)Session["AdminAccount"];
-            if (Session["AdminAccount"] == null)
-            {
-                return RedirectToAction("Login", "Admin");
-            }
-            else
-            {
-                ViewBag.Position_id = new SelectList(data.positions.ToList().OrderBy(n => n.name), "id", "name");
-                return View();
-            }
-        }
-        [HttpPost]
-        public ActionResult Created_admin(admin adm)
-        {
-            if (ModelState.IsValid)
-            {
-                data.admins.InsertOnSubmit(adm);
+                var fil_cel = data.film_celebrities.Where(or => or.film_id == id).ToList();
+                foreach (var item in fil_cel)
+                {
+                    data.film_celebrities.DeleteOnSubmit(item);
+                    data.SubmitChanges();
+                }
+                var fil_cat = data.film_categories.Where(or => or.film_id == id).ToList();
+                foreach (var item in fil_cat)
+                {
+                    data.film_categories.DeleteOnSubmit(item);
+                    data.SubmitChanges();
+                }
+                var fil_cou = data.film_countries.Where(or => or.film_id == id).ToList();
+                foreach (var item in fil_cou)
+                {
+                    data.film_countries.DeleteOnSubmit(item);
+                    data.SubmitChanges();
+                }
+                var fil_rev = data.reviews.Where(or => or.film_id == id).ToList();
+                foreach (var item in fil_rev)
+                {
+                    data.reviews.DeleteOnSubmit(item);
+                    data.SubmitChanges();
+                }
+                data.films.DeleteOnSubmit(fil);
                 data.SubmitChanges();
+                return RedirectToAction("List_movies");
             }
-            return RedirectToAction("Admins");
+        }
+        public ActionResult Delete_drama(int id)
+        {
+            film fil = data.films.SingleOrDefault(n => n.id == id);
+            if (fil == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            else { return View(fil); }
+        }
+        public ActionResult Delete_drama_confirm(int id)
+        {
+            film fil = data.films.SingleOrDefault(n => n.id == id);
+            if (fil == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            else
+            {
+                var fil_cel = data.film_celebrities.Where(or => or.film_id == id).ToList();
+                foreach (var item in fil_cel)
+                {
+                    data.film_celebrities.DeleteOnSubmit(item);
+                    data.SubmitChanges();
+                }
+                var fil_cat = data.film_categories.Where(or => or.film_id == id).ToList();
+                foreach (var item in fil_cat)
+                {
+                    data.film_categories.DeleteOnSubmit(item);
+                    data.SubmitChanges();
+                }
+                var fil_cou = data.film_countries.Where(or => or.film_id == id).ToList();
+                foreach (var item in fil_cou)
+                {
+                    data.film_countries.DeleteOnSubmit(item);
+                    data.SubmitChanges();
+                }
+                var fil_rev = data.reviews.Where(or => or.film_id == id).ToList();
+                foreach (var item in fil_rev)
+                {
+                    data.reviews.DeleteOnSubmit(item);
+                    data.SubmitChanges();
+                }
+                data.films.DeleteOnSubmit(fil);
+                data.SubmitChanges();
+                return RedirectToAction("List_dramas");
+            }
+        }
+        public ActionResult Delete_celebrity(int id)
+        {
+            celebrity cel = data.celebrities.SingleOrDefault(n => n.id == id);
+            if (cel == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            else { return View(cel); }
+        }
+        public ActionResult Delete_celebrity_confirm(int id)
+        {
+            celebrity cel = data.celebrities.SingleOrDefault(n => n.id == id);
+            if (cel == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            else
+            {
+                var fil_cel = data.film_celebrities.Where(or => or.celeb_id == id).ToList();
+                foreach (var item in fil_cel)
+                {
+                    data.film_celebrities.DeleteOnSubmit(item);
+                    data.SubmitChanges();
+                }
+                var cel_job = data.celeb_jobs.Where(or => or.celeb_id == id).ToList();
+                foreach (var item in cel_job)
+                {
+                    data.celeb_jobs.DeleteOnSubmit(item);
+                    data.SubmitChanges();
+                }
+                data.celebrities.DeleteOnSubmit(cel);
+                data.SubmitChanges();
+                return RedirectToAction("List_celebrities");
+            }
+        }
+        public ActionResult Delete_trailer(int id)
+        {
+            trailer tra = data.trailers.SingleOrDefault(n => n.id == id);
+            if (tra == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            else { return View(tra); }
+        }
+        public ActionResult Delete_trailer_confirm(int id)
+        {
+            trailer tra = data.trailers.SingleOrDefault(n => n.id == id);
+            if (tra == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            else
+            {
+                data.trailers.DeleteOnSubmit(tra);
+                data.SubmitChanges();
+                return RedirectToAction("List_trailers");
+            }
+        }
+        public ActionResult Delete_admin(int id)
+        {
+            admin adm = data.admins.SingleOrDefault(n => n.id == id);
+            if (adm == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            else { return View(adm); }
+        }
+        public ActionResult Delete_admin_confirm(int id)
+        {
+            admin adm = data.admins.SingleOrDefault(n => n.id == id);
+            if (adm == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            else
+            {
+                data.admins.DeleteOnSubmit(adm);
+                data.SubmitChanges();
+                return RedirectToAction("List_admins");
+            }
+        }
+        public ActionResult Delete_category(int id)
+        {
+            category cat = data.categories.SingleOrDefault(n => n.id == id);
+            if (cat == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            else { return View(cat); }
+        }
+        public ActionResult Delete_category_confirm(int id)
+        {
+            category cat = data.categories.SingleOrDefault(n => n.id == id);
+            if (cat == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            else
+            {
+                var fil_cat = data.film_categories.Where(or => or.category_id == id).ToList();
+                foreach (var item in fil_cat)
+                {
+                    data.film_categories.DeleteOnSubmit(item);
+                    data.SubmitChanges();
+                }
+                data.categories.DeleteOnSubmit(cat);
+                data.SubmitChanges();
+                return RedirectToAction("List_categories");
+            }
+        }
+        public ActionResult Delete_country(int id)
+        {
+            var cou = data.countries.SingleOrDefault(n => n.id == id);
+            if (cou == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            else { return View(cou); }
+        }
+        public ActionResult Delete_country_confirm(int id)
+        {
+            var cou = data.countries.SingleOrDefault(n => n.id == id);
+            if (cou == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            else
+            {
+                var fil_cou = data.film_countries.Where(or => or.country_id == id).ToList();
+                foreach (var item in fil_cou)
+                {
+                    data.film_countries.DeleteOnSubmit(item);
+                    data.SubmitChanges();
+                }
+                var celeb_cou = data.celebrities.Where(or => or.country_id == id).ToList();
+                foreach (var item in fil_cou)
+                {
+                    item.country_id = null;
+                    UpdateModel(item);
+                    data.SubmitChanges();
+                }
+                data.countries.DeleteOnSubmit(cou);
+                data.SubmitChanges();
+                return RedirectToAction("List_countries");
+            }
+        }
+        public ActionResult Delete_user(int id)
+        {
+            var user = data.users.SingleOrDefault(n => n.id == id);
+            if (user == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            else { return View(user); }
+        }
+        public ActionResult Delete_user_confirm(int id)
+        {
+            var user = data.users.SingleOrDefault(n => n.id == id);
+            if (user == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            else
+            {
+                var fil_rev = data.reviews.Where(or => or.user_id == id).ToList();
+                foreach (var item in fil_rev)
+                {
+                    data.reviews.DeleteOnSubmit(item);
+                    data.SubmitChanges();
+                }
+                var fil_fav = data.favorites.Where(or => or.user_id == id).ToList();
+                foreach (var item in fil_fav)
+                {
+                    data.favorites.DeleteOnSubmit(item);
+                    data.SubmitChanges();
+                }
+                data.users.DeleteOnSubmit(user);
+                data.SubmitChanges();
+                return RedirectToAction("List_users");
+            }
         }
         [HttpGet]
-        public ActionResult Create_Items()
+        public ActionResult Create_movie()
         {
-            admin adm = (admin)Session["AdminAccount"];
             if (Session["AdminAccount"] == null)
             {
                 return RedirectToAction("Login", "Admin");
             }
             else
             {
-                ViewBag.Brand_id = new SelectList(data.categories.ToList().OrderBy(n => n.name), "id", "name");
-                ViewBag.Catalog_id = new SelectList(data.countries.ToList().OrderBy(n => n.name), "id", "name");
-                ViewBag.Ranked_id = new SelectList(data.celebrities.ToList().OrderBy(n => n.name), "id", "name");
-                ViewBag.TimeNow = DateTime.Now;
                 return View();
             }
         }
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Create_Items(film item, FormCollection collection, HttpPostedFileBase fileUpload)
+        public ActionResult Create_movie(film movie, FormCollection collection, HttpPostedFileBase fileUpload)
         {
-            ViewBag.Brand_id = new SelectList(data.categories.ToList().OrderBy(n => n.name), "id", "name");
-            ViewBag.Catalog_id = new SelectList(data.countries.ToList().OrderBy(n => n.name), "id", "name");
-            ViewBag.Ranked_id = new SelectList(data.celebrities.ToList().OrderBy(n => n.name), "id", "name");
-
             if (fileUpload == null)
             {
                 ViewBag.Notification = "Please select the cover photo";
-                return View();
+                return View(movie);
             }
-
             else
             {
                 if (ModelState.IsValid)
                 {
-                    var dedescription = collection["description"];
                     var fileName = Path.GetFileName(fileUpload.FileName);
-                    var path = Path.Combine(Server.MapPath("~/images_product"), fileName);
+                    var path = Path.Combine(Server.MapPath("~/images/films"), fileName);
                     if (System.IO.File.Exists(path))
                         ViewBag.Notification = "Image already exists";
                     else
                     {
                         fileUpload.SaveAs(path);
                     }
-                    item.image_link = fileName;
-                    item.description = dedescription;
-                    item.created = DateTime.Today;
-                    data.films.InsertOnSubmit(item);
+                    var description = collection["description"];
+                    movie.image_link = fileName;
+                    movie.description = description;
+                    movie.created = DateTime.Now;
+                    movie.view_count = 0;
+                    movie.rate = 0;
+                    movie.form_id = 1;
+                    data.films.InsertOnSubmit(movie);
                     data.SubmitChanges();
                 }
-                return RedirectToAction("Items");
+                else {; }
+                return RedirectToAction("Create_movie_category");
             }
-        }
-        public ActionResult Details_product(int id)
-        {
-            film ite = data.films.SingleOrDefault(n => n.id == id);
-            ViewBag.id_items = ite.id;
-            if (ite == null)
-            {
-                Response.StatusCode = 404;
-                return null;
-            }
-            return View(ite);
         }
         [HttpGet]
-        public ActionResult Delete_product(int id)
+        public ActionResult Create_movie_category()
         {
-            film item = data.films.SingleOrDefault(n => n.id == id);
-            ViewBag.Items_id = item.id;
-            if (item == null)
+            if (Session["AdminAccount"] == null)
             {
-                Response.StatusCode = 404;
-                return null;
+                return RedirectToAction("Login", "Admin");
             }
-            return View(item);
-        }
-
-        [HttpPost, ActionName("Delete_product")]
-        public ActionResult Confirm_deletion(int id)
-        {
-            film item = data.films.SingleOrDefault(n => n.id == id);
-            ViewBag.Items_id = item.id;
-            if (item == null)
+            else
             {
-                Response.StatusCode = 404;
-                return null;
+                return View();
             }
-            data.films.DeleteOnSubmit(item);
-            data.SubmitChanges();
-            return RedirectToAction("Items");
-        }
-        [HttpGet]
-        public ActionResult Edit_product(int id)
-        {
-            film ite = data.films.SingleOrDefault(n => n.id == id);
-            if (ite == null)
-            {
-                Response.StatusCode = 404;
-                return null;
-            }
-            ViewBag.Brand_id = new SelectList(data.categories.ToList().OrderBy(n => n.name), "id", "name");
-            ViewBag.Catalog_id = new SelectList(data.countries.ToList().OrderBy(n => n.name), "id", "name");
-            ViewBag.Ranked_id = new SelectList(data.celebrities.ToList().OrderBy(n => n.name), "id", "name");
-            ViewBag.Created = ite.created;
-            ViewBag.Items_id = ite.id;
-            return View(ite);
         }
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit_product(film items, FormCollection collection)
+        public ActionResult Create_movie_category(film_category fil_cat)
         {
-            ViewBag.Brand_id = new SelectList(data.categories.ToList().OrderBy(n => n.name), "id", "name");
-            ViewBag.Catalog_id = new SelectList(data.countries.ToList().OrderBy(n => n.name), "id", "name");
-            ViewBag.Ranked_id = new SelectList(data.celebrities.ToList().OrderBy(n => n.name), "id", "name");
-            film ite = data.films.First(n => n.id == items.id);
             if (ModelState.IsValid)
             {
-                var dedescription = collection["description"];
-                ite.created = DateTime.Now;
-                ite.description = dedescription;
-                UpdateModel(ite);
+                data.film_categories.InsertOnSubmit(fil_cat);
                 data.SubmitChanges();
-                return RedirectToAction("Items");
+                return RedirectToAction("List_dramas");
             }
-            return this.Edit_product(ite.id);
+            else { return HttpNotFound(); }
         }
         [HttpGet]
-        public ActionResult Edit_user(int id)
+        public ActionResult Create_drama()
         {
-            user use = data.users.SingleOrDefault(n => n.id == id);
-            if (use == null)
+            if (Session["AdminAccount"] == null)
             {
-                Response.StatusCode = 404;
-                return null;
+                return RedirectToAction("Login", "Admin");
             }
-            ViewBag.User_id = use.id;
-            return View(use);
+            else
+            {
+                return View();
+            }
         }
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit_user(user users)
+        public ActionResult Create_drama(film drama, FormCollection collection, HttpPostedFileBase fileUpload)
         {
-            user use = data.users.First(n => n.id == users.id);
-            if (ModelState.IsValid)
+            if (fileUpload == null)
             {
-                UpdateModel(use);
-                data.SubmitChanges();
-                return RedirectToAction("Users");
+                ViewBag.Notification = "Please select the cover photo";
+                return View(drama);
             }
-            return this.Edit_user(use.id);
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    var fileName = Path.GetFileName(fileUpload.FileName);
+                    var path = Path.Combine(Server.MapPath("~/images/films"), fileName);
+                    if (System.IO.File.Exists(path))
+                        ViewBag.Notification = "Image already exists";
+                    else
+                    {
+                        fileUpload.SaveAs(path);
+                    }
+                    var description = collection["description"];
+                    drama.image_link = fileName;
+                    drama.description = description;
+                    drama.created = DateTime.Now;
+                    drama.view_count = 0;
+                    drama.rate = 0;
+                    drama.form_id = 2;
+                    data.films.InsertOnSubmit(drama);
+                    data.SubmitChanges();
+                }
+                else { return HttpNotFound(); }
+                return RedirectToAction("List_dramas");
+            }
         }
         [HttpGet]
-        public ActionResult Edit_admin(int id)
+        public ActionResult Create_celebrity()
         {
-            ViewBag.Position_id = new SelectList(data.positions.ToList().OrderBy(n => n.name), "id", "name");
-            admin adm = data.admins.SingleOrDefault(n => n.id == id);
-            if (adm == null)
+            admin adm = (admin)Session["AdminAccount"];
+            if (Session["AdminAccount"] == null)
             {
-                Response.StatusCode = 404;
-                return null;
+                return RedirectToAction("Login", "Admin");
             }
-            ViewBag.Admin_id = adm.id;
-            return View(adm);
+            else
+            {
+                ViewBag.country_id = new SelectList(data.countries.ToList().OrderBy(n => n.name), "id", "name");
+                return View();
+            }
         }
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Edit_admin(admin admins)
+        public ActionResult Create_celebrity(celebrity celeb, FormCollection collection, HttpPostedFileBase fileUpload)
         {
-            ViewBag.Position_id = new SelectList(data.positions.ToList().OrderBy(n => n.name), "id", "name");
-            admin adm = data.admins.First(n => n.id == admins.id);
-            if (ModelState.IsValid)
+            ViewBag.country_id = new SelectList(data.countries.ToList().OrderBy(n => n.name), "id", "name");
+            if (fileUpload == null)
             {
-                UpdateModel(adm);
-                data.SubmitChanges();
-                return RedirectToAction("Admins");
+                ViewBag.Notification = "Please select the cover photo";
+                return View();
             }
-            return this.Edit_admin(adm.id);
-        }
-        //[HttpGet]
-        //public ActionResult Inset_banner()
-        //{
-        //    admin adm = (admin)Session["AdminAccount"];
-        //    if (Session["AdminAccount"] == null)
-        //    {
-        //        return RedirectToAction("Login", "Admin");
-        //    }
-        //    else
-        //    {
-        //        return View();
-        //    }
-        //}
-        //[HttpPost]
-        //public ActionResult Inset_banner( bann, HttpPostedFileBase bannerUpload)
-        //{
-        //    if (bannerUpload == null)
-        //    {
-        //        ViewBag.Notification = "Please select the banner";
-        //        return View();
-        //    }
-        //    else
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            var fileName = Path.GetFileName(bannerUpload.FileName);
-        //            var path = Path.Combine(Server.MapPath("~/images_banner"), fileName);
-        //            if (System.IO.File.Exists(path))
-        //                ViewBag.Notification = "banner already exists";
-        //            else
-        //            {
-        //                bannerUpload.SaveAs(path);
-        //            }
-        //            bann.banner_link = fileName;
-        //            data.banners.InsertOnSubmit(bann);
-        //            data.SubmitChanges();
-        //        }
-        //        return RedirectToAction("Banner");
-        //    }
-        //}
-        //public ActionResult Delete_banner(int id)
-        //{
-        //    banner bann = data.banners.SingleOrDefault(n => n.id == id);
-        //    if (bann == null)
-        //    {
-        //        Response.StatusCode = 404;
-        //        return null;
-        //    }
-        //    data.banners.DeleteOnSubmit(bann);
-        //    data.SubmitChanges();
-        //    return RedirectToAction("Banner");
-        //}
-        public ActionResult Delete_brand(int id)
-        {
-            category bra = data.categories.SingleOrDefault(n => n.id == id);
-            if (bra == null)
+            else
             {
-                Response.StatusCode = 404;
-                return null;
+                if (ModelState.IsValid)
+                {
+                    var fileName = Path.GetFileName(fileUpload.FileName);
+                    var path = Path.Combine(Server.MapPath("~/images/celeb"), fileName);
+                    if (!System.IO.File.Exists(path))
+                        ViewBag.Notification = "Image already exists";
+                    else
+                    {
+                        fileUpload.SaveAs(path);
+                    }
+                    var description = collection["description"];
+                    celeb.avatar = fileName;
+                    celeb.description = description;
+                    data.celebrities.InsertOnSubmit(celeb);
+                    data.SubmitChanges();
+                }
+                else { return HttpNotFound(); }
+                return RedirectToAction("List_celebrities");
             }
-            data.categories.DeleteOnSubmit(bra);
-            data.SubmitChanges();
-            return RedirectToAction("Brand");
-        }
-        public ActionResult Delete_catalog(int id)
-        {
-            country cata = data.countries.SingleOrDefault(n => n.id == id);
-            if (cata == null)
-            {
-                Response.StatusCode = 404;
-                return null;
-            }
-            data.countries.DeleteOnSubmit(cata);
-            data.SubmitChanges();
-            return RedirectToAction("Catalog");
         }
         [HttpGet]
-        public ActionResult Inset_brand()
+        public ActionResult Create_admin()
+        {
+            admin adm = (admin)Session["AdminAccount"];
+            if (Session["AdminAccount"] == null)
+            {
+                return RedirectToAction("Login", "Admin");
+            }
+            else
+            {
+                ViewBag.position_id = new SelectList(data.positions.ToList().OrderBy(n => n.name), "id", "name");
+                return View();
+            }
+        }
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Create_admin(admin admin)
+        {
+            ViewBag.position = new SelectList(data.positions.ToList().OrderBy(n => n.name), "id", "name");
+            if (ModelState.IsValid)
+            {
+                data.admins.InsertOnSubmit(admin);
+                data.SubmitChanges();
+            }
+            else { return HttpNotFound(); }
+            return RedirectToAction("List_admins");
+        }
+        [HttpGet]
+        public ActionResult Create_user()
         {
             admin adm = (admin)Session["AdminAccount"];
             if (Session["AdminAccount"] == null)
@@ -607,17 +811,29 @@ namespace BlockBuster.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Inset_brand(category bra)
+        [ValidateInput(false)]
+        public ActionResult Create_user(user user, FormCollection collection)
         {
             if (ModelState.IsValid)
             {
-                data.categories.InsertOnSubmit(bra);
-                data.SubmitChanges();
+                string password = collection["password"];
+                if (!CheckPassword(password))
+                {
+                    ViewBag.Notification = "Password incorrect format";
+                    return View(user);
+                }
+                else
+                {
+                    user.created = DateTime.Now;
+                    data.users.InsertOnSubmit(user);
+                    data.SubmitChanges();
+                }
             }
-            return RedirectToAction("Brand");
+            else { return HttpNotFound(); }
+            return RedirectToAction("List_users");
         }
         [HttpGet]
-        public ActionResult Inset_catalog()
+        public ActionResult Create_trailer()
         {
             admin adm = (admin)Session["AdminAccount"];
             if (Session["AdminAccount"] == null)
@@ -630,265 +846,85 @@ namespace BlockBuster.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Inset_catalog(country cata)
+        [ValidateInput(false)]
+        public ActionResult Create_trailer(trailer tra, HttpPostedFileBase fileUpload)
+        {
+            if (fileUpload == null)
+            {
+                ViewBag.Notification = "Please select the cover photo";
+                return View();
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    var fileName = Path.GetFileName(fileUpload.FileName);
+                    var path = Path.Combine(Server.MapPath("~/images/trailer"), fileName);
+                    if (System.IO.File.Exists(path))
+                        ViewBag.Notification = "Image already exists";
+                    else
+                    {
+                        fileUpload.SaveAs(path);
+                    }
+                    tra.image_link = fileName;
+                    data.trailers.InsertOnSubmit(tra);
+                    data.SubmitChanges();
+                }
+                else { return HttpNotFound(); }
+                return RedirectToAction("List_trailers");
+            }
+        }
+        [HttpGet]
+        public ActionResult Create_category()
+        {
+            admin adm = (admin)Session["AdminAccount"];
+            if (Session["AdminAccount"] == null)
+            {
+                return RedirectToAction("Login", "Admin");
+            }
+            else
+            {
+                ViewBag.color_id = new SelectList(data.colors.ToList().OrderBy(n => n.id), "id", "color_name");
+                return View();
+            }
+        }
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Create_category(category cat)
+        {
+            ViewBag.color_id = new SelectList(data.colors.ToList().OrderBy(n => n.id), "id", "color_name");
+            if (ModelState.IsValid)
+            {
+                data.categories.InsertOnSubmit(cat);
+                data.SubmitChanges();
+            }
+            else { return HttpNotFound(); }
+            return RedirectToAction("List_categories");
+        }
+        [HttpGet]
+        public ActionResult Create_country()
+        {
+            admin adm = (admin)Session["AdminAccount"];
+            if (Session["AdminAccount"] == null)
+            {
+                return RedirectToAction("Login", "Admin");
+            }
+            else
+            {
+                return View();
+            }
+        }
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Create_country(country cou)
         {
             if (ModelState.IsValid)
             {
-                data.countries.InsertOnSubmit(cata);
+                data.countries.InsertOnSubmit(cou);
                 data.SubmitChanges();
             }
-            return RedirectToAction("Catalog");
+            else { return HttpNotFound(); }
+            return RedirectToAction("List_countries");
         }
-        [HttpGet]
-        public ActionResult Delete_user(int id)
-        {
-            user use = data.users.SingleOrDefault(n => n.id == id);
-            ViewBag.Users_id = use.id;
-            if (use == null)
-            {
-                Response.StatusCode = 404;
-                return null;
-            }
-            return View(use);
-        }
-
-        [HttpPost, ActionName("Delete_user")]
-        public ActionResult Confirm_deletion_user(int id)
-        {
-            user use = data.users.SingleOrDefault(n => n.id == id);
-            ViewBag.Users_id = use.id;
-            if (use == null)
-            {
-                Response.StatusCode = 404;
-                return null;
-            }
-            data.users.DeleteOnSubmit(use);
-            data.SubmitChanges();
-            return RedirectToAction("Users");
-        }
-        [HttpGet]
-        public ActionResult Delete_admin(int id)
-        {
-            admin adm = data.admins.SingleOrDefault(n => n.id == id);
-            ViewBag.Admins_id = adm.id;
-            if (adm == null)
-            {
-                Response.StatusCode = 404;
-                return null;
-            }
-            return View(adm);
-        }
-
-        [HttpPost, ActionName("Delete_admin")]
-        public ActionResult Confirm_deletion_admin(int id)
-        {
-            admin adm = data.admins.SingleOrDefault(n => n.id == id);
-            ViewBag.Admins_id = adm.id;
-            if (adm == null)
-            {
-                Response.StatusCode = 404;
-                return null;
-            }
-            data.admins.DeleteOnSubmit(adm);
-            data.SubmitChanges();
-            return RedirectToAction("Admins");
-        }
-        //public ActionResult Messenger()
-        //{
-        //    var mess = from messe in data.messeages select messe;
-        //    return PartialView(mess);
-        //}
-        //public ActionResult Total_price(int id)
-        //{
-        //    int? TotalPrice = data.det_orders.Where(or => or.order_id == id).Sum(od => (od.quantity * od.amount));
-        //    ViewBag.TotalPrice = TotalPrice;
-        //    return PartialView();
-        //}
-        //public ActionResult Orders(FormCollection collection, int? page)
-        //{
-        //    admin adm = (admin)Session["AdminAccount"];
-        //    if (Session["AdminAccount"] == null)
-        //    {
-        //        return RedirectToAction("Login", "Admin");
-        //    }
-        //    else
-        //    {
-        //        int pageNumber = (page ?? 1);
-        //        int pageSize = 8;
-        //        string key = collection["txtKey"];
-        //        ViewBag.key = key;
-        //        if (key == null || key == "")
-        //        {
-        //            return View(data.orders.OrderByDescending(n => n.order_date).ToPagedList(pageNumber, pageSize));
-        //        }
-        //        var order = from ord in data.orders where ord.user.name.ToUpper().Contains(key.ToUpper()) select ord;
-        //        if (order.Count() == 0)
-        //        {
-        //            ViewBag.Notification = "empty";
-        //            return View(data.orders.ToList().OrderByDescending(n => n.order_date).ToPagedList(pageNumber, pageSize));
-        //        }
-        //        return View(order.OrderByDescending(n => n.order_date).ToPagedList(pageNumber, pageSize));
-        //    }
-        //}
-        //[HttpGet]
-        //public ActionResult Change_processed(int id)
-        //{
-        //    order ord = data.orders.SingleOrDefault(n => n.id == id);
-        //    if (ord == null)
-        //    {
-        //        Response.StatusCode = 404;
-        //        return null;
-        //    }
-        //    return View(ord);
-        //}
-        //[HttpPost, ActionName("Change_processed")]
-        //public ActionResult Confirm_change_processed(int id)
-        //{
-        //    order ord = data.orders.SingleOrDefault(n => n.id == id);
-        //    if (ord == null)
-        //    {
-        //        Response.StatusCode = 404;
-        //        return null;
-        //    }
-        //    ord.status_id = 1;
-        //    ord.delivery_date = null;
-        //    UpdateModel(ord);
-        //    data.SubmitChanges();
-        //    return RedirectToAction("Orders");
-        //}
-        //[HttpGet]
-        //public ActionResult Change_shipped(int id)
-        //{
-        //    order ord = data.orders.SingleOrDefault(n => n.id == id);
-        //    if (ord == null)
-        //    {
-        //        Response.StatusCode = 404;
-        //        return null;
-        //    }
-        //    return View(ord);
-        //}
-        //[HttpPost, ActionName("Change_shipped")]
-        //public ActionResult Confirm_change_shipped(int id)
-        //{
-        //    order ord = data.orders.SingleOrDefault(n => n.id == id);
-        //    if (ord == null)
-        //    {
-        //        Response.StatusCode = 404;
-        //        return null;
-        //    }
-        //    ord.status_id = 2;
-        //    ord.delivery_date = null;
-        //    UpdateModel(ord);
-        //    data.SubmitChanges();
-        //    return RedirectToAction("Orders");
-        //}
-        //[HttpGet]
-        //public ActionResult Change_delivered(int id)
-        //{
-        //    order ord = data.orders.SingleOrDefault(n => n.id == id);
-        //    if (ord == null)
-        //    {
-        //        Response.StatusCode = 404;
-        //        return null;
-        //    }
-        //    return View(ord);
-        //}
-        //[HttpPost, ActionName("Change_delivered")]
-        //public ActionResult Confirm_change_delivered(int id)
-        //{
-        //    order ord = data.orders.SingleOrDefault(n => n.id == id);
-        //    if (ord == null)
-        //    {
-        //        Response.StatusCode = 404;
-        //        return null;
-        //    }
-        //    ord.status_id = 3;
-        //    ord.delivery_date = DateTime.Today;
-        //    UpdateModel(ord);
-        //    data.SubmitChanges();
-        //    return RedirectToAction("Orders");
-        //}
-        //[HttpGet]
-        //public ActionResult Delete_order(int id)
-        //{
-        //    order ord = data.orders.SingleOrDefault(n => n.id == id);
-        //    ViewBag.order_id = ord.id;
-        //    if (ord == null)
-        //    {
-        //        Response.StatusCode = 404;
-        //        return null;
-        //    }
-        //    return View(ord);
-        //}
-        //[HttpPost, ActionName("Delete_order")]
-        //public ActionResult Confirm_deletion_order(int id)
-        //{
-        //    order ord = data.orders.SingleOrDefault(n => n.id == id);
-        //    if (ord == null)
-        //    {
-        //        Response.StatusCode = 404;
-        //        return null;
-        //    }
-        //    det_order detor = data.det_orders.FirstOrDefault(n => n.order_id == id);
-        //    if (detor != null)
-        //    {
-        //        ViewBag.Notification = "You must delete all order details before deleting the order";
-        //        return this.Delete_order(ord.id);
-        //    }
-        //    data.orders.DeleteOnSubmit(ord);
-        //    data.SubmitChanges();
-        //    return RedirectToAction("Orders");
-        //}
-        //public ActionResult Details_Order(int id)
-        //{
-        //    var detord = from det_orders in data.det_orders
-        //                 where det_orders.order_id == id
-        //                 select det_orders;
-        //    if (detord.Count() == 0)
-        //    {
-        //        ViewBag.order_id = id;
-        //        ViewBag.Notification = "none";
-        //        return View();
-        //    }
-        //    ViewBag.order_id = id;
-        //    return View(detord);
-        //}
-        //public ActionResult Update_det_order(int id, FormCollection collection)
-        //{
-        //    det_order detor = data.det_orders.SingleOrDefault(n => n.id == id);
-        //    if (detor != null)
-        //    {
-        //        detor.quantity = int.Parse(collection["txtQuantity"].ToString());
-        //        UpdateModel(detor);
-        //        data.SubmitChanges();
-        //    }
-        //    return RedirectToAction("Details_Order", new { id = detor.order_id });
-        //}
-        //[HttpGet]
-        //public ActionResult Delete_detorder(int id)
-        //{
-        //    det_order detor = data.det_orders.SingleOrDefault(n => n.id == id);
-        //    if (detor == null)
-        //    {
-        //        Response.StatusCode = 404;
-        //        return null;
-        //    }
-        //    ViewBag.detor_id = detor.id;
-        //    return View(detor);
-        //}
-
-        //[HttpPost, ActionName("Delete_detorder")]
-        //public ActionResult Confirm_deletion_detorder(int id)
-        //{
-        //    det_order detor = data.det_orders.SingleOrDefault(n => n.id == id);
-        //    if (detor == null)
-        //    {
-        //        Response.StatusCode = 404;
-        //        return null;
-        //    }
-        //    data.det_orders.DeleteOnSubmit(detor);
-        //    data.SubmitChanges();
-        //    return RedirectToAction("Details_Order", new { id = detor.order_id });
-        //}
     }
 }

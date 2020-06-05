@@ -1,0 +1,6 @@
+﻿<ul class="dropdown-menu level2">
+    @foreach (var items in Model)
+    {
+        <li><a href="@Url.Action("film_list", "Home", new { form_id = ViewBag.form_id , sort = 0, cate_id = 0 , coun_id = items.id , rate = 0 })">@items.name</a></li>
+    }
+</ul>

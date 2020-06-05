@@ -1,0 +1,142 @@
+﻿@using BlockBuster.Models
+@using PagedList.Mvc;
+@model PagedList.PagedList<filmm>
+@{
+    ViewBag.Title = "Film_list";
+    Layout = "~/Views/Shared/_Layout_Home.cshtml";
+}
+@helper Truncate(string input, int length)
+{
+    if (input.Length < length)
+    {
+        @input
+    }
+    else
+    {
+        @input.Substring(0, length)<text>...</text>
+    }
+}
+<div class="hero common-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hero-ct">
+                    <h1> movie listing - list</h1>
+                    <ul class="breadcumb">
+                        <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                        <li> <span class="ion-ios-arrow-right"></span> movie listing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-single movie_list">
+    <div class="container">
+        <div class="row ipad-width2">
+            <div class="col-md-8 col-sm-12 col-xs-12">
+                <div class="topbar-filter">
+                    <p>Found <span>@ViewBag.count</span> in total</p>
+                    <label>Sort by:</label>
+                    <select name="forma" onchange="location = this.options[this.selectedIndex].value;">
+                        @if (ViewBag.form_id == 1)
+                        {
+                            <option value="film_list?form_id=1&sort=0&cate_id=0&coun_id=0&rate=0">Popularity</option>
+                            <option value="film_list?form_id=1&sort=1&cate_id=0&coun_id=0&rate=0">Rating</option>
+                            <option value="film_list?form_id=1&sort=2&cate_id=0&coun_id=0&rate=0">Released Descending</option>
+                            <option value="film_list?form_id=1&sort=3&cate_id=0&coun_id=0&rate=0">Released Ascending</option>
+                        }
+                        else
+                        {
+                            <option value="film_list?form_id=2&sort=0&cate_id=0&coun_id=0&rate=0">Popularity</option>
+                            <option value="film_list?form_id=2&sort=1&cate_id=0&coun_id=0&rate=0">Rating</option>
+                            <option value="film_list?form_id=2&sort=2&cate_id=0&coun_id=0&rate=0">Released Descending</option>
+                            <option value="film_list?form_id=2&sort=3&cate_id=0&coun_id=0&rate=0">Released Ascending</option>
+                        }
+                    </select>
+                    <a href="movielist.html" class="list"><i class="ion-ios-list-outline active"></i></a>
+                    <a href="moviegrid.html" class="grid"><i class="ion-grid"></i></a>
+                </div>
+                @foreach (var items in Model)
+                {
+                    <div class="movie-item-style-2">
+                        <img src="~/images/films/@items.Image_link" alt="">
+                        <div class="mv-item-infor">
+                            <h6><a href="@Url.Action("Film_single", "Home", new { id = items.Id})">@items.Name</a></h6>
+                            <p class="rate"><span>@items.View_count</span> view <i class="ion-android-star"></i><span>@items.Rate</span> /10</p>
+                            <p class="describe">@Truncate(items.Description, 100)</p>
+                            <p class="run-time"> <span>Release: @items.Month @items.Day, @items.Year</span></p>
+                        </div>
+                    </div>
+                }
+                <!--page list-->
+                <div class="topbar-filter">
+                    <label>Movies per page:</label>
+                    <select>
+                        <option value="range">5 Movies</option>
+                        @*<option value="saab">10 Movies</option>*@
+                    </select>
+                    <div class="pagination2">
+                        @if (Model.PageCount != 0)
+                        {
+                            <span>Page<a>@Model.PageNumber</a>of @Model.PageCount</span>
+                        }
+                        else
+                        {
+                            <span>no data...</span>
+                        }
+                    </div>
+                </div>
+                @if (Model.PageCount > 1)
+                {
+                    @Html.PagedListPager(Model, page => Url.Action("Film_list", new { form_id = ViewBag.form_id, sort = ViewBag.sort, cate_id = ViewBag.cate_id, coun_id = ViewBag.coun_id, rate = ViewBag.rate, page = page }))
+                }
+                else {; }
+                <!--end page list-->
+            </div>
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="sidebar">
+                    <div class="searh-form">
+                        <h4 class="sb-title">Search for movie</h4>
+                        <form class="form-style-1" action="#">
+                            <div class="row">
+                                <div class="col-md-12 form-it">
+                                    <label>Movie name</label>
+                                    <input type="text" placeholder="Enter keywords">
+                                </div>
+                                <div class="col-md-12 form-it">
+                                    <label>Genres & Subgenres</label>
+                                    <div class="group-ip">
+                                        <select name="skills" multiple="" class="ui fluid dropdown">
+                                            <option value="">Enter to filter genres</option>
+                                            <option value="Action1">Action 1</option>
+                                            <option value="Action2">Action 2</option>
+                                            <option value="Action3">Action 3</option>
+                                            <option value="Action4">Action 4</option>
+                                            <option value="Action5">Action 5</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-12 form-it">
+                                    <label>Rating Range</label>
+
+                                    <select>
+                                        <option value="range">-- Select the rating range below --</option>
+                                        <option value="saab">-- Select the rating range below --</option>
+                                        <option value="saab">-- Select the rating range below --</option>
+                                        <option value="saab">-- Select the rating range below --</option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-12 ">
+                                    <input class="submit" type="submit" value="submit">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

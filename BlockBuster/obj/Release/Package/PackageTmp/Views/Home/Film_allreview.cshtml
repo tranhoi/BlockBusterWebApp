@@ -1,0 +1,51 @@
+﻿@using BlockBuster.Models
+@using PagedList.Mvc;
+@model PagedList.PagedList<review>
+@if (ViewBag.check == false)
+{
+    <h3>This movie has no reviews...</h3>
+}
+else
+{
+    foreach (var items in Model)
+    {
+        <div class="mv-user-review-item">
+            <div class="user-infor">
+                <div>
+                    <h3>@items.title</h3>
+                    <div class="no-star">
+                        @for (int i = 0; i < items.point; i++)
+                        {
+                            <i class="ion-android-star"></i>
+                        }
+                        @for (int i = 0; i < (10 - items.point); i++)
+                        {
+                            <i class="ion-android-star last"></i>
+                        }
+                    </div>
+                    <p class="time">
+                        by <a> @items.user.first_name @items.user.last_name</a>
+                    </p>
+                </div>
+            </div>
+            <p>@items.comment</p>
+        </div>
+    }
+    <!--page list-->
+    <div class="topbar-filter">
+        <label>Reviews per page:</label>
+        <select>
+            <option value="range">5 review</option>
+            @*<option value="saab">10 Movies</option>*@
+        </select>
+        <div class="pagination2">
+            <span>Page<a>@Model.PageNumber</a>of @Model.PageCount</span>
+        </div>
+    </div>
+    if (Model.PageCount > 1)
+    {
+        @Html.PagedListPager(Model, page => Url.Action("Film_list", new { id = ViewBag.id, page = page }))
+    }
+    else {; }
+    <!--end page list-->
+}

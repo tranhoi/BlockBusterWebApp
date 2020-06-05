@@ -2020,8 +2020,6 @@ namespace BlockBuster.Models
 		
 		private string _image_link;
 		
-		private string _source;
-		
 		private System.Nullable<int> _view_count;
 		
 		private string _description;
@@ -2058,8 +2056,6 @@ namespace BlockBuster.Models
     partial void OnreleaseChanged();
     partial void Onimage_linkChanging(string value);
     partial void Onimage_linkChanged();
-    partial void OnsourceChanging(string value);
-    partial void OnsourceChanged();
     partial void Onview_countChanging(System.Nullable<int> value);
     partial void Onview_countChanged();
     partial void OndescriptionChanging(string value);
@@ -2160,26 +2156,6 @@ namespace BlockBuster.Models
 					this._image_link = value;
 					this.SendPropertyChanged("image_link");
 					this.Onimage_linkChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_source", DbType="VarChar(200)")]
-		public string source
-		{
-			get
-			{
-				return this._source;
-			}
-			set
-			{
-				if ((this._source != value))
-				{
-					this.OnsourceChanging(value);
-					this.SendPropertyChanging();
-					this._source = value;
-					this.SendPropertyChanged("source");
-					this.OnsourceChanged();
 				}
 			}
 		}
