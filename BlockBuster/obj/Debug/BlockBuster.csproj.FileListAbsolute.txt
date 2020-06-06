@@ -246,3 +246,4 @@ C:\Visual Project\BlockBusterWebApp\BlockBuster\obj\Debug\BlockBuster.csproj.Cor
 C:\Visual Project\BlockBusterWebApp\BlockBuster\obj\Debug\BlockBuster.csproj.CopyComplete
 C:\Visual Project\BlockBusterWebApp\BlockBuster\obj\Debug\BlockBuster.dll
 C:\Visual Project\BlockBusterWebApp\BlockBuster\obj\Debug\BlockBuster.pdb
+C:\Visual Project\BlockBusterWebApp\BlockBuster\obj\Debug\BlockBuster.csprojAssemblyReference.cache

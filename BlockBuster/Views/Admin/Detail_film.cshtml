@@ -1,0 +1,78 @@
+﻿@model BlockBuster.Models.film
+@{
+    ViewBag.Title = "Deital_film";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.release)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.release)
+        </dd>
+
+        <dt>
+            <h>poster</h>
+        </dt>
+
+        <dd>
+            <img height="200" width="150" src="~/images/films/@Model.image_link"/>
+        </dd>
+
+        <dt>
+            <h>view count</h>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.view_count)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.created)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.created)
+        </dd>
+
+        <dt>
+            <h>form </h>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.form.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.rate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.rate) star
+        </dd>
+
+    </dl>
+</div>
+<p>
+    | @Html.ActionLink("Edit", "Edit_film", new { id = Model.id }) |
+</p>

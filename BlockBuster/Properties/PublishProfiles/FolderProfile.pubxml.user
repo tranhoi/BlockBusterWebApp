@@ -4,7 +4,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <_PublishTargetUrl>C:\Visual Project</_PublishTargetUrl>
+    <_PublishTargetUrl>C:\Users\tranh\OneDrive\Máy tính\Project</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="404.html">
@@ -116,10 +116,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/05/2020 02:49:41</publishTime>
     </File>
     <File Include="bin/BlockBuster.dll">
-      <publishTime>06/06/2020 02:43:53</publishTime>
+      <publishTime>06/06/2020 11:46:01</publishTime>
     </File>
     <File Include="bin/BlockBuster.pdb">
-      <publishTime>06/06/2020 02:43:53</publishTime>
+      <publishTime>06/06/2020 11:46:01</publishTime>
     </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>06/05/2020 02:49:41</publishTime>
@@ -1499,7 +1499,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/05/2020 02:53:33</publishTime>
     </File>
     <File Include="Models/dbBBuster.dbml">
-      <publishTime>06/05/2020 19:33:06</publishTime>
+      <publishTime>06/06/2020 08:20:52</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>06/05/2020 02:49:41</publishTime>
@@ -1565,10 +1565,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/06/2020 01:44:07</publishTime>
     </File>
     <File Include="Views/Admin/Create_country.cshtml">
-      <publishTime>06/06/2020 01:22:04</publishTime>
+      <publishTime>06/06/2020 10:00:19</publishTime>
     </File>
     <File Include="Views/Admin/Create_drama.cshtml">
       <publishTime>06/06/2020 01:36:13</publishTime>
+    </File>
+    <File Include="Views/Admin/Create_film_category.cshtml">
+      <publishTime>06/06/2020 10:36:42</publishTime>
     </File>
     <File Include="Views/Admin/Create_movie.cshtml">
       <publishTime>06/06/2020 01:17:38</publishTime>
@@ -1603,6 +1606,12 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Views/Admin/Delete_user.cshtml">
       <publishTime>06/06/2020 00:08:09</publishTime>
     </File>
+    <File Include="Views/Admin/Detail_film.cshtml">
+      <publishTime>06/06/2020 11:14:09</publishTime>
+    </File>
+    <File Include="Views/Admin/Edit_film.cshtml">
+      <publishTime>06/06/2020 11:39:19</publishTime>
+    </File>
     <File Include="Views/Admin/Function.cshtml">
       <publishTime>06/05/2020 02:53:33</publishTime>
     </File>
@@ -1619,16 +1628,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/06/2020 00:09:49</publishTime>
     </File>
     <File Include="Views/Admin/List_celebrities.cshtml">
-      <publishTime>06/06/2020 01:39:44</publishTime>
+      <publishTime>06/06/2020 11:07:07</publishTime>
     </File>
     <File Include="Views/Admin/List_countries.cshtml">
-      <publishTime>06/06/2020 00:10:32</publishTime>
+      <publishTime>06/06/2020 10:09:01</publishTime>
     </File>
     <File Include="Views/Admin/List_dramas.cshtml">
-      <publishTime>06/06/2020 01:39:52</publishTime>
+      <publishTime>06/06/2020 11:07:19</publishTime>
+    </File>
+    <File Include="Views/Admin/List_film_category.cshtml">
+      <publishTime>06/06/2020 10:21:18</publishTime>
     </File>
     <File Include="Views/Admin/List_movies.cshtml">
-      <publishTime>06/06/2020 01:39:59</publishTime>
+      <publishTime>06/06/2020 11:07:33</publishTime>
     </File>
     <File Include="Views/Admin/List_trailers.cshtml">
       <publishTime>06/06/2020 00:11:45</publishTime>
@@ -1664,7 +1676,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/05/2020 02:49:41</publishTime>
     </File>
     <File Include="Views/Home/Film_allreview.cshtml">
-      <publishTime>06/05/2020 02:49:41</publishTime>
+      <publishTime>06/06/2020 09:03:23</publishTime>
     </File>
     <File Include="Views/Home/Film_celebrity.cshtml">
       <publishTime>06/05/2020 02:49:41</publishTime>
@@ -1676,16 +1688,16 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/05/2020 02:49:41</publishTime>
     </File>
     <File Include="Views/Home/Film_review.cshtml">
-      <publishTime>06/05/2020 02:49:41</publishTime>
+      <publishTime>06/06/2020 09:03:14</publishTime>
     </File>
     <File Include="Views/Home/Film_role.cshtml">
       <publishTime>06/05/2020 02:49:41</publishTime>
     </File>
     <File Include="Views/Home/Film_single.cshtml">
-      <publishTime>06/05/2020 02:49:41</publishTime>
+      <publishTime>06/06/2020 08:15:34</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>06/05/2020 02:49:41</publishTime>
+      <publishTime>06/06/2020 08:30:45</publishTime>
     </File>
     <File Include="Views/Home/Menu_category.cshtml">
       <publishTime>06/05/2020 02:49:41</publishTime>
@@ -1723,11 +1735,17 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Views/Home/Toprate_movie.cshtml">
       <publishTime>06/05/2020 02:49:41</publishTime>
     </File>
+    <File Include="Views/Home/Trailer.cshtml">
+      <publishTime>06/06/2020 08:20:25</publishTime>
+    </File>
+    <File Include="Views/Home/Trailer_list.cshtml">
+      <publishTime>06/06/2020 08:28:03</publishTime>
+    </File>
     <File Include="Views/Home/Watch_now.cshtml">
       <publishTime>06/05/2020 02:49:41</publishTime>
     </File>
     <File Include="Views/Home/Write_review.cshtml">
-      <publishTime>06/05/2020 02:49:41</publishTime>
+      <publishTime>06/06/2020 08:59:16</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>06/05/2020 02:49:41</publishTime>
@@ -1775,7 +1793,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/05/2020 02:49:41</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/06/2020 02:43:55</publishTime>
+      <publishTime>06/06/2020 11:44:54</publishTime>
     </File>
   </ItemGroup>
 </Project>

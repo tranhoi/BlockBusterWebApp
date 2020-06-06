@@ -188,7 +188,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="images\blank.html" />
     <Content Include="images\celeb\Adam_Ferency.jpg" />
-    <Content Include="images\celeb\Annie_Potts.jpg" />
     <Content Include="images\celeb\Anthony_russo.jpg" />
     <Content Include="images\celeb\Bong_Joon-ho.jpg" />
     <Content Include="images\celeb\Brad_Pitt.jpg" />
@@ -226,7 +225,6 @@
     <Content Include="images\films\John_Wick_3.jpg" />
     <Content Include="images\films\joker.jpg" />
     <Content Include="images\films\Killing_Eve.jpg" />
-    <Content Include="images\films\Outlander.jpg" />
     <Content Include="images\films\Parasite.jpg" />
     <Content Include="images\films\Prodigal_Son.jpg" />
     <Content Include="images\films\P_Dreadful.jpg" />
@@ -671,6 +669,12 @@
     <Content Include="Views\Admin\Create_trailer.cshtml" />
     <Content Include="Views\Admin\Create_category.cshtml" />
     <Content Include="Views\Admin\Create_country.cshtml" />
+    <Content Include="Views\Home\Trailer.cshtml" />
+    <Content Include="Views\Home\Trailer_list.cshtml" />
+    <Content Include="Views\Admin\Create_film_category.cshtml" />
+    <Content Include="Views\Admin\List_film_category.cshtml" />
+    <Content Include="Views\Admin\Detail_film.cshtml" />
+    <Content Include="Views\Admin\Edit_film.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

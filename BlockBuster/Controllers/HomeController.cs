@@ -553,20 +553,25 @@ namespace BlockBuster.Controllers
                     revie.point = int.Parse(collection["point"]);
                     data.reviews.InsertOnSubmit(revie);
                     data.SubmitChanges();
+                    // cap nhat diem cua phim
+                    var review = data.reviews.Where(or => or.film_id == film_id).ToList();
+                    if (review.Count() > 0)
+                    {
+                        int sum = 0;
+                        foreach (var item in review)
+                        {
+                            sum += int.Parse((item.point).ToString());
+                        }
+                        float point = sum / (review.Count());
+                        film fil = data.films.Where(or => or.id == film_id).FirstOrDefault();
+                        fil.rate = int.Parse((Math.Ceiling(point)).ToString());
+                        UpdateModel(fil);
+                        data.SubmitChanges();
+                    }
+                    else {; }
                     return RedirectToAction("Film_single", "Home", new { id = film_id });
                 }
             }
-            //// tinh diem cua phim
-            //List<review> reviewslist = data.reviews.Where(or => or.film_id == film.id).OrderByDescending(a => a.id).ToList(); //danh sach cac review cua phim
-            //if (reviewslist.Count > 0)
-            //{
-            //    int point_sum = 0; // tong diem
-            //    foreach (var item in reviewslist)
-            //    {
-            //        point_sum += int.Parse((item.point).ToString());
-            //    }
-            //    filmm.Rate = int.Parse((Math.Round(double.Parse((point_sum / reviewslist.Count).ToString()))).ToString()); //tinh trung binh cong va lam tron
-            //}
             else
             {
                 return HttpNotFound();
@@ -628,6 +633,14 @@ namespace BlockBuster.Controllers
             }
             else
             { return HttpNotFound(); }
+        }
+        public ActionResult Trailer(int id)
+        {
+            return PartialView(data.film_trailers.Where(or => or.film_id == id).OrderByDescending(a => a.id).FirstOrDefault());
+        }
+        public ActionResult Trailer_list(int id)
+        {
+            return PartialView(data.film_trailers.Where(or => or.film_id == id).OrderByDescending(a => a.id).ToList());
         }
     }
 }

@@ -10,7 +10,7 @@
         <strong>Error!</strong> @ViewBag.Notification.
     </div>
 }
-<h2>Create new product</h2>
+<h2>Create new</h2>
 @using (Html.BeginForm("Create_country", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()

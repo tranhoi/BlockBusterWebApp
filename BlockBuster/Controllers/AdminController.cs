@@ -359,6 +359,14 @@ namespace BlockBuster.Controllers
                     data.reviews.DeleteOnSubmit(item);
                     data.SubmitChanges();
                 }
+                var fil_tra = data.film_trailers.Where(or => or.film_id == id).ToList();
+                foreach (var item in fil_tra)
+                {
+                    data.film_trailers.DeleteOnSubmit(item);
+                    data.SubmitChanges();
+                }
+                string directoryimg = Server.MapPath("/images/films/" + fil.image_link);
+                System.IO.File.Delete(directoryimg);
                 data.films.DeleteOnSubmit(fil);
                 data.SubmitChanges();
                 return RedirectToAction("List_movies");
@@ -408,6 +416,14 @@ namespace BlockBuster.Controllers
                     data.reviews.DeleteOnSubmit(item);
                     data.SubmitChanges();
                 }
+                var fil_tra = data.film_trailers.Where(or => or.film_id == id).ToList();
+                foreach (var item in fil_tra)
+                {
+                    data.film_trailers.DeleteOnSubmit(item);
+                    data.SubmitChanges();
+                }
+                string directoryimg = Server.MapPath("/images/films/" + fil.image_link);
+                System.IO.File.Delete(directoryimg);
                 data.films.DeleteOnSubmit(fil);
                 data.SubmitChanges();
                 return RedirectToAction("List_dramas");
@@ -445,6 +461,8 @@ namespace BlockBuster.Controllers
                     data.celeb_jobs.DeleteOnSubmit(item);
                     data.SubmitChanges();
                 }
+                string directoryimg = Server.MapPath("/images/celeb/" + cel.avatar);
+                System.IO.File.Delete(directoryimg);
                 data.celebrities.DeleteOnSubmit(cel);
                 data.SubmitChanges();
                 return RedirectToAction("List_celebrities");
@@ -470,6 +488,14 @@ namespace BlockBuster.Controllers
             }
             else
             {
+                var fil_tra = data.film_trailers.Where(or => or.trailer_id == id).ToList();
+                foreach (var item in fil_tra)
+                {
+                    data.film_trailers.DeleteOnSubmit(item);
+                    data.SubmitChanges();
+                }
+                string directoryimg = Server.MapPath("/images/trailer/"+tra.image_link);
+                System.IO.File.Delete(directoryimg);
                 data.trailers.DeleteOnSubmit(tra);
                 data.SubmitChanges();
                 return RedirectToAction("List_trailers");
@@ -606,6 +632,21 @@ namespace BlockBuster.Controllers
                 return RedirectToAction("List_users");
             }
         }
+        public ActionResult Delete_film_category(int id)
+        {
+            film_category fil_cat = data.film_categories.SingleOrDefault(n => n.id == id);
+            if (fil_cat == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            else
+            {
+                data.film_categories.DeleteOnSubmit(fil_cat);
+                data.SubmitChanges();
+                return RedirectToAction("Create_film_category", "Admin", new { id = id});
+            }
+        }
         [HttpGet]
         public ActionResult Create_movie()
         {
@@ -650,12 +691,27 @@ namespace BlockBuster.Controllers
                     data.SubmitChanges();
                 }
                 else {; }
-                return RedirectToAction("Create_movie_category");
+                //return RedirectToAction("Create_film_category", new { id = movie.id});
+                return RedirectToAction("List_movies");
+            }
+        }
+        public ActionResult List_film_category(int id)
+        {
+            if (Session["AdminAccount"] == null)
+            {
+                return RedirectToAction("Login", "Admin");
+            }
+            else
+            {
+                var cat_list = data.film_categories.ToList().Where(or => or.film_id == id).ToList();
+                return PartialView(cat_list);
             }
         }
         [HttpGet]
-        public ActionResult Create_movie_category()
+        public ActionResult Create_film_category(int id)
         {
+            ViewBag.id = id;
+            ViewBag.category_id = new SelectList(data.categories.ToList().OrderBy(n => n.name), "id", "name");
             if (Session["AdminAccount"] == null)
             {
                 return RedirectToAction("Login", "Admin");
@@ -667,13 +723,15 @@ namespace BlockBuster.Controllers
         }
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult Create_movie_category(film_category fil_cat)
+        public ActionResult Create_film_category(film_category fil_cat)
         {
+            ViewBag.id = fil_cat.film_id;
+            ViewBag.category_id = new SelectList(data.categories.ToList().OrderBy(n => n.name), "id", "name");
             if (ModelState.IsValid)
             {
                 data.film_categories.InsertOnSubmit(fil_cat);
                 data.SubmitChanges();
-                return RedirectToAction("List_dramas");
+                return RedirectToAction("Create_film_category");
             }
             else { return HttpNotFound(); }
         }
@@ -754,15 +812,13 @@ namespace BlockBuster.Controllers
                 {
                     var fileName = Path.GetFileName(fileUpload.FileName);
                     var path = Path.Combine(Server.MapPath("~/images/celeb"), fileName);
-                    if (!System.IO.File.Exists(path))
+                    if (System.IO.File.Exists(path))
                         ViewBag.Notification = "Image already exists";
                     else
                     {
                         fileUpload.SaveAs(path);
                     }
-                    var description = collection["description"];
                     celeb.avatar = fileName;
-                    celeb.description = description;
                     data.celebrities.InsertOnSubmit(celeb);
                     data.SubmitChanges();
                 }
@@ -925,6 +981,41 @@ namespace BlockBuster.Controllers
             }
             else { return HttpNotFound(); }
             return RedirectToAction("List_countries");
+        }
+        public ActionResult Detail_film(int id)
+        {
+            if (Session["AdminAccount"] == null)
+            {
+                return RedirectToAction("Login", "Admin");
+            }
+            else
+            {
+                film fil = data.films.Where(or => or.id == id).FirstOrDefault();
+                return View(fil);
+            }
+        }
+        [HttpGet]
+        public ActionResult Edit_film(int id)
+        {
+            film fil = data.films.SingleOrDefault(n => n.id == id);
+            if (fil == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            return View(fil);
+        }
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Edit_film(film fil)
+        {
+            if (ModelState.IsValid)
+            {
+                UpdateModel(fil);
+                data.SubmitChanges();
+                return RedirectToAction("Detail_film", new { id = fil.id});
+            }
+            return this.Edit_film(fil.id);
         }
     }
 }

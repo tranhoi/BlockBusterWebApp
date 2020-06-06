@@ -48,9 +48,8 @@
                 <img class="miniimg-products" src="~/images/films/@item.image_link" />
             </td>
             <td>
-                @Html.ActionLink("Details", "Details_film", new { id = item.id }) |
-                @Html.ActionLink("Edit", "Edit_film", new { id = item.id }) |
-                @Html.ActionLink("Delete", "Delete_movie", new { id = item.id }) |
+                @Html.ActionLink("Detail", "Detail_film", new { id = item.id }) |
+                @Html.ActionLink("Delete", "Delete_movie", new { id = item.id })
             </td>
         </tr>
     }
