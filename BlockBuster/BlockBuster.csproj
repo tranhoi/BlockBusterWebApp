@@ -644,7 +644,7 @@
     <Content Include="Views\Admin\List_movies.cshtml" />
     <Content Include="Views\Admin\Login.cshtml" />
     <Content Include="Views\Admin\List_users.cshtml" />
-    <Content Include="Views\Shared\_LayoutUser.cshtml" />
+    <Content Include="Models\_LayoutUser.cshtml" />
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\Admin\List_dramas.cshtml" />
     <Content Include="Views\Admin\Get_film_celebrity.cshtml" />
@@ -675,6 +675,10 @@
     <Content Include="Views\Admin\List_film_category.cshtml" />
     <Content Include="Views\Admin\Detail_film.cshtml" />
     <Content Include="Views\Admin\Edit_film.cshtml" />
+    <Content Include="Views\User\Login_to.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
+    <Content Include="Views\Home\Search_results.cshtml" />
+    <Content Include="Views\Home\Trailer_all.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -10,7 +10,7 @@
                 <div style="margin:20px">
                     <p>Movie</p>
                     <p>Name: @Model.name</p>
-                    <img style="margin-top:20px" height="300" width="200" src="~/images/films/@Model.image_link" />
+                    <img style="margin-top:20px" height="220" width="160" src="~/images/films/@Model.image_link" />
                 </div>
                 <div style="margin-top:2em; float:right">
                     <a style="margin:1.5em" href="@Url.Action("Delete_movie_confirm", "Admin", new { id = Model.id})">Confirm</a>

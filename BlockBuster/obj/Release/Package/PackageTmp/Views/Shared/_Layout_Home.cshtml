@@ -8,8 +8,18 @@
 <!--[if !(IE 7) | !(IE 8)  ]><!-->
 <html lang="en" class="no-js">
 <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-168653478-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-168653478-1');
+    </script>
     <!-- Basic need -->
     <title>Block Buster - Movie and Drama</title>
+    <link rel="icon" type="image/gif/png" href="~/images/logo3.png">
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="keywords" content="">
@@ -23,15 +33,6 @@
     <!-- CSS files -->
     <link href="~/Content/plugins.css" rel="stylesheet" />
     <link href="~/Content/style.css" rel="stylesheet" />
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-168604802-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'UA-168604802-1');
-    </script>
 </head>
 <body>
     <div id="fb-root"></div>
@@ -85,15 +86,8 @@
                 </div>
                 <!-- /.navbar-collapse -->
             </nav>
-
             <!-- top search form -->
-            <div class="top-search">
-                <select>
-                    <option value="united">Movie</option>
-                    <option value="saab">Drama</option>
-                </select>
-                <input type="text" placeholder="Search for a movie, TV Show or celebrity that you are looking for">
-            </div>
+            @Html.Action("Search", "Home")
         </div>
     </header>
     <!-- END | Header -->

@@ -10,11 +10,11 @@
                 <div style="margin:20px">
                     <p>Celebrity</p>
                     <p>Name: @Model.name</p>
-                    <img style="margin-top:20px" height="300" width="200" src="~/images/celeb/@Model.avatar" />
+                    <img style="margin-top:20px" height="220" width="160" src="~/images/celeb/@Model.avatar" />
                 </div>
                 <div style="margin-top:2em; float:right">
                     <a style="margin:1.5em" href="@Url.Action("Delete_celebrity_confirm", "Admin", new { id = Model.id})">Confirm</a>
-                    <a style="margin-right:0.5em" href="@Url.Action("List_celebrity", "Admin")">Cancel</a>
+                    <a style="margin-right:0.5em" href="@Url.Action("List_celebrities", "Admin")">Cancel</a>
                 </div>
             </div>
         </div>

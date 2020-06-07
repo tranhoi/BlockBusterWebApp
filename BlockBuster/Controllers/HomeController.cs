@@ -110,7 +110,7 @@ namespace BlockBuster.Controllers
         // Partial view danh sach ngau nhien 5 nguoi noi tieng
         public ActionResult Celebrities() { return PartialView(data.celebrities.OrderByDescending(a => a.id).Take(5).ToList()); }
         // Partial view danh sach 6 trailer moi nhat
-        public ActionResult Newtrailer() { return PartialView(data.trailers.OrderByDescending(a => a.id).Take(6).ToList()); }
+        public ActionResult Newtrailer() { return PartialView(data.trailers.OrderByDescending(a => a.id).Take(3).ToList()); }
         // Tat ca the loai cua moi phim
         public ActionResult Category_film(int id) { return PartialView(data.film_categories.Where(or => or.film_id == id).OrderByDescending(a => a.id).ToList()); }
         // 2 the loai cua moi phim - chi lay 2 de hien thi tai partialview phim moi
@@ -513,11 +513,11 @@ namespace BlockBuster.Controllers
         [HttpGet]
         public ActionResult Write_review(int id, int rate)
         {
-            ViewBag.film_id = id;
-            ViewBag.rate = rate;
             user users = (user)Session["UserAccount"];
             if (Session["UserAccount"] != null)
             {
+                ViewBag.film_id = id;
+                ViewBag.rate = rate;
                 user use = data.users.SingleOrDefault(n => n.id == users.id);
                 ViewBag.first_name = use.first_name;
                 ViewBag.last_name = use.last_name;
@@ -525,9 +525,9 @@ namespace BlockBuster.Controllers
             }
             else
             {
-                return RedirectToAction("Login", "User", new { noti = "You must be login to continue", film_id = id });
+                return RedirectToAction("Login_to", "User", new { film_id = id });
             }
-            return PartialView(data.films.Where(or => or.id == id).FirstOrDefault());
+            return View(data.films.Where(or => or.id == id).FirstOrDefault());
         }
         [HttpPost]
         [ValidateInput(false)]
@@ -640,7 +640,38 @@ namespace BlockBuster.Controllers
         }
         public ActionResult Trailer_list(int id)
         {
-            return PartialView(data.film_trailers.Where(or => or.film_id == id).OrderByDescending(a => a.id).ToList());
+            return View(data.film_trailers.Where(or => or.film_id == id).OrderByDescending(a => a.id).ToList());
+        }
+        public ActionResult Trailer_all(int? id)
+        {
+            return View(data.film_trailers.OrderByDescending(a => a.id).Take(10).ToList());
+        }
+        //search
+        public ActionResult Search()
+        {
+            return PartialView();
+        }
+        public ActionResult Search_results(FormCollection collection)
+        {
+            string key = collection["key"];
+            ViewBag.key = key;
+            if (key == "")
+            {
+                return RedirectToAction("Index");
+            }
+            else {
+                var film = from fil in data.films where fil.name.ToUpper().Contains(key.ToUpper()) select fil ;
+                if (film.Count() > 0)
+                {
+                    ViewBag.count = film.Count();
+                    return View(film);
+                }
+                else 
+                {
+                    ViewBag.count = "0";
+                    return View();
+                }
+            }
         }
     }
 }
