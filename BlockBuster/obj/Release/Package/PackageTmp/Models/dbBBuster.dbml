@@ -45,7 +45,7 @@
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="description" Type="System.String" DbType="VarChar(5000)" CanBeNull="true" />
-      <Column Name="avatar" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="avatar" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
       <Column Name="birthday" Type="System.DateTime" DbType="Date" CanBeNull="true" />
       <Column Name="country_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="celebrity_celeb_job" Member="celeb_jobs" ThisKey="id" OtherKey="celeb_id" Type="celeb_job" />
@@ -92,7 +92,7 @@
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="name" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
       <Column Name="release" Type="System.DateTime" DbType="Date" CanBeNull="true" />
-      <Column Name="image_link" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="image_link" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
       <Column Name="view_count" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="description" Type="System.String" DbType="VarChar(5000)" CanBeNull="true" />
       <Column Name="created" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
@@ -105,6 +105,7 @@
       <Association Name="film_film_country" Member="film_countries" ThisKey="id" OtherKey="film_id" Type="film_country" />
       <Association Name="film_film_trailer" Member="film_trailers" ThisKey="id" OtherKey="film_id" Type="film_trailer" />
       <Association Name="film_review" Member="reviews" ThisKey="id" OtherKey="film_id" Type="review" />
+      <Association Name="film_trailer" Member="trailers" ThisKey="id" OtherKey="film_id" Type="trailer" />
       <Association Name="form_film" Member="form" ThisKey="form_id" OtherKey="id" Type="form" IsForeignKey="true" />
     </Type>
   </Table>
@@ -193,8 +194,10 @@
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="name" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
       <Column Name="source" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="image_link" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="image_link" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="film_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="trailer_film_trailer" Member="film_trailers" ThisKey="id" OtherKey="trailer_id" Type="film_trailer" />
+      <Association Name="film_trailer" Member="film" ThisKey="film_id" OtherKey="id" Type="film" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>
