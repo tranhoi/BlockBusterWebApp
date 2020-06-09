@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Delete_trailer";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div>
+    <div id="overlay">
+        <div style="background-color:#0f2133; position:center" id="noti_box">
+            <div class="row" style="margin:20px">
+                <p style="color:white">Do you really want to delete this?</p>
+                <div style="margin:20px">
+                    <p>Trailer</p>
+                    <p>Name: @Model.name</p>
+                    <img style="margin-top:20px" height="220" width="160" src="~/images/trailer/@Model.image_link" />
+                </div>
+                <div style="margin-top:2em; float:right">
+                    <a style="margin:1.5em" href="@Url.Action("Delete_trailer_confirm", "Admin", new { id = Model.id})">Confirm</a>
+                    <a style="margin-right:0.5em" href="@Url.Action("List_trailer", "Admin")">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    p {
+        color: teal
+    }
+</style>

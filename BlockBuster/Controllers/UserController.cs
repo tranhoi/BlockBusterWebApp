@@ -95,15 +95,8 @@ namespace BlockBuster.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult Login(string noti, int film_id)
+        public ActionResult Login()
         {
-            // kiem tra trang truoc co phai la trang review de tro lai
-            if (noti != "")
-            {
-                ViewBag.Notification = noti;
-                ViewBag.review = film_id;
-            }
-            else {; }
             return View();
         }
         [HttpPost]
@@ -111,22 +104,47 @@ namespace BlockBuster.Controllers
         {
             var email = collection["email"];
             var password = collection["password"];
-            int review = int.Parse(collection["review"]);
             user use = data.users.SingleOrDefault(n => n.email == email && n.password == password);
             // kiem tra ton tai tai khoan
             if (use == null)
-            { ViewBag.Notification = "Email or password is incorrect !!!"; }
+            {
+                ViewBag.Notification = "Email or password is incorrect !!!";
+            }
             else
             {
                 // set session account
                 Session["UserAccount"] = use;
-                if (review != 0)
-                {
-                    return RedirectToAction("Film_single", "Home", new { id = review });
-                } else { return RedirectToAction("Index", "Home"); }
-                
+                return RedirectToAction("Index", "Home");
             }
             return View();
+        }
+        [HttpGet]
+        public ActionResult Login_to(int film_id)
+        {
+            ViewBag.film_id = film_id;
+            ViewBag.Notification_2 = "You must be login to continue !!!";
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Login_to(FormCollection collection)
+        {
+            var email = collection["email"];
+            var password = collection["password"];
+            int film_id = int.Parse(collection["film_id"]);
+            user use = data.users.SingleOrDefault(n => n.email == email && n.password == password);
+            // kiem tra ton tai tai khoan
+            if (use == null)
+            {
+                ViewBag.Notification = "Email or password is incorrect !!!";
+                ViewBag.Notification_2 = null;
+                return RedirectToAction("Login_to", "User", new { film_id = film_id});
+            }
+            else
+            {
+                // set session account
+                Session["UserAccount"] = use;
+                return RedirectToAction("Film_single", "Home", new { id = film_id });
+            }
         }
         // partial view tai khoan hien thi tren trang chu sau khi dang nhap thanh cong
         public PartialViewResult Account()

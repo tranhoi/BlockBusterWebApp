@@ -1,0 +1,7 @@
+﻿@foreach (var items in Model)
+{
+    <div class="sb-it">
+        <h6>@items.name</h6>
+        <p>@Html.Action("Film_celebrity", "Home", new { id = ViewBag.film_id, role_id = items.id })</p>
+    </div>
+}

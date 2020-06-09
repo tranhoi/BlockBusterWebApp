@@ -1,0 +1,39 @@
+﻿@model BlockBuster.Models.admin
+@{
+    ViewBag.Title = "Create_admin";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@if (ViewBag.Notification != null)
+{
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        <strong>Error!</strong> @ViewBag.Notification.
+    </div>
+}
+<h2>Create new product</h2>
+@using (Html.BeginForm("Create_admin", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div>
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            <input type="text" name="name" maxlength="50" placeholder="name" required>
+        </div>
+        <div class="form-group">
+            <input type="text" name="username" minlength="8" maxlength="16" placeholder="username" required>
+        </div>
+        <div class="form-group">
+            <input type="password" name="password" minlength="8" maxlength="16" placeholder="password" required>
+        </div>
+        <div class="form-group">
+            @Html.DropDownList("position_id")
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Submit">
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "List_admins")
+</div>

@@ -1,0 +1,44 @@
+﻿@if (ViewBag.position == "Admin")
+{
+    <li>
+        <a href=""><i class="fa fa-sitemap"></i> Films <span class="fa arrow"></span></a>
+        <ul class="nav nav-second-level">
+            <li>
+                <a href="@Url.Action("List_movies", "Admin")">Movies</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List_dramas", "Admin")">Dramas</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List_celebrities", "Admin")">Celebrities</a>
+            </li>
+            <li>
+                <a href="@Url.Action("List_trailers", "Admin")">Trailers </a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="@Url.Action("List_categories", "Admin")"><i class="fa fa-table"></i> Catagories </a>
+    </li>
+    <li>
+        <a href="@Url.Action("List_countries", "Admin")"><i class="fa fa-desktop"></i> Countries </a>
+    </li>
+    <li>
+        <a href="@Url.Action("List_users", "Admin")"><i class="fa fa-user fa-fw"></i> Users </a>
+    </li>
+}
+else
+{
+    if (ViewBag.position == "Viewer")
+    {
+        <li>
+            <p style="color:white ; padding-left:15%">Google Analytics</p>
+        </li>
+    }
+    else
+    {
+        <li>
+            <a href="@Url.Action("List_admins", "Admin")"><i class="fa fa-edit"></i> Admin </a>
+        </li>
+    }
+}

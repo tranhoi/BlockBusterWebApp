@@ -17,7 +17,6 @@ namespace BlockBuster.Models
         public int Hour { set; get; }
         public int Minute { set; get; }
         public string Image_link { set; get; }
-        public string Source { set; get; }
         public Double View_count { set; get; }
         public string Description { set; get; }
         public DateTime Created { set; get; }

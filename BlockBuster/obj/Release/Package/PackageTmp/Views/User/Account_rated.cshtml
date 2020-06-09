@@ -1,0 +1,90 @@
+﻿@using BlockBuster.Models
+@using PagedList.Mvc;
+@model PagedList.PagedList<review>
+@{
+    ViewBag.Title = "Account_rated";
+    Layout = "~/Views/Shared/_Layout_Home.cshtml";
+}
+<div class="hero user-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hero-ct">
+                    <ul class="breadcumb">
+                        <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                        <li> <span class="ion-ios-arrow-right"></span>Rated movies</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-single">
+    <div class="container">
+        <div class="row ipad-width2">
+            <div class="col-md-3 col-sm-12 col-xs-12">
+                <div class="user-information">
+                    <div class="user-img">
+                        <a href="#"><img src="images/uploads/user-img.png" alt=""><br></a>
+                        <a href="#" class="redbtn">Change avatar</a>
+                    </div>
+                    <div class="user-fav">
+                        <p>Account Details</p>
+                        <ul>
+                            <li><a href="@Url.Action("Account_deital", "User")">Profile</a></li>
+                            <li><a href="@Url.Action("Account_favorite", "User", new { id = ViewBag.id })">Favorite movies</a></li>
+                            <li class="active"><a href="@Url.Action("Account_rated", "User", new { id = ViewBag.id })">Rated movies</a></li>
+                        </ul>
+                    </div>
+                    <div class="user-fav">
+                        <p>Others</p>
+                        <ul>
+                            <li><a href="#">Change password</a></li>
+                            <li><a href="#">Log out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 col-sm-12 col-xs-12">
+                <div class="topbar-filter">
+                    <p>Found <span>@ViewBag.count rates</span> in total</p>
+                </div>
+                @foreach (var item in Model)
+                {
+                    <div class="movie-item-style-2 userrate">
+                        <img src="~/images/films/@item.film.image_link" alt="">
+                        <div class="mv-item-infor">
+                            <h6><a href="@Url.Action("Film_single", "Home", new { id = item.film_id})">@item.film.name</a></h6>
+                            <p class="time sm-text">your rate:</p>
+                            <p class="rate"><i class="ion-android-star"></i><span>@item.point</span> /10</p>
+                            <p class="time sm-text">your reviews:</p>
+                            <h6>@item.title</h6>
+                            <p class="time sm">02 April 2017</p>
+                            <p>“@item.comment.”</p>
+                        </div>
+                    </div>
+                }
+                <!--page list-->
+                <div class="topbar-filter">
+                    <label>Review per page:</label>
+                    <div class="pagination2">
+                        @if (Model.PageCount != 0)
+                        {
+                            <span>Page<a>@Model.PageNumber</a>of @Model.PageCount</span>
+                        }
+                        else
+                        {
+                            <span>no data...</span>
+                        }
+                    </div>
+                </div>
+                @if (Model.PageCount > 1)
+                {
+                    @Html.PagedListPager(Model, page => Url.Action("Account_rate", new { id = ViewBag.id, page = page }))
+                }
+                else {; }
+                <!--end page list-->
+            </div>
+        </div>
+    </div>
+</div>

@@ -48,15 +48,15 @@ namespace BlockBuster.Models
     partial void Insertchapter(chapter instance);
     partial void Updatechapter(chapter instance);
     partial void Deletechapter(chapter instance);
+    partial void Insertcolor(color instance);
+    partial void Updatecolor(color instance);
+    partial void Deletecolor(color instance);
     partial void Insertcountry(country instance);
     partial void Updatecountry(country instance);
     partial void Deletecountry(country instance);
     partial void Insertfavorite(favorite instance);
     partial void Updatefavorite(favorite instance);
     partial void Deletefavorite(favorite instance);
-    partial void Insertfavorite_film(favorite_film instance);
-    partial void Updatefavorite_film(favorite_film instance);
-    partial void Deletefavorite_film(favorite_film instance);
     partial void Insertfilm(film instance);
     partial void Updatefilm(film instance);
     partial void Deletefilm(film instance);
@@ -69,12 +69,18 @@ namespace BlockBuster.Models
     partial void Insertfilm_country(film_country instance);
     partial void Updatefilm_country(film_country instance);
     partial void Deletefilm_country(film_country instance);
+    partial void Insertfilm_trailer(film_trailer instance);
+    partial void Updatefilm_trailer(film_trailer instance);
+    partial void Deletefilm_trailer(film_trailer instance);
     partial void Insertform(form instance);
     partial void Updateform(form instance);
     partial void Deleteform(form instance);
     partial void Insertjob(job instance);
     partial void Updatejob(job instance);
     partial void Deletejob(job instance);
+    partial void Insertposition(position instance);
+    partial void Updateposition(position instance);
+    partial void Deleteposition(position instance);
     partial void Insertreview(review instance);
     partial void Updatereview(review instance);
     partial void Deletereview(review instance);
@@ -164,6 +170,14 @@ namespace BlockBuster.Models
 			}
 		}
 		
+		public System.Data.Linq.Table<color> colors
+		{
+			get
+			{
+				return this.GetTable<color>();
+			}
+		}
+		
 		public System.Data.Linq.Table<country> countries
 		{
 			get
@@ -177,14 +191,6 @@ namespace BlockBuster.Models
 			get
 			{
 				return this.GetTable<favorite>();
-			}
-		}
-		
-		public System.Data.Linq.Table<favorite_film> favorite_films
-		{
-			get
-			{
-				return this.GetTable<favorite_film>();
 			}
 		}
 		
@@ -220,6 +226,14 @@ namespace BlockBuster.Models
 			}
 		}
 		
+		public System.Data.Linq.Table<film_trailer> film_trailers
+		{
+			get
+			{
+				return this.GetTable<film_trailer>();
+			}
+		}
+		
 		public System.Data.Linq.Table<form> forms
 		{
 			get
@@ -233,6 +247,14 @@ namespace BlockBuster.Models
 			get
 			{
 				return this.GetTable<job>();
+			}
+		}
+		
+		public System.Data.Linq.Table<position> positions
+		{
+			get
+			{
+				return this.GetTable<position>();
 			}
 		}
 		
@@ -277,6 +299,8 @@ namespace BlockBuster.Models
 		
 		private System.Nullable<int> _position_id;
 		
+		private EntityRef<position> _position;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -295,6 +319,7 @@ namespace BlockBuster.Models
 		
 		public admin()
 		{
+			this._position = default(EntityRef<position>);
 			OnCreated();
 		}
 		
@@ -389,11 +414,49 @@ namespace BlockBuster.Models
 			{
 				if ((this._position_id != value))
 				{
+					if (this._position.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.Onposition_idChanging(value);
 					this.SendPropertyChanging();
 					this._position_id = value;
 					this.SendPropertyChanged("position_id");
 					this.Onposition_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="position_admin", Storage="_position", ThisKey="position_id", OtherKey="id", IsForeignKey=true)]
+		public position position
+		{
+			get
+			{
+				return this._position.Entity;
+			}
+			set
+			{
+				position previousValue = this._position.Entity;
+				if (((previousValue != value) 
+							|| (this._position.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._position.Entity = null;
+						previousValue.admins.Remove(this);
+					}
+					this._position.Entity = value;
+					if ((value != null))
+					{
+						value.admins.Add(this);
+						this._position_id = value.id;
+					}
+					else
+					{
+						this._position_id = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("position");
 				}
 			}
 		}
@@ -439,8 +502,6 @@ namespace BlockBuster.Models
 		
 		private EntitySet<favorite> _favorites;
 		
-		private EntitySet<favorite_film> _favorite_films;
-		
 		private EntitySet<review> _reviews;
 		
     #region Extensibility Method Definitions
@@ -464,7 +525,6 @@ namespace BlockBuster.Models
 		public user()
 		{
 			this._favorites = new EntitySet<favorite>(new Action<favorite>(this.attach_favorites), new Action<favorite>(this.detach_favorites));
-			this._favorite_films = new EntitySet<favorite_film>(new Action<favorite_film>(this.attach_favorite_films), new Action<favorite_film>(this.detach_favorite_films));
 			this._reviews = new EntitySet<review>(new Action<review>(this.attach_reviews), new Action<review>(this.detach_reviews));
 			OnCreated();
 		}
@@ -602,19 +662,6 @@ namespace BlockBuster.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_favorite_film", Storage="_favorite_films", ThisKey="id", OtherKey="user_id")]
-		public EntitySet<favorite_film> favorite_films
-		{
-			get
-			{
-				return this._favorite_films;
-			}
-			set
-			{
-				this._favorite_films.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_review", Storage="_reviews", ThisKey="id", OtherKey="user_id")]
 		public EntitySet<review> reviews
 		{
@@ -660,18 +707,6 @@ namespace BlockBuster.Models
 			entity.user = null;
 		}
 		
-		private void attach_favorite_films(favorite_film entity)
-		{
-			this.SendPropertyChanging();
-			entity.user = this;
-		}
-		
-		private void detach_favorite_films(favorite_film entity)
-		{
-			this.SendPropertyChanging();
-			entity.user = null;
-		}
-		
 		private void attach_reviews(review entity)
 		{
 			this.SendPropertyChanging();
@@ -695,9 +730,11 @@ namespace BlockBuster.Models
 		
 		private string _name;
 		
-		private string _color;
+		private System.Nullable<int> _color_id;
 		
 		private EntitySet<film_category> _film_categories;
+		
+		private EntityRef<color> _color;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -707,13 +744,14 @@ namespace BlockBuster.Models
     partial void OnidChanged();
     partial void OnnameChanging(string value);
     partial void OnnameChanged();
-    partial void OncolorChanging(string value);
-    partial void OncolorChanged();
+    partial void Oncolor_idChanging(System.Nullable<int> value);
+    partial void Oncolor_idChanged();
     #endregion
 		
 		public category()
 		{
 			this._film_categories = new EntitySet<film_category>(new Action<film_category>(this.attach_film_categories), new Action<film_category>(this.detach_film_categories));
+			this._color = default(EntityRef<color>);
 			OnCreated();
 		}
 		
@@ -757,22 +795,26 @@ namespace BlockBuster.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_color", DbType="VarChar(50)")]
-		public string color
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_color_id", DbType="Int")]
+		public System.Nullable<int> color_id
 		{
 			get
 			{
-				return this._color;
+				return this._color_id;
 			}
 			set
 			{
-				if ((this._color != value))
+				if ((this._color_id != value))
 				{
-					this.OncolorChanging(value);
+					if (this._color.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Oncolor_idChanging(value);
 					this.SendPropertyChanging();
-					this._color = value;
-					this.SendPropertyChanged("color");
-					this.OncolorChanged();
+					this._color_id = value;
+					this.SendPropertyChanged("color_id");
+					this.Oncolor_idChanged();
 				}
 			}
 		}
@@ -787,6 +829,40 @@ namespace BlockBuster.Models
 			set
 			{
 				this._film_categories.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="color_category", Storage="_color", ThisKey="color_id", OtherKey="id", IsForeignKey=true)]
+		public color color
+		{
+			get
+			{
+				return this._color.Entity;
+			}
+			set
+			{
+				color previousValue = this._color.Entity;
+				if (((previousValue != value) 
+							|| (this._color.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._color.Entity = null;
+						previousValue.categories.Remove(this);
+					}
+					this._color.Entity = value;
+					if ((value != null))
+					{
+						value.categories.Add(this);
+						this._color_id = value.id;
+					}
+					else
+					{
+						this._color_id = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("color");
+				}
 			}
 		}
 		
@@ -1125,7 +1201,7 @@ namespace BlockBuster.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_avatar", DbType="VarChar(20)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_avatar", DbType="VarChar(200)")]
 		public string avatar
 		{
 			get
@@ -1466,6 +1542,120 @@ namespace BlockBuster.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.color")]
+	public partial class color : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private string _color_name;
+		
+		private EntitySet<category> _categories;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void Oncolor_nameChanging(string value);
+    partial void Oncolor_nameChanged();
+    #endregion
+		
+		public color()
+		{
+			this._categories = new EntitySet<category>(new Action<category>(this.attach_categories), new Action<category>(this.detach_categories));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_color_name", DbType="VarChar(8)")]
+		public string color_name
+		{
+			get
+			{
+				return this._color_name;
+			}
+			set
+			{
+				if ((this._color_name != value))
+				{
+					this.Oncolor_nameChanging(value);
+					this.SendPropertyChanging();
+					this._color_name = value;
+					this.SendPropertyChanged("color_name");
+					this.Oncolor_nameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="color_category", Storage="_categories", ThisKey="id", OtherKey="color_id")]
+		public EntitySet<category> categories
+		{
+			get
+			{
+				return this._categories;
+			}
+			set
+			{
+				this._categories.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_categories(category entity)
+		{
+			this.SendPropertyChanging();
+			entity.color = this;
+		}
+		
+		private void detach_categories(category entity)
+		{
+			this.SendPropertyChanging();
+			entity.color = null;
 		}
 	}
 	
@@ -1827,198 +2017,6 @@ namespace BlockBuster.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.favorite_film")]
-	public partial class favorite_film : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id;
-		
-		private System.Nullable<int> _user_id;
-		
-		private System.Nullable<int> _film_id;
-		
-		private EntityRef<user> _user;
-		
-		private EntityRef<film> _film;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void Onuser_idChanging(System.Nullable<int> value);
-    partial void Onuser_idChanged();
-    partial void Onfilm_idChanging(System.Nullable<int> value);
-    partial void Onfilm_idChanged();
-    #endregion
-		
-		public favorite_film()
-		{
-			this._user = default(EntityRef<user>);
-			this._film = default(EntityRef<film>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_user_id", DbType="Int")]
-		public System.Nullable<int> user_id
-		{
-			get
-			{
-				return this._user_id;
-			}
-			set
-			{
-				if ((this._user_id != value))
-				{
-					if (this._user.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.Onuser_idChanging(value);
-					this.SendPropertyChanging();
-					this._user_id = value;
-					this.SendPropertyChanged("user_id");
-					this.Onuser_idChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_film_id", DbType="Int")]
-		public System.Nullable<int> film_id
-		{
-			get
-			{
-				return this._film_id;
-			}
-			set
-			{
-				if ((this._film_id != value))
-				{
-					if (this._film.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.Onfilm_idChanging(value);
-					this.SendPropertyChanging();
-					this._film_id = value;
-					this.SendPropertyChanged("film_id");
-					this.Onfilm_idChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_favorite_film", Storage="_user", ThisKey="user_id", OtherKey="id", IsForeignKey=true)]
-		public user user
-		{
-			get
-			{
-				return this._user.Entity;
-			}
-			set
-			{
-				user previousValue = this._user.Entity;
-				if (((previousValue != value) 
-							|| (this._user.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._user.Entity = null;
-						previousValue.favorite_films.Remove(this);
-					}
-					this._user.Entity = value;
-					if ((value != null))
-					{
-						value.favorite_films.Add(this);
-						this._user_id = value.id;
-					}
-					else
-					{
-						this._user_id = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("user");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="film_favorite_film", Storage="_film", ThisKey="film_id", OtherKey="id", IsForeignKey=true)]
-		public film film
-		{
-			get
-			{
-				return this._film.Entity;
-			}
-			set
-			{
-				film previousValue = this._film.Entity;
-				if (((previousValue != value) 
-							|| (this._film.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._film.Entity = null;
-						previousValue.favorite_films.Remove(this);
-					}
-					this._film.Entity = value;
-					if ((value != null))
-					{
-						value.favorite_films.Add(this);
-						this._film_id = value.id;
-					}
-					else
-					{
-						this._film_id = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("film");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.film")]
 	public partial class film : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -2032,8 +2030,6 @@ namespace BlockBuster.Models
 		private System.Nullable<System.DateTime> _release;
 		
 		private string _image_link;
-		
-		private string _source;
 		
 		private System.Nullable<int> _view_count;
 		
@@ -2049,15 +2045,17 @@ namespace BlockBuster.Models
 		
 		private EntitySet<favorite> _favorites;
 		
-		private EntitySet<favorite_film> _favorite_films;
-		
 		private EntitySet<film_category> _film_categories;
 		
 		private EntitySet<film_celebrity> _film_celebrities;
 		
 		private EntitySet<film_country> _film_countries;
 		
+		private EntitySet<film_trailer> _film_trailers;
+		
 		private EntitySet<review> _reviews;
+		
+		private EntitySet<trailer> _trailers;
 		
 		private EntityRef<form> _form;
 		
@@ -2073,8 +2071,6 @@ namespace BlockBuster.Models
     partial void OnreleaseChanged();
     partial void Onimage_linkChanging(string value);
     partial void Onimage_linkChanged();
-    partial void OnsourceChanging(string value);
-    partial void OnsourceChanged();
     partial void Onview_countChanging(System.Nullable<int> value);
     partial void Onview_countChanged();
     partial void OndescriptionChanging(string value);
@@ -2091,11 +2087,12 @@ namespace BlockBuster.Models
 		{
 			this._chapters = new EntitySet<chapter>(new Action<chapter>(this.attach_chapters), new Action<chapter>(this.detach_chapters));
 			this._favorites = new EntitySet<favorite>(new Action<favorite>(this.attach_favorites), new Action<favorite>(this.detach_favorites));
-			this._favorite_films = new EntitySet<favorite_film>(new Action<favorite_film>(this.attach_favorite_films), new Action<favorite_film>(this.detach_favorite_films));
 			this._film_categories = new EntitySet<film_category>(new Action<film_category>(this.attach_film_categories), new Action<film_category>(this.detach_film_categories));
 			this._film_celebrities = new EntitySet<film_celebrity>(new Action<film_celebrity>(this.attach_film_celebrities), new Action<film_celebrity>(this.detach_film_celebrities));
 			this._film_countries = new EntitySet<film_country>(new Action<film_country>(this.attach_film_countries), new Action<film_country>(this.detach_film_countries));
+			this._film_trailers = new EntitySet<film_trailer>(new Action<film_trailer>(this.attach_film_trailers), new Action<film_trailer>(this.detach_film_trailers));
 			this._reviews = new EntitySet<review>(new Action<review>(this.attach_reviews), new Action<review>(this.detach_reviews));
+			this._trailers = new EntitySet<trailer>(new Action<trailer>(this.attach_trailers), new Action<trailer>(this.detach_trailers));
 			this._form = default(EntityRef<form>);
 			OnCreated();
 		}
@@ -2160,7 +2157,7 @@ namespace BlockBuster.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_image_link", DbType="VarChar(100)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_image_link", DbType="VarChar(200)")]
 		public string image_link
 		{
 			get
@@ -2176,26 +2173,6 @@ namespace BlockBuster.Models
 					this._image_link = value;
 					this.SendPropertyChanged("image_link");
 					this.Onimage_linkChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_source", DbType="VarChar(200)")]
-		public string source
-		{
-			get
-			{
-				return this._source;
-			}
-			set
-			{
-				if ((this._source != value))
-				{
-					this.OnsourceChanging(value);
-					this.SendPropertyChanging();
-					this._source = value;
-					this.SendPropertyChanged("source");
-					this.OnsourceChanged();
 				}
 			}
 		}
@@ -2330,19 +2307,6 @@ namespace BlockBuster.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="film_favorite_film", Storage="_favorite_films", ThisKey="id", OtherKey="film_id")]
-		public EntitySet<favorite_film> favorite_films
-		{
-			get
-			{
-				return this._favorite_films;
-			}
-			set
-			{
-				this._favorite_films.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="film_film_category", Storage="_film_categories", ThisKey="id", OtherKey="film_id")]
 		public EntitySet<film_category> film_categories
 		{
@@ -2382,6 +2346,19 @@ namespace BlockBuster.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="film_film_trailer", Storage="_film_trailers", ThisKey="id", OtherKey="film_id")]
+		public EntitySet<film_trailer> film_trailers
+		{
+			get
+			{
+				return this._film_trailers;
+			}
+			set
+			{
+				this._film_trailers.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="film_review", Storage="_reviews", ThisKey="id", OtherKey="film_id")]
 		public EntitySet<review> reviews
 		{
@@ -2392,6 +2369,19 @@ namespace BlockBuster.Models
 			set
 			{
 				this._reviews.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="film_trailer", Storage="_trailers", ThisKey="id", OtherKey="film_id")]
+		public EntitySet<trailer> trailers
+		{
+			get
+			{
+				return this._trailers;
+			}
+			set
+			{
+				this._trailers.Assign(value);
 			}
 		}
 		
@@ -2473,18 +2463,6 @@ namespace BlockBuster.Models
 			entity.film = null;
 		}
 		
-		private void attach_favorite_films(favorite_film entity)
-		{
-			this.SendPropertyChanging();
-			entity.film = this;
-		}
-		
-		private void detach_favorite_films(favorite_film entity)
-		{
-			this.SendPropertyChanging();
-			entity.film = null;
-		}
-		
 		private void attach_film_categories(film_category entity)
 		{
 			this.SendPropertyChanging();
@@ -2521,6 +2499,18 @@ namespace BlockBuster.Models
 			entity.film = null;
 		}
 		
+		private void attach_film_trailers(film_trailer entity)
+		{
+			this.SendPropertyChanging();
+			entity.film = this;
+		}
+		
+		private void detach_film_trailers(film_trailer entity)
+		{
+			this.SendPropertyChanging();
+			entity.film = null;
+		}
+		
 		private void attach_reviews(review entity)
 		{
 			this.SendPropertyChanging();
@@ -2528,6 +2518,18 @@ namespace BlockBuster.Models
 		}
 		
 		private void detach_reviews(review entity)
+		{
+			this.SendPropertyChanging();
+			entity.film = null;
+		}
+		
+		private void attach_trailers(trailer entity)
+		{
+			this.SendPropertyChanging();
+			entity.film = this;
+		}
+		
+		private void detach_trailers(trailer entity)
 		{
 			this.SendPropertyChanging();
 			entity.film = null;
@@ -3175,6 +3177,198 @@ namespace BlockBuster.Models
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.film_trailer")]
+	public partial class film_trailer : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private System.Nullable<int> _film_id;
+		
+		private System.Nullable<int> _trailer_id;
+		
+		private EntityRef<film> _film;
+		
+		private EntityRef<trailer> _trailer;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void Onfilm_idChanging(System.Nullable<int> value);
+    partial void Onfilm_idChanged();
+    partial void Ontrailer_idChanging(System.Nullable<int> value);
+    partial void Ontrailer_idChanged();
+    #endregion
+		
+		public film_trailer()
+		{
+			this._film = default(EntityRef<film>);
+			this._trailer = default(EntityRef<trailer>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_film_id", DbType="Int")]
+		public System.Nullable<int> film_id
+		{
+			get
+			{
+				return this._film_id;
+			}
+			set
+			{
+				if ((this._film_id != value))
+				{
+					if (this._film.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onfilm_idChanging(value);
+					this.SendPropertyChanging();
+					this._film_id = value;
+					this.SendPropertyChanged("film_id");
+					this.Onfilm_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_trailer_id", DbType="Int")]
+		public System.Nullable<int> trailer_id
+		{
+			get
+			{
+				return this._trailer_id;
+			}
+			set
+			{
+				if ((this._trailer_id != value))
+				{
+					if (this._trailer.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Ontrailer_idChanging(value);
+					this.SendPropertyChanging();
+					this._trailer_id = value;
+					this.SendPropertyChanged("trailer_id");
+					this.Ontrailer_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="film_film_trailer", Storage="_film", ThisKey="film_id", OtherKey="id", IsForeignKey=true)]
+		public film film
+		{
+			get
+			{
+				return this._film.Entity;
+			}
+			set
+			{
+				film previousValue = this._film.Entity;
+				if (((previousValue != value) 
+							|| (this._film.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._film.Entity = null;
+						previousValue.film_trailers.Remove(this);
+					}
+					this._film.Entity = value;
+					if ((value != null))
+					{
+						value.film_trailers.Add(this);
+						this._film_id = value.id;
+					}
+					else
+					{
+						this._film_id = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("film");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="trailer_film_trailer", Storage="_trailer", ThisKey="trailer_id", OtherKey="id", IsForeignKey=true)]
+		public trailer trailer
+		{
+			get
+			{
+				return this._trailer.Entity;
+			}
+			set
+			{
+				trailer previousValue = this._trailer.Entity;
+				if (((previousValue != value) 
+							|| (this._trailer.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._trailer.Entity = null;
+						previousValue.film_trailers.Remove(this);
+					}
+					this._trailer.Entity = value;
+					if ((value != null))
+					{
+						value.film_trailers.Add(this);
+						this._trailer_id = value.id;
+					}
+					else
+					{
+						this._trailer_id = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("trailer");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.form")]
 	public partial class form : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -3400,6 +3594,120 @@ namespace BlockBuster.Models
 		{
 			this.SendPropertyChanging();
 			entity.job = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.position")]
+	public partial class position : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private string _name;
+		
+		private EntitySet<admin> _admins;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnnameChanging(string value);
+    partial void OnnameChanged();
+    #endregion
+		
+		public position()
+		{
+			this._admins = new EntitySet<admin>(new Action<admin>(this.attach_admins), new Action<admin>(this.detach_admins));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(20)")]
+		public string name
+		{
+			get
+			{
+				return this._name;
+			}
+			set
+			{
+				if ((this._name != value))
+				{
+					this.OnnameChanging(value);
+					this.SendPropertyChanging();
+					this._name = value;
+					this.SendPropertyChanged("name");
+					this.OnnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="position_admin", Storage="_admins", ThisKey="id", OtherKey="position_id")]
+		public EntitySet<admin> admins
+		{
+			get
+			{
+				return this._admins;
+			}
+			set
+			{
+				this._admins.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_admins(admin entity)
+		{
+			this.SendPropertyChanging();
+			entity.position = this;
+		}
+		
+		private void detach_admins(admin entity)
+		{
+			this.SendPropertyChanging();
+			entity.position = null;
 		}
 	}
 	
@@ -3843,6 +4151,12 @@ namespace BlockBuster.Models
 		
 		private string _image_link;
 		
+		private System.Nullable<int> _film_id;
+		
+		private EntitySet<film_trailer> _film_trailers;
+		
+		private EntityRef<film> _film;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -3855,10 +4169,14 @@ namespace BlockBuster.Models
     partial void OnsourceChanged();
     partial void Onimage_linkChanging(string value);
     partial void Onimage_linkChanged();
+    partial void Onfilm_idChanging(System.Nullable<int> value);
+    partial void Onfilm_idChanged();
     #endregion
 		
 		public trailer()
 		{
+			this._film_trailers = new EntitySet<film_trailer>(new Action<film_trailer>(this.attach_film_trailers), new Action<film_trailer>(this.detach_film_trailers));
+			this._film = default(EntityRef<film>);
 			OnCreated();
 		}
 		
@@ -3922,7 +4240,7 @@ namespace BlockBuster.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_image_link", DbType="VarChar(50)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_image_link", DbType="VarChar(200)")]
 		public string image_link
 		{
 			get
@@ -3938,6 +4256,77 @@ namespace BlockBuster.Models
 					this._image_link = value;
 					this.SendPropertyChanged("image_link");
 					this.Onimage_linkChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_film_id", DbType="Int")]
+		public System.Nullable<int> film_id
+		{
+			get
+			{
+				return this._film_id;
+			}
+			set
+			{
+				if ((this._film_id != value))
+				{
+					if (this._film.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onfilm_idChanging(value);
+					this.SendPropertyChanging();
+					this._film_id = value;
+					this.SendPropertyChanged("film_id");
+					this.Onfilm_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="trailer_film_trailer", Storage="_film_trailers", ThisKey="id", OtherKey="trailer_id")]
+		public EntitySet<film_trailer> film_trailers
+		{
+			get
+			{
+				return this._film_trailers;
+			}
+			set
+			{
+				this._film_trailers.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="film_trailer", Storage="_film", ThisKey="film_id", OtherKey="id", IsForeignKey=true)]
+		public film film
+		{
+			get
+			{
+				return this._film.Entity;
+			}
+			set
+			{
+				film previousValue = this._film.Entity;
+				if (((previousValue != value) 
+							|| (this._film.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._film.Entity = null;
+						previousValue.trailers.Remove(this);
+					}
+					this._film.Entity = value;
+					if ((value != null))
+					{
+						value.trailers.Add(this);
+						this._film_id = value.id;
+					}
+					else
+					{
+						this._film_id = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("film");
 				}
 			}
 		}
@@ -3960,6 +4349,18 @@ namespace BlockBuster.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_film_trailers(film_trailer entity)
+		{
+			this.SendPropertyChanging();
+			entity.trailer = this;
+		}
+		
+		private void detach_film_trailers(film_trailer entity)
+		{
+			this.SendPropertyChanging();
+			entity.trailer = null;
 		}
 	}
 }
