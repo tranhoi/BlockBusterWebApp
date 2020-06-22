@@ -19,7 +19,7 @@
                         @foreach (var items in Model)
                         {
                             <div>
-                                <iframe class="item-video" src="#" data-src="https://www.youtube.com/embed/@items.trailer.source"></iframe>
+                                <iframe class="item-video" src="#" data-src="https://www.youtube.com/embed/@items.source"></iframe>
                             </div>
                         }
                     </div>
@@ -28,10 +28,10 @@
                         {
                             <div class="item">
                                 <div class="trailer-img">
-                                    <img src="~/images/trailer/@items.trailer.image_link" alt="photo by Barn Images" width="40" height="27">
+                                    <img src="~/images/trailer/@items.image_link" alt="photo by Barn Images" width="40" height="27">
                                 </div>
                                 <div class="trailer-infor">
-                                    <h4 class="desc">@items.trailer.name</h4>
+                                    <h4 class="desc">@items.name</h4>
                                     <p>2:30</p>
                                 </div>
                             </div>

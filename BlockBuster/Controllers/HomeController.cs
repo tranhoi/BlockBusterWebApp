@@ -132,20 +132,32 @@ namespace BlockBuster.Controllers
         // Partial view menu nguoi noi tieng theo quoc gia
         public ActionResult Menu_celebrity_county() { return PartialView(data.countries.OrderBy(a => a.id).ToList()); }
         // View danh sach phim
-        public ActionResult Film_list(int form_id, int sort, int cate_id, int coun_id, int rate, int? page)
+        public ActionResult Film_list(int? form_id, int? sort, int? cate_id, int? coun_id, int? rate, int? page)
         {
             // phan trang
             int pageSize = 5;
             int pageNum = (page ?? 1);
 
-            ViewBag.form_id = form_id;
-            ViewBag.sort = sort;
-            ViewBag.cate_id = cate_id;
-            ViewBag.coun_id = coun_id;
-            ViewBag.rate = rate;
+            int form_idd = 0;
+            int sortt = 0;
+            int cate_idd = 0;
+            int coun_idd = 0;
+            int ratee = 0;
+
+            if (form_id != null) { form_idd = int.Parse(form_id.ToString()); } else {; }
+            if (sort != null) { sortt = int.Parse(sort.ToString()); } else {; }
+            if (cate_id != null) { cate_idd = int.Parse(cate_id.ToString()); } else {; }
+            if (coun_id != null) { coun_idd = int.Parse(coun_id.ToString()); } else {; }
+            if (rate != null) { ratee = int.Parse(rate.ToString()); } else {; }
+
+            ViewBag.form_id = form_idd;
+            ViewBag.sort = sortt;
+            ViewBag.cate_id = cate_idd;
+            ViewBag.coun_id = coun_idd;
+            ViewBag.rate = ratee;
             List<film> list_film = new List<film>();
             // chon cach sap xep phim
-            switch (sort)
+            switch (sortt)
             {
                 case 0:
                     list_film = data.films.Where(or => or.form_id == form_id).OrderByDescending(a => a.view_count).ToList();
@@ -160,9 +172,10 @@ namespace BlockBuster.Controllers
                     list_film = data.films.Where(or => or.form_id == form_id).OrderBy(a => a.release).ToList();
                     break;
             }
-            List<film> list_film_ = Get_list_film(list_film, cate_id, coun_id, rate);// loc danh sach phim theo the loai, quoc gia va dien danh gia
+            List<film> list_film_ = Get_list_film(list_film, cate_idd, coun_idd, ratee);// loc danh sach phim theo the loai, quoc gia va dien danh gia
             List<filmm> list_film_convert = Get_list_film_convert(list_film_);// convert lai danh sach phim
             ViewBag.count = list_film_convert.Count;
+            Session["listfilm"] = list_film_convert;
             return View(list_film_convert.ToPagedList(pageNum, pageSize));
         }
         // Lay danh sach phim theo the loai
@@ -321,7 +334,15 @@ namespace BlockBuster.Controllers
             var film = from f in data.films
                        where f.id == id
                        select f;
-            return View(Getfilm(film.Single()));
+            if (film.Count() <= 0)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                Update_view_count(id);
+                return View(Getfilm(film.Single()));
+            }
         }
         // nguoi tham gia cua moi phim
         public ActionResult Film_role(int id)
@@ -636,15 +657,15 @@ namespace BlockBuster.Controllers
         }
         public ActionResult Trailer(int id)
         {
-            return PartialView(data.film_trailers.Where(or => or.film_id == id).OrderByDescending(a => a.id).FirstOrDefault());
+            return PartialView(data.trailers.Where(or => or.film_id == id).OrderByDescending(a => a.id).FirstOrDefault());
         }
         public ActionResult Trailer_list(int id)
         {
-            return View(data.film_trailers.Where(or => or.film_id == id).OrderByDescending(a => a.id).ToList());
+            return View(data.trailers.Where(or => or.film_id == id).OrderByDescending(a => a.id).ToList());
         }
         public ActionResult Trailer_all(int? id)
         {
-            return View(data.film_trailers.OrderByDescending(a => a.id).Take(10).ToList());
+            return View(data.trailers.OrderByDescending(a => a.id).Take(10).ToList());
         }
         //search
         public ActionResult Search()
@@ -654,24 +675,40 @@ namespace BlockBuster.Controllers
         public ActionResult Search_results(FormCollection collection)
         {
             string key = collection["key"];
+            int type = int.Parse(collection["type"]);
             ViewBag.key = key;
             if (key == "")
             {
                 return RedirectToAction("Index");
             }
-            else {
-                var film = from fil in data.films where fil.name.ToUpper().Contains(key.ToUpper()) select fil ;
+            else
+            {
+                var film = from fil in data.films
+                           where fil.name.ToUpper().Contains(key.ToUpper()) && fil.form_id == type
+                           select fil;
                 if (film.Count() > 0)
                 {
                     ViewBag.count = film.Count();
                     return View(film);
                 }
-                else 
+                else
                 {
                     ViewBag.count = "0";
                     return View();
                 }
             }
+        }
+        public ActionResult Update_view_count(int id)
+        {
+            film fil = data.films.SingleOrDefault(n => n.id == id);
+            if (fil != null)
+            {
+                fil.view_count += 1;
+                UpdateModel(fil);
+                data.SubmitChanges();
+                return null;
+            }
+            return HttpNotFound();
         }
     }
 }

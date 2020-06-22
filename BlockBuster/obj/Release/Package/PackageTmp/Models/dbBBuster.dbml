@@ -103,7 +103,6 @@
       <Association Name="film_film_category" Member="film_categories" ThisKey="id" OtherKey="film_id" Type="film_category" />
       <Association Name="film_film_celebrity" Member="film_celebrities" ThisKey="id" OtherKey="film_id" Type="film_celebrity" />
       <Association Name="film_film_country" Member="film_countries" ThisKey="id" OtherKey="film_id" Type="film_country" />
-      <Association Name="film_film_trailer" Member="film_trailers" ThisKey="id" OtherKey="film_id" Type="film_trailer" />
       <Association Name="film_review" Member="reviews" ThisKey="id" OtherKey="film_id" Type="review" />
       <Association Name="film_trailer" Member="trailers" ThisKey="id" OtherKey="film_id" Type="trailer" />
       <Association Name="form_film" Member="form" ThisKey="form_id" OtherKey="id" Type="form" IsForeignKey="true" />
@@ -136,15 +135,6 @@
       <Column Name="country_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="country_film_country" Member="country" ThisKey="country_id" OtherKey="id" Type="country" IsForeignKey="true" />
       <Association Name="film_film_country" Member="film" ThisKey="film_id" OtherKey="id" Type="film" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.film_trailer" Member="film_trailers">
-    <Type Name="film_trailer">
-      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="film_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="trailer_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="film_film_trailer" Member="film" ThisKey="film_id" OtherKey="id" Type="film" IsForeignKey="true" />
-      <Association Name="trailer_film_trailer" Member="trailer" ThisKey="trailer_id" OtherKey="id" Type="trailer" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.form" Member="forms">
@@ -196,7 +186,6 @@
       <Column Name="source" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="image_link" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
       <Column Name="film_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="trailer_film_trailer" Member="film_trailers" ThisKey="id" OtherKey="trailer_id" Type="film_trailer" />
       <Association Name="film_trailer" Member="film" ThisKey="film_id" OtherKey="id" Type="film" IsForeignKey="true" />
     </Type>
   </Table>

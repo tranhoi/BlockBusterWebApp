@@ -359,10 +359,10 @@ namespace BlockBuster.Controllers
                     data.reviews.DeleteOnSubmit(item);
                     data.SubmitChanges();
                 }
-                var fil_tra = data.film_trailers.Where(or => or.film_id == id).ToList();
+                var fil_tra = data.trailers.Where(or => or.film_id == id).ToList();
                 foreach (var item in fil_tra)
                 {
-                    data.film_trailers.DeleteOnSubmit(item);
+                    data.trailers.DeleteOnSubmit(item);
                     data.SubmitChanges();
                 }
                 string directoryimg = Server.MapPath("/images/films/" + fil.image_link);
@@ -416,10 +416,10 @@ namespace BlockBuster.Controllers
                     data.reviews.DeleteOnSubmit(item);
                     data.SubmitChanges();
                 }
-                var fil_tra = data.film_trailers.Where(or => or.film_id == id).ToList();
+                var fil_tra = data.trailers.Where(or => or.film_id == id).ToList();
                 foreach (var item in fil_tra)
                 {
-                    data.film_trailers.DeleteOnSubmit(item);
+                    data.trailers.DeleteOnSubmit(item);
                     data.SubmitChanges();
                 }
                 string directoryimg = Server.MapPath("/images/films/" + fil.image_link);
@@ -488,12 +488,6 @@ namespace BlockBuster.Controllers
             }
             else
             {
-                var fil_tra = data.film_trailers.Where(or => or.trailer_id == id).ToList();
-                foreach (var item in fil_tra)
-                {
-                    data.film_trailers.DeleteOnSubmit(item);
-                    data.SubmitChanges();
-                }
                 string directoryimg = Server.MapPath("/images/trailer/"+tra.image_link);
                 System.IO.File.Delete(directoryimg);
                 data.trailers.DeleteOnSubmit(tra);
