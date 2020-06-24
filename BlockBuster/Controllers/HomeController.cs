@@ -132,7 +132,7 @@ namespace BlockBuster.Controllers
         // Partial view menu nguoi noi tieng theo quoc gia
         public ActionResult Menu_celebrity_county() { return PartialView(data.countries.OrderBy(a => a.id).ToList()); }
         // View danh sach phim
-        public ActionResult Film_list(int? form_id, int? sort, int? cate_id, int? coun_id, int? rate, int? page)
+        public ActionResult Film_list(int? form_id, int? sort, int? cate_id, int? coun_id, int? rate, string key, FormCollection collection, int? page)
         {
             // phan trang
             int pageSize = 5;
@@ -143,40 +143,135 @@ namespace BlockBuster.Controllers
             int cate_idd = 0;
             int coun_idd = 0;
             int ratee = 0;
-
+            if (collection["key"] != null) { key = collection["key"]; } else {; }
             if (form_id != null) { form_idd = int.Parse(form_id.ToString()); } else {; }
             if (sort != null) { sortt = int.Parse(sort.ToString()); } else {; }
             if (cate_id != null) { cate_idd = int.Parse(cate_id.ToString()); } else {; }
             if (coun_id != null) { coun_idd = int.Parse(coun_id.ToString()); } else {; }
             if (rate != null) { ratee = int.Parse(rate.ToString()); } else {; }
+            if (collection["rate"] != null) { ratee = int.Parse(collection["rate"]); } else {; }
 
             ViewBag.form_id = form_idd;
             ViewBag.sort = sortt;
             ViewBag.cate_id = cate_idd;
             ViewBag.coun_id = coun_idd;
             ViewBag.rate = ratee;
+            ViewBag.key = key;
             List<film> list_film = new List<film>();
-            // chon cach sap xep phim
-            switch (sortt)
+            // tim theo tu khoa
+            if (key != "none")
             {
-                case 0:
-                    list_film = data.films.Where(or => or.form_id == form_id).OrderByDescending(a => a.view_count).ToList();
-                    break;
-                case 1:
-                    list_film = data.films.Where(or => or.form_id == form_id).OrderByDescending(a => a.rate).ToList();
-                    break;
-                case 2:
-                    list_film = data.films.Where(or => or.form_id == form_id).OrderByDescending(a => a.release).ToList();
-                    break;
-                case 3:
-                    list_film = data.films.Where(or => or.form_id == form_id).OrderBy(a => a.release).ToList();
-                    break;
+                if (key == "")
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    // chon cach sap xep phim
+                    switch (sortt)
+                    {
+                        case 0:
+                            var film = from fil in data.films
+                                       where fil.name.ToUpper().Contains(key.ToUpper()) && fil.form_id == form_idd
+                                       orderby fil.view_count descending
+                                       select fil;
+                            if (film.Count() > 0)
+                            {
+                                foreach (var item in film)
+                                {
+                                    list_film.Add(item);
+                                }
+                            }
+                            else
+                            {
+                                ViewBag.count = "0";
+                                return View();
+                            }
+                            break;
+                        case 1:
+                            var film_ = from fil in data.films
+                                        where fil.name.ToUpper().Contains(key.ToUpper()) && fil.form_id == form_idd
+                                        orderby fil.rate descending
+                                        select fil;
+                            if (film_.Count() > 0)
+                            {
+                                foreach (var item in film_)
+                                {
+                                    list_film.Add(item);
+                                }
+                            }
+                            else
+                            {
+                                ViewBag.count = "0";
+                                return View();
+                            }
+                            break;
+                        case 2:
+                            var film__ = from fil in data.films
+                                         where fil.name.ToUpper().Contains(key.ToUpper()) && fil.form_id == form_idd
+                                         orderby fil.release descending
+                                         select fil;
+                            if (film__.Count() > 0)
+                            {
+                                foreach (var item in film__)
+                                {
+                                    list_film.Add(item);
+                                }
+                            }
+                            else
+                            {
+                                ViewBag.count = "0";
+                                return View();
+                            }
+                            break;
+                        case 3:
+                            var film___ = from fil in data.films
+                                          where fil.name.ToUpper().Contains(key.ToUpper()) && fil.form_id == form_idd
+                                          orderby fil.release ascending
+                                          select fil;
+                            if (film___.Count() > 0)
+                            {
+                                foreach (var item in film___)
+                                {
+                                    list_film.Add(item);
+                                }
+                            }
+                            else
+                            {
+                                ViewBag.count = "0";
+                                return View();
+                            }
+                            break;
+                    }
+                    List<filmm> list_film_convert = Get_list_film_convert(list_film);// convert lai danh sach phim
+                    ViewBag.count = list_film_convert.Count;
+                    Session["listfilm"] = list_film_convert;
+                    return View(list_film_convert.ToPagedList(pageNum, pageSize));
+                }
             }
-            List<film> list_film_ = Get_list_film(list_film, cate_idd, coun_idd, ratee);// loc danh sach phim theo the loai, quoc gia va dien danh gia
-            List<filmm> list_film_convert = Get_list_film_convert(list_film_);// convert lai danh sach phim
-            ViewBag.count = list_film_convert.Count;
-            Session["listfilm"] = list_film_convert;
-            return View(list_film_convert.ToPagedList(pageNum, pageSize));
+            else {
+                // chon cach sap xep phim
+                switch (sortt)
+                {
+                    case 0:
+                        list_film = data.films.Where(or => or.form_id == form_id).OrderByDescending(a => a.view_count).ToList();
+                        break;
+                    case 1:
+                        list_film = data.films.Where(or => or.form_id == form_id).OrderByDescending(a => a.rate).ToList();
+                        break;
+                    case 2:
+                        list_film = data.films.Where(or => or.form_id == form_id).OrderByDescending(a => a.release).ToList();
+                        break;
+                    case 3:
+                        list_film = data.films.Where(or => or.form_id == form_id).OrderBy(a => a.release).ToList();
+                        break;
+                }
+                List<film> list_film_ = Get_list_film(list_film, cate_idd, coun_idd, ratee);// loc danh sach phim theo the loai, quoc gia va dien danh gia
+                List<filmm> list_film_convert_ = Get_list_film_convert(list_film_);// convert lai danh sach phim
+                ViewBag.count = list_film_convert_.Count;
+                Session["listfilm"] = list_film_convert_;
+                return View(list_film_convert_.ToPagedList(pageNum, pageSize));
+            }
         }
         // Lay danh sach phim theo the loai
         List<film> Get_film_cate(int id)
@@ -214,7 +309,7 @@ namespace BlockBuster.Controllers
         // Lay danh sach phim theo diem danh gia
         List<film> Get_film_rate(int id)
         {
-            List<film> list_film = data.films.Where(or => or.rate >= id).ToList();
+            List<film> list_film = data.films.Where(or => or.rate > id).ToList();
             return (list_film);
         }
         // Lay danh sach phim theo dieu kien
@@ -601,21 +696,22 @@ namespace BlockBuster.Controllers
         public ActionResult Partial_favorite(int id)
         {
             user users = (user)Session["UserAccount"];
-            var fav = from f in data.favorites
-                      where f.film_id == id && f.user_id == users.id
-                      select f;
-            if (users != null)
+            if (users == null)
             {
+                return PartialView(-1);
+            }
+            else
+            {
+                var fav = from f in data.favorites
+                          where f.film_id == id && f.user_id == users.id
+                          select f;
                 if (fav.Count() > 0)
                 {
                     ViewBag.check = 1;
                     return PartialView(id);
                 }
+                ViewBag.check = 0;
                 return PartialView(id);
-            }
-            else
-            {
-                return PartialView(-1);
             }
         }
         public ActionResult Add_favorite(int id)
@@ -671,32 +767,6 @@ namespace BlockBuster.Controllers
         public ActionResult Search()
         {
             return PartialView();
-        }
-        public ActionResult Search_results(FormCollection collection)
-        {
-            string key = collection["key"];
-            int type = int.Parse(collection["type"]);
-            ViewBag.key = key;
-            if (key == "")
-            {
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                var film = from fil in data.films
-                           where fil.name.ToUpper().Contains(key.ToUpper()) && fil.form_id == type
-                           select fil;
-                if (film.Count() > 0)
-                {
-                    ViewBag.count = film.Count();
-                    return View(film);
-                }
-                else
-                {
-                    ViewBag.count = "0";
-                    return View();
-                }
-            }
         }
         public ActionResult Update_view_count(int id)
         {

@@ -13,7 +13,7 @@
                 <a class="dropdown-toggle" data-toggle="dropdown">countries<i class="ion-ios-arrow-forward"></i></a>
                 @Html.Action("Menu_country", "Home", new { id = items.id })
             </li>
-            <li class="it-last"><a href="@Url.Action("film_list", "Home", new { form_id = items.id , sort = 0, cate_id = 0 , coun_id = 0 , rate = 0 })">View all</a></li>
+            <li class="it-last"><a href="@Url.Action("film_list", "Home", new { form_id = items.id})">View all</a></li>
         </ul>
     </li>
 }

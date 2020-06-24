@@ -16,6 +16,20 @@
         </div>
     </div>
 </div>
+<!-- trailer section-->
+<div class="trailers">
+    <div class="container">
+        <div class="row ipad-width">
+            <div class="col-md-12">
+                <div class="title-hd">
+                    <h2>trailer</h2>
+                    <a href="@Url.Action("Trailer_all", "Home")" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
+                </div>
+                @Html.Action("Newtrailer", "Home")
+            </div>
+        </div>
+    </div>
+</div>
 <!-- fiml list section-->
 <div class="movie-items">
     <div class="container">
@@ -66,20 +80,6 @@
                         <a href="#" class="btn">See all celebrities<i class="ion-ios-arrow-right"></i></a>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- trailer section-->
-<div class="trailers">
-    <div class="container">
-        <div class="row ipad-width">
-            <div class="col-md-12">
-                <div class="title-hd">
-                    <h2>trailer</h2>
-                    <a href="@Url.Action("Trailer_all", "Home")" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
-                </div>
-                @Html.Action("Newtrailer", "Home")
             </div>
         </div>
     </div>
