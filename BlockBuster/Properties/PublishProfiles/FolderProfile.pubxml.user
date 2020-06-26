@@ -116,10 +116,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/05/2020 02:49:41</publishTime>
     </File>
     <File Include="bin/BlockBuster.dll">
-      <publishTime>06/24/2020 19:22:26</publishTime>
+      <publishTime>06/24/2020 21:52:23</publishTime>
     </File>
     <File Include="bin/BlockBuster.pdb">
-      <publishTime>06/24/2020 19:22:26</publishTime>
+      <publishTime>06/24/2020 21:52:23</publishTime>
     </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>06/05/2020 02:49:41</publishTime>
@@ -1679,7 +1679,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/05/2020 02:49:41</publishTime>
     </File>
     <File Include="Views/Home/Check_rate.cshtml">
-      <publishTime>06/05/2020 02:49:41</publishTime>
+      <publishTime>06/24/2020 20:14:08</publishTime>
     </File>
     <File Include="Views/Home/Film_allreview.cshtml">
       <publishTime>06/09/2020 22:16:50</publishTime>
@@ -1688,7 +1688,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/05/2020 02:49:41</publishTime>
     </File>
     <File Include="Views/Home/Film_list.cshtml">
-      <publishTime>06/24/2020 19:11:25</publishTime>
+      <publishTime>06/24/2020 21:46:55</publishTime>
     </File>
     <File Include="Views/Home/Film_related.cshtml">
       <publishTime>06/05/2020 02:49:41</publishTime>
@@ -1706,16 +1706,16 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/22/2020 20:50:59</publishTime>
     </File>
     <File Include="Views/Home/Menu_category.cshtml">
-      <publishTime>06/20/2020 17:09:17</publishTime>
+      <publishTime>06/24/2020 20:57:02</publishTime>
     </File>
     <File Include="Views/Home/Menu_celebrity_county.cshtml">
       <publishTime>06/05/2020 02:49:41</publishTime>
     </File>
     <File Include="Views/Home/Menu_country.cshtml">
-      <publishTime>06/20/2020 17:09:01</publishTime>
+      <publishTime>06/24/2020 20:57:04</publishTime>
     </File>
     <File Include="Views/Home/Menu_film.cshtml">
-      <publishTime>06/20/2020 17:10:54</publishTime>
+      <publishTime>06/24/2020 20:57:04</publishTime>
     </File>
     <File Include="Views/Home/Newfilm.cshtml">
       <publishTime>06/05/2020 02:49:41</publishTime>
@@ -1736,7 +1736,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/05/2020 02:49:41</publishTime>
     </File>
     <File Include="Views/Home/Search.cshtml">
-      <publishTime>06/20/2020 16:53:46</publishTime>
+      <publishTime>06/24/2020 20:51:58</publishTime>
     </File>
     <File Include="Views/Home/Search_results.cshtml">
       <publishTime>06/09/2020 22:16:50</publishTime>

@@ -124,11 +124,7 @@
                 <div class="sidebar">
                     <div class="searh-form">
                         <h4 class="sb-title">Search for movie</h4>
-                        @{
-                            String key = "none";
-                            String filter_rate = "Film_list?form_id=" + ViewBag.form_id + "&sort=" + ViewBag.sort + "&cate_id=" + ViewBag.cate_id + "&coun_id=" + ViewBag.coun_id + "&rate=0" + "&key=" + key;
-                        }
-                        <form class="form-style-1" action="@Url.Action("Film_list", "Home", new { form_id = ViewBag.form_id, sort = ViewBag.sort, cate_id = ViewBag.cate_id, coun_id = ViewBag.coun_id, key = "none" })" method="post">
+                        <form class="form-style-1" action="@Url.Action("Film_list", "Home", new { form_id = ViewBag.form_id, sort = ViewBag.sort, cate_id = ViewBag.cate_id, coun_id = ViewBag.coun_id, key = ViewBag.key })" method="post">
                             <div class="row">
                                 <div class="col-md-12 form-it">
                                     <label>Rating Range</label>

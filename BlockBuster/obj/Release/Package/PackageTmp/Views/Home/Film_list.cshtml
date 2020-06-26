@@ -40,10 +40,10 @@
                     <label>Sort by:</label>
                     <select name="forma" onchange="location = this.options[this.selectedIndex].value;">
                         @{
-                            String sort_popularity = "film_list?form_id=" + ViewBag.form_id + "&sort=0" + "&cate_id=" + ViewBag.cate_id + "&coun_id=" + ViewBag.coun_id + "&rate=" + ViewBag.rate;
-                            String sort_rating = "film_list?form_id=" + ViewBag.form_id + "&sort=1" + "&cate_id=" + ViewBag.cate_id + "&coun_id=" + ViewBag.coun_id + "&rate=" + ViewBag.rate;
-                            String sort_dereleased = "film_list?form_id=" + ViewBag.form_id + "&sort=2" + "&cate_id=" + ViewBag.cate_id + "&coun_id=" + ViewBag.coun_id + "&rate=" + ViewBag.rate;
-                            String sort_released = "film_list?form_id=" + ViewBag.form_id + "&sort=3" + "&cate_id=" + ViewBag.cate_id + "&coun_id=" + ViewBag.coun_id + "&rate=" + ViewBag.rate;
+                            String sort_popularity = "film_list?form_id=" + ViewBag.form_id + "&sort=0" + "&cate_id=" + ViewBag.cate_id + "&coun_id=" + ViewBag.coun_id + "&rate=" + ViewBag.rate + "&key=" + ViewBag.key;
+                            String sort_rating = "film_list?form_id=" + ViewBag.form_id + "&sort=1" + "&cate_id=" + ViewBag.cate_id + "&coun_id=" + ViewBag.coun_id + "&rate=" + ViewBag.rate + "&key=" + ViewBag.key;
+                            String sort_dereleased = "film_list?form_id=" + ViewBag.form_id + "&sort=2" + "&cate_id=" + ViewBag.cate_id + "&coun_id=" + ViewBag.coun_id + "&rate=" + ViewBag.rate + "&key=" + ViewBag.key;
+                            String sort_released = "film_list?form_id=" + ViewBag.form_id + "&sort=3" + "&cate_id=" + ViewBag.cate_id + "&coun_id=" + ViewBag.coun_id + "&rate=" + ViewBag.rate + "&key=" + ViewBag.key;
                             switch (ViewBag.sort)
                             {
                                 case 0:
@@ -76,17 +76,24 @@
                     <a href="movielist.html" class="list"><i class="ion-ios-list-outline active"></i></a>
                     <a href="moviegrid.html" class="grid"><i class="ion-grid"></i></a>
                 </div>
-                @foreach (var items in Model)
+                @if (Model != null)
                 {
-                    <div class="movie-item-style-2">
-                        <img src="~/images/films/@items.Image_link" alt="">
-                        <div class="mv-item-infor">
-                            <h6><a href="@Url.Action("Film_single", "Home", new { id = items.Id})">@items.Name</a></h6>
-                            <p class="rate"><span>@items.View_count</span> view <i class="ion-android-star"></i><span>@items.Rate</span> /10</p>
-                            <p class="describe">@Truncate(items.Description, 100)</p>
-                            <p class="run-time"> <span>Release: @items.Month @items.Day, @items.Year</span></p>
+                    foreach (var items in Model)
+                    {
+                        <div class="movie-item-style-2">
+                            <img src="~/images/films/@items.Image_link" alt="">
+                            <div class="mv-item-infor">
+                                <h6><a href="@Url.Action("Film_single", "Home", new { id = items.Id})">@items.Name</a></h6>
+                                <p class="rate"><span>@items.View_count</span> view <i class="ion-android-star"></i><span>@items.Rate</span> /10</p>
+                                <p class="describe">@Truncate(items.Description, 100)</p>
+                                <p class="run-time"> <span>Release: @items.Month @items.Day, @items.Year</span></p>
+                            </div>
                         </div>
-                    </div>
+                    }
+                }
+                else
+                {
+                    <p style="color: #dd003f">Find another keyword! bro!</p>
                 }
                 <!--page list-->
                 <div class="topbar-filter">
@@ -96,7 +103,7 @@
                         @*<option value="saab">10 Movies</option>*@
                     </select>
                     <div class="pagination2">
-                        @if (Model.PageCount != 0)
+                        @if (Model != null)
                         {
                             <span>Page<a>@Model.PageNumber</a>of @Model.PageCount</span>
                         }
@@ -106,9 +113,9 @@
                         }
                     </div>
                 </div>
-                @if (Model.PageCount > 1)
+                @if (Model != null)
                 {
-                    @Html.PagedListPager(Model, page => Url.Action("film_list", new { form_id = ViewBag.form_id, sort = ViewBag.sort, cate_id = ViewBag.cate_id, coun_id = ViewBag.coun_id, rate = ViewBag.rate, page = page }))
+                    @Html.PagedListPager(Model, page => Url.Action("film_list", new { form_id = ViewBag.form_id, sort = ViewBag.sort, cate_id = ViewBag.cate_id, coun_id = ViewBag.coun_id, rate = ViewBag.rate, key = "none", page = page }))
                 }
                 else {; }
                 <!--end page list-->
@@ -117,61 +124,62 @@
                 <div class="sidebar">
                     <div class="searh-form">
                         <h4 class="sb-title">Search for movie</h4>
-                        @{ 
-                            String filter_rate = "Film_list?form_id=" + ViewBag.form_id + "&sort=" + ViewBag.sort + "&cate_id=" + ViewBag.cate_id + "&coun_id=" + ViewBag.coun_id + "&rate=0";
+                        @{
+                            String key = "none";
+                            String filter_rate = "Film_list?form_id=" + ViewBag.form_id + "&sort=" + ViewBag.sort + "&cate_id=" + ViewBag.cate_id + "&coun_id=" + ViewBag.coun_id + "&rate=0" + "&key=" + key;
                         }
-                    <form class="form-style-1" action="@Url.Action("Film_list", "Home", new { form_id = ViewBag.form_id, sort = ViewBag.sort, cate_id = ViewBag.cate_id, coun_id = ViewBag.coun_id })" method="post">
-                        <div class="row">
-                            <div class="col-md-12 form-it">
-                                <label>Rating Range</label>
-                                <select name="rate">
-                                    @{
-                                        switch (ViewBag.rate)
-                                        {
-                                            case 0:
-                                                <option value="4">-- ☆☆☆☆☆ --</option>
-                                                <option value="3">-- ☆☆☆☆--</option>
-                                                <option value="2">-- ☆☆☆--</option>
-                                                <option value="1">-- ☆☆--</option>
-                                                <option selected value="0">-- ☆--</option>
-                                                break;
-                                            case 1:
-                                                <option value="4">-- ☆☆☆☆☆ --</option>
-                                                <option value="3">-- ☆☆☆☆--</option>
-                                                <option value="2">-- ☆☆☆--</option>
-                                                <option selected value="1">-- ☆☆--</option>
-                                                <option value="0">-- ☆--</option>
-                                                break;
-                                            case 2:
-                                                <option value="4">-- ☆☆☆☆☆ --</option>
-                                                <option value="3">-- ☆☆☆☆--</option>
-                                                <option selected value="2">-- ☆☆☆--</option>
-                                                <option value="1">-- ☆☆--</option>
-                                                <option value="0">-- ☆--</option>
-                                                break;
-                                            case 3:
-                                                <option value="4">-- ☆☆☆☆☆ --</option>
-                                                <option selected value="3">-- ☆☆☆☆--</option>
-                                                <option value="2">-- ☆☆☆--</option>
-                                                <option value="1">-- ☆☆--</option>
-                                                <option value="0">-- ☆--</option>
-                                                break;
-                                            case 4:
-                                                <option selected value="4">-- ☆☆☆☆☆ --</option>
-                                                <option value="3">-- ☆☆☆☆--</option>
-                                                <option value="2">-- ☆☆☆--</option>
-                                                <option value="1">-- ☆☆--</option>
-                                                <option value="0">-- ☆--</option>
-                                                break;
+                        <form class="form-style-1" action="@Url.Action("Film_list", "Home", new { form_id = ViewBag.form_id, sort = ViewBag.sort, cate_id = ViewBag.cate_id, coun_id = ViewBag.coun_id, key = "none" })" method="post">
+                            <div class="row">
+                                <div class="col-md-12 form-it">
+                                    <label>Rating Range</label>
+                                    <select name="rate">
+                                        @{
+                                            switch (ViewBag.rate)
+                                            {
+                                                case 0:
+                                                    <option value="4">-- ☆☆☆☆☆ --</option>
+                                                    <option value="3">-- ☆☆☆☆--</option>
+                                                    <option value="2">-- ☆☆☆--</option>
+                                                    <option value="1">-- ☆☆--</option>
+                                                    <option selected value="0">-- ☆--</option>
+                                                    break;
+                                                case 1:
+                                                    <option value="4">-- ☆☆☆☆☆ --</option>
+                                                    <option value="3">-- ☆☆☆☆--</option>
+                                                    <option value="2">-- ☆☆☆--</option>
+                                                    <option selected value="1">-- ☆☆--</option>
+                                                    <option value="0">-- ☆--</option>
+                                                    break;
+                                                case 2:
+                                                    <option value="4">-- ☆☆☆☆☆ --</option>
+                                                    <option value="3">-- ☆☆☆☆--</option>
+                                                    <option selected value="2">-- ☆☆☆--</option>
+                                                    <option value="1">-- ☆☆--</option>
+                                                    <option value="0">-- ☆--</option>
+                                                    break;
+                                                case 3:
+                                                    <option value="4">-- ☆☆☆☆☆ --</option>
+                                                    <option selected value="3">-- ☆☆☆☆--</option>
+                                                    <option value="2">-- ☆☆☆--</option>
+                                                    <option value="1">-- ☆☆--</option>
+                                                    <option value="0">-- ☆--</option>
+                                                    break;
+                                                case 4:
+                                                    <option selected value="4">-- ☆☆☆☆☆ --</option>
+                                                    <option value="3">-- ☆☆☆☆--</option>
+                                                    <option value="2">-- ☆☆☆--</option>
+                                                    <option value="1">-- ☆☆--</option>
+                                                    <option value="0">-- ☆--</option>
+                                                    break;
+                                            }
                                         }
-                                    }
-                                </select>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 ">
+                                    <input class="submit" type="submit" value="submit">
+                                </div>
                             </div>
-                            <div class="col-md-12 ">
-                                <input class="submit" type="submit" value="submit">
-                            </div>
-                        </div>
-                    </form>
+                        </form>
                     </div>
                 </div>
             </div>
