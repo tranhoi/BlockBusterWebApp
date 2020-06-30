@@ -40,10 +40,10 @@
                     <p class="pad-change">Found <span>@ViewBag.count</span> in total</p>
                     <label>Sort by:</label>
                     <select name="forma" onchange="location = this.options[this.selectedIndex].value;">
-                        <option value="Celebrity_list?coun_id=0&sort=0">Name Ascending</option>
-                        <option value="Celebrity_list?coun_id=0&sort=1">Name Descending</option>
-                        <option value="Celebrity_list?coun_id=0&sort=2">Birthday Ascending</option>
-                        <option value="Celebrity_list?coun_id=0&sort=3">Birthday Descending</option>
+                        <option value="Celebrity_list?sort=0">Name Ascending</option>
+                        <option value="Celebrity_list?sort=1">Name Descending</option>
+                        <option value="Celebrity_list?sort=2">Birthday Ascending</option>
+                        <option value="Celebrity_list?sort=3">Birthday Descending</option>
                     </select>
                     <a class="list"><i class="ion-ios-list-outline active"></i></a>
                     <a class="grid"><i class="ion-grid "></i></a>
@@ -83,7 +83,7 @@
                 </div>
                 @if (Model.PageCount > 1)
                 {
-                    @Html.PagedListPager(Model, page => Url.Action("Celebrity_list", new { sort = ViewBag.sort, coun_id = ViewBag.coun_id, page = page }))
+                    @Html.PagedListPager(Model, page => Url.Action("Celebrity_list", new { coun_id = ViewBag.coun_id, sort = ViewBag.sort, key = ViewBag.key, letter = ViewBag.letter, min = ViewBag.min, max = ViewBag.max, page = page }))
                 }
                 else {; }
                 <!--end page list-->
@@ -92,45 +92,111 @@
                 <div class="sidebar">
                     <div class="searh-form">
                         <h4 class="sb-title">Search celebrity</h4>
-                        <form class="form-style-1 celebrity-form" action="#">
+                        <form class="form-style-1 celebrity-form" action="@Url.Action("Celebrity_list", "Home", new { coun_id = ViewBag.coun_id, sort = ViewBag.sort, key = ViewBag.key, letter = ViewBag.letter, min = ViewBag.min, max = ViewBag.max })" method="post">
                             <div class="row">
                                 <div class="col-md-12 form-it">
                                     <label>Celebrity name</label>
-                                    <input type="text" placeholder="Enter keywords">
+                                    @if (ViewBag.key != null && ViewBag.key != "" && ViewBag.key != "none")
+                                    {
+                                        <input type="text" name="key" value=@ViewBag.key placeholder="Enter keywords">
+                                    }
+                                    else
+                                    {
+                                        <input type="text" name="key" placeholder="Enter keywords">
+                                    }
                                 </div>
                                 <div class="col-md-12 form-it">
                                     <label>Celebrity Letter</label>
-                                    <select>
-                                        <option value="range">A</option>
-                                        <option value="saab">B</option>
+                                    <select name="letter">
+                                        @if (ViewBag.letter == null)
+                                        {
+                                            <option selected value="-1">-------</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="-1">-------</option>
+                                        }
+                                        @foreach (var item in ViewBag.alphabet)
+                                        {
+                                            if (item.id == ViewBag.letter)
+                                            {
+                                                <option selected value=@item.id>@item.value</option>
+                                            }
+                                            <option value=@item.id>@item.value</option>
+                                        }
                                     </select>
                                 </div>
                                 <div class="col-md-12 form-it">
-                                    <label>Category</label>
-                                    <select>
-                                        <option value="range">Actress</option>
-                                        <option value="saab">Others</option>
+                                    <label>Country</label>
+                                    <select name="coun_id">
+                                        @if (ViewBag.coun_id == null)
+                                        {
+                                            <option selected value="-1">-------</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="-1">-------</option>
+                                        }
+                                        @foreach (var item in ViewBag.category)
+                                        {
+                                            if (item.id == ViewBag.coun_id)
+                                            {
+                                                <option selected value=@item.id>@item.name</option>
+                                            }
+                                            <option value=@item.id>@item.name</option>
+                                        }
                                     </select>
                                 </div>
                                 <div class="col-md-12 form-it">
                                     <label>Year of birth</label>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <select>
-                                                <option value="range">1970</option>
-                                                <option value="number">Other</option>
+                                            <select name="min">
+                                                @if (ViewBag.min < 1920)
+                                                {
+                                                    <option selected value="1919">-------</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="1919">-------</option>
+                                                }
+                                                @foreach (var item in ViewBag.year_min)
+                                                {
+                                                    if (int.Parse(item) == ViewBag.min)
+                                                    {
+                                                        <option selected value=@item>@item</option>
+                                                    }
+                                                    <option value=@item>@item</option>
+                                                }
                                             </select>
                                         </div>
                                         <div class="col-md-6">
-                                            <select>
-                                                <option value="range">1990</option>
-                                                <option value="number">others</option>
+                                            <select name="max">
+                                                @if (ViewBag.max > 2020)
+                                                {
+                                                    <option selected value="2021">-------</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="2021">-------</option>
+                                                }
+                                                @foreach (var item in ViewBag.year_max)
+                                                {
+                                                    if (int.Parse(item) == ViewBag.max)
+                                                    {
+                                                        <option selected value=@item>@item</option>
+                                                    }
+                                                    <option value=@item>@item</option>
+                                                }
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 ">
                                     <input class="submit" type="submit" value="submit">
+                                </div>
+                                <div class="col-md-12 ">
+                                    <div><a href="@Url.Action("Celebrity_list", "Home", new { coun_id = ViewBag.coun_id })" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>
                                 </div>
                             </div>
                         </form>

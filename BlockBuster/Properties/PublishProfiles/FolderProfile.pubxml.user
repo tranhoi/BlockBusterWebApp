@@ -116,10 +116,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/05/2020 02:49:41</publishTime>
     </File>
     <File Include="bin/BlockBuster.dll">
-      <publishTime>06/24/2020 21:52:23</publishTime>
+      <publishTime>06/30/2020 10:43:08</publishTime>
     </File>
     <File Include="bin/BlockBuster.pdb">
-      <publishTime>06/24/2020 21:52:23</publishTime>
+      <publishTime>06/30/2020 10:43:08</publishTime>
     </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>06/05/2020 02:49:41</publishTime>
@@ -1670,10 +1670,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/05/2020 02:49:41</publishTime>
     </File>
     <File Include="Views/Home/Celebrity_list.cshtml">
-      <publishTime>06/23/2020 21:11:32</publishTime>
+      <publishTime>06/29/2020 21:12:36</publishTime>
     </File>
     <File Include="Views/Home/Celebrity_single.cshtml">
-      <publishTime>06/23/2020 21:14:58</publishTime>
+      <publishTime>06/29/2020 19:59:57</publishTime>
     </File>
     <File Include="Views/Home/Celeb_job.cshtml">
       <publishTime>06/05/2020 02:49:41</publishTime>
@@ -1688,7 +1688,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/05/2020 02:49:41</publishTime>
     </File>
     <File Include="Views/Home/Film_list.cshtml">
-      <publishTime>06/24/2020 21:46:55</publishTime>
+      <publishTime>06/24/2020 21:58:34</publishTime>
     </File>
     <File Include="Views/Home/Film_related.cshtml">
       <publishTime>06/05/2020 02:49:41</publishTime>
@@ -1709,7 +1709,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/24/2020 20:57:02</publishTime>
     </File>
     <File Include="Views/Home/Menu_celebrity_county.cshtml">
-      <publishTime>06/05/2020 02:49:41</publishTime>
+      <publishTime>06/28/2020 20:27:12</publishTime>
     </File>
     <File Include="Views/Home/Menu_country.cshtml">
       <publishTime>06/24/2020 20:57:04</publishTime>
@@ -1775,7 +1775,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/05/2020 02:55:23</publishTime>
     </File>
     <File Include="Views/Shared/_Layout_Home.cshtml">
-      <publishTime>06/14/2020 19:03:11</publishTime>
+      <publishTime>06/28/2020 19:32:27</publishTime>
     </File>
     <File Include="Views/Shared/_Layout_Home_2.cshtml">
       <publishTime>06/09/2020 22:16:50</publishTime>

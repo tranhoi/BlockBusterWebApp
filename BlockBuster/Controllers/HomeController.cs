@@ -243,13 +243,10 @@ namespace BlockBuster.Controllers
                             }
                             break;
                     }
-                    List<filmm> list_film_convert = Get_list_film_convert(list_film);// convert lai danh sach phim
-                    ViewBag.count = list_film_convert.Count;
-                    Session["listfilm"] = list_film_convert;
-                    return View(list_film_convert.ToPagedList(pageNum, pageSize));
                 }
             }
-            else {
+            else
+            {
                 // chon cach sap xep phim
                 switch (sortt)
                 {
@@ -266,12 +263,12 @@ namespace BlockBuster.Controllers
                         list_film = data.films.Where(or => or.form_id == form_id).OrderBy(a => a.release).ToList();
                         break;
                 }
-                List<film> list_film_ = Get_list_film(list_film, cate_idd, coun_idd, ratee);// loc danh sach phim theo the loai, quoc gia va dien danh gia
-                List<filmm> list_film_convert_ = Get_list_film_convert(list_film_);// convert lai danh sach phim
-                ViewBag.count = list_film_convert_.Count;
-                Session["listfilm"] = list_film_convert_;
-                return View(list_film_convert_.ToPagedList(pageNum, pageSize));
             }
+            List<film> list_film_ = Get_list_film(list_film, cate_idd, coun_idd, ratee);// loc danh sach phim theo the loai, quoc gia va dien danh gia
+            List<filmm> list_film_convert = Get_list_film_convert(list_film_);// convert lai danh sach phim
+            ViewBag.count = list_film_convert.Count;
+            Session["listfilm"] = list_film_convert;
+            return View(list_film_convert.ToPagedList(pageNum, pageSize));
         }
         // Lay danh sach phim theo the loai
         List<film> Get_film_cate(int id)
@@ -298,9 +295,9 @@ namespace BlockBuster.Controllers
         // Lay danh sach phim theo nguoi noi tieng tham gia
         List<film> Get_film_celebrity(int id)
         {
-            List<film_celebrity> list_selebrity = data.film_celebrities.Where(or => or.celeb_id == id).ToList();
+            List<film_celebrity> list_celebrity = data.film_celebrities.Where(or => or.celeb_id == id).ToList();
             List<film> list_film = new List<film>();
-            foreach (var item in list_selebrity)
+            foreach (var item in list_celebrity)
             {
                 list_film.Add(item.film);
             }
@@ -368,54 +365,279 @@ namespace BlockBuster.Controllers
         // Nghe nghiep cua tung nguoi noi tieng
         public ActionResult Celeb_job(int id) { return PartialView(data.celeb_jobs.Where(or => or.celeb_id == id).OrderByDescending(a => a.id).ToList()); }
         // danh sach nguoi noi tieng
-        public ActionResult Celebrity_list(int coun_id, int sort, int? page)
+        public ActionResult Celebrity_list(int? coun_id, int? sort, String key, int? letter, int? min, int? max, FormCollection collection, int? page)
         {
             // phan trang
-            int pageSize = 10;
+            int pageSize = 5;
             int pageNum = (page ?? 1);
-            ViewBag.coun_id = coun_id;
-            ViewBag.sort = coun_id;
-            List<celebrity> celeb_list = new List<celebrity>();
-            List<int> celeb_remove_list = new List<int>();
-            // chon cach sap xep phim
-            switch (sort)
+
+            int coun_idd = -1;
+            int sortt = 0;
+            int minn = 0;
+            int maxx = 2021;
+            int letterr = -1;
+            String keyy = "none";
+
+            if (key != "none" && key != null) { keyy = key; } else {; }
+            if (collection["key"] != null) { keyy = collection["key"]; } else {; }
+            if (letter != null) { letterr = int.Parse(letter.ToString()); } else {; }
+            if (collection["letter"] != null) { letterr = int.Parse(collection["letter"]); } else {; }
+            if (min != null) { minn = int.Parse(min.ToString()); } else {; }
+            if (collection["min"] != null) { minn = int.Parse(collection["min"]); } else {; }
+            if (max != null) { maxx = int.Parse(max.ToString()); } else {; }
+            if (collection["max"] != null) { maxx = int.Parse(collection["max"]); } else {; }
+
+            if (sort != null) { sortt = int.Parse(sort.ToString()); } else {; }
+            if (coun_id != null) { coun_idd = int.Parse(coun_id.ToString()); } else {; }
+
+            ViewBag.coun_id = coun_idd;
+            ViewBag.sort = sortt;
+            ViewBag.key = keyy;
+            ViewBag.min = minn;
+            ViewBag.max = maxx;
+            ViewBag.letter = letterr;
+            ViewBag.key = key;
+
+            List<celebrity> list_celeb = new List<celebrity>();
+            // tim theo tu khoa
+            if (keyy != "none" && keyy != "")
             {
-                case 0:
-                    celeb_list = data.celebrities.OrderBy(a => a.name).ToList();
-                    break;
-                case 1:
-                    celeb_list = data.celebrities.OrderByDescending(a => a.name).ToList();
-                    break;
-                case 2:
-                    celeb_list = data.celebrities.OrderBy(a => a.birthday).ToList();
-                    break;
-                case 3:
-                    celeb_list = data.celebrities.OrderByDescending(a => a.birthday).ToList();
-                    break;
-            }
-            if (coun_id > 0)
-            {
-                List<celebrity> list_celeb_counrty = (data.celebrities.Where(or => or.country_id == coun_id).ToList());
-                foreach (var item in celeb_list)
+                // chon cach sap xep co tim kiem
+                switch (sortt)
                 {
-                    if (!list_celeb_counrty.Contains(item))
+                    case 0:
+                        var celeb = from cele in data.celebrities
+                                    where cele.name.ToUpper().Contains(keyy.ToUpper())
+                                    orderby cele.name
+                                    select cele;
+                        if (celeb.Count() > 0)
+                        {
+                            foreach (var item in celeb)
+                            {
+                                list_celeb.Add(item);
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.count = "0";
+                            return View();
+                        }
+                        break;
+                    case 1:
+                        var celebb = from cele in data.celebrities
+                                     where cele.name.ToUpper().Contains(keyy.ToUpper())
+                                     orderby cele.name descending
+                                     select cele;
+                        if (celebb.Count() > 0)
+                        {
+                            foreach (var item in celebb)
+                            {
+                                list_celeb.Add(item);
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.count = "0";
+                            return View();
+                        }
+                        break;
+                    case 2:
+                        var celeb__ = from cele in data.celebrities
+                                      where cele.name.ToUpper().Contains(keyy.ToUpper())
+                                      orderby cele.birthday
+                                      select cele;
+                        if (celeb__.Count() > 0)
+                        {
+                            foreach (var item in celeb__)
+                            {
+                                list_celeb.Add(item);
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.count = "0";
+                            return View();
+                        }
+                        break;
+                    case 3:
+                        var celeb___ = from cele in data.celebrities
+                                       where cele.name.ToUpper().Contains(keyy.ToUpper())
+                                       orderby cele.birthday descending
+                                       select cele;
+                        if (celeb___.Count() > 0)
+                        {
+                            foreach (var item in celeb___)
+                            {
+                                list_celeb.Add(item);
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.count = "0";
+                            return View();
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                // chon cach sap xep khong co tim kiem
+                switch (sortt)
+                {
+                    case 0:
+                        list_celeb = data.celebrities.OrderBy(a => a.name).ToList();
+                        break;
+                    case 1:
+                        list_celeb = data.celebrities.OrderByDescending(a => a.name).ToList();
+                        break;
+                    case 2:
+                        list_celeb = data.celebrities.OrderBy(a => a.birthday).ToList();
+                        break;
+                    case 3:
+                        list_celeb = data.celebrities.OrderByDescending(a => a.birthday).ToList();
+                        break;
+                }
+            }
+            List<celebrity> list_celeb_ = Get_list_celeb(list_celeb, letterr, coun_idd, minn, maxx);// loc danh sach
+            ViewBag.count = list_celeb_.Count;
+            Session["listceleb"] = list_celeb_;
+            ViewBag.category = Get_country_list();
+            ViewBag.alphabet = Get_alphabet();
+            ViewBag.year_min = Get_year_min();
+            ViewBag.year_max = Get_year_max();
+            return View(list_celeb_.ToPagedList(pageNum, pageSize));
+        }
+        // Lay bang chu cai
+        public class letter
+        {
+            public int id;
+            public String value;
+        }
+        List<letter> Get_alphabet()
+        {
+            List<letter> alphabet = new List<letter>();
+            for (int i = 65; i <= 90; i++)
+            {
+                letter letter = new letter();
+                letter.id = i;
+                letter.value = ((char)i).ToString();
+                alphabet.Add(letter);
+            }
+            return (alphabet);
+        }
+        // Lay danh sach quoc gia
+        List<country> Get_country_list()
+        {
+            List<country> coun_list = data.countries.ToList();
+            return (coun_list);
+        }
+        // Tao danh sach nam tu be den lon
+        List<String> Get_year_min()
+        {
+            List<String> year_min = new List<String>();
+            for (int i = 1920; i <= 2020; i += 10)
+            {
+                year_min.Add(i.ToString());
+            }
+            return (year_min);
+        }
+        // Tao danh sach nam tu lon den be
+        List<String> Get_year_max()
+        {
+            List<String> year_max = new List<String>();
+            for (int i = 2020; i >= 1920; i -= 10)
+            {
+                year_max.Add(i.ToString());
+            }
+            return (year_max);
+        }
+        // Lay danh sach celeb theo tu dau tien trong ten
+        List<celebrity> Get_celeb_letter(int letter)
+        {
+            String letterr = ((char)letter).ToString();
+            List<celebrity> list_celeb = data.celebrities.Where(or => or.name.Substring(0, 1).ToUpper() == letterr.ToUpper()).ToList();
+            List<celebrity> list_celeb_ = new List<celebrity>();
+            foreach (var item in list_celeb)
+            {
+                list_celeb_.Add(item);
+            }
+            return (list_celeb_);
+        }
+        // Lay danh sach celeb theo quoc tich
+        List<celebrity> Get_celeb_country(int id)
+        {
+            List<celebrity> list_celeb = data.celebrities.Where(or => or.country_id == id).ToList();
+            List<celebrity> list_celeb_ = new List<celebrity>();
+            foreach (var item in list_celeb)
+            {
+                list_celeb_.Add(item);
+            }
+            return (list_celeb_);
+        }
+        // Lay danh sach celeb theo nam sinh
+        List<celebrity> Get_celeb_year(int min, int max)
+        {
+            List<celebrity> list_celeb = data.celebrities.ToList();
+            List<celebrity> list_celeb_ = new List<celebrity>();
+            foreach (var item in list_celeb)
+            {
+                DateTime birthday = DateTime.Parse((item.birthday).ToString());
+                int year = birthday.Year;
+                if (year > min && year < max)
+                {
+                    list_celeb_.Add(item);
+                }
+            }
+            return (list_celeb_);
+        }
+        // Lay danh sach celeb theo dieu kien
+        List<celebrity> Get_list_celeb(List<celebrity> list_celeb, int letter, int coun_id, int year_min, int year_max)
+        {
+            List<int> list_celeb_remove = new List<int>();
+            if (letter > 64 && letter < 91)
+            {
+                List<celebrity> list_celeb_letter = Get_celeb_letter(letter);
+                foreach (var item in list_celeb)
+                {
+                    if (!list_celeb_letter.Contains(item))
                     {
-                        celeb_remove_list.Add(item.id);
+                        list_celeb_remove.Add(item.id);
                     }
                     else {; }
                 }
             }
             else {; }
-            if (celeb_remove_list.Count > 0)
+            if (coun_id > -1)
             {
-                foreach (int item in celeb_remove_list)
+                List<celebrity> list_celeb_country = Get_celeb_country(coun_id);
+                foreach (var item in list_celeb)
                 {
-                    celeb_list.RemoveAll(r => r.id == item);
+                    if (!list_celeb_country.Contains(item))
+                    {
+                        list_celeb_remove.Add(item.id);
+                    }
+                    else {; }
                 }
             }
             else {; }
-            ViewBag.count = celeb_list.Count;
-            return View(celeb_list.ToPagedList(pageNum, pageSize));
+            List<celebrity> list_celeb_year = Get_celeb_year(year_min, year_max);
+            foreach (var item in list_celeb)
+            {
+                if (!list_celeb_year.Contains(item))
+                {
+                    list_celeb_remove.Add(item.id);
+                }
+                else {; }
+            }
+            if (list_celeb_remove.Count > 0)
+            {
+                foreach (int item in list_celeb_remove)
+                {
+                    list_celeb.RemoveAll(r => r.id == item);
+                }
+            }
+            else {; }
+            return (list_celeb);
         }
         // Lay so luot nhan xet cua tung phim
         public ActionResult Review_count(int id)
