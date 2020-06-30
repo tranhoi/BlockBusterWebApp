@@ -24,8 +24,8 @@
                     <div class="movie-btn">
                         @Html.Action("Trailer", "Home", new { id = Model.Id })
                         <div class="btn-transform transform-vertical">
-                            <div><a href="@Url.Action("Trailer_list", "Home", new { id = Model.Id})" class="item item-1 yellowbtn"><i class="ion-card"></i> watch now</a></div>
-                            <div><a href="@Url.Action("Trailer_list", "Home", new { id = Model.Id})" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>
+                            <div><a href="@Url.Action("Trailer_list", "Home", new { film_id = Model.Id})" class="item item-1 yellowbtn"><i class="ion-card"></i> watch all</a></div>
+                            <div><a href="@Url.Action("Trailer_list", "Home", new { film_id = Model.Id})" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>
                         </div>
                     </div>
                 </div>

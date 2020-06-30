@@ -329,3 +329,4 @@ C:\Users\tranh\OneDrive\Máy tính\1611060586_TRANVIETOI_DATH\Source code\BlockB
 C:\Users\tranh\OneDrive\Máy tính\1611060586_TRANVIETOI_DATH\Source code\BlockBusterWebApp\BlockBuster\obj\Debug\BlockBuster.csproj.CopyComplete
 C:\Users\tranh\OneDrive\Máy tính\1611060586_TRANVIETOI_DATH\Source code\BlockBusterWebApp\BlockBuster\obj\Debug\BlockBuster.dll
 C:\Users\tranh\OneDrive\Máy tính\1611060586_TRANVIETOI_DATH\Source code\BlockBusterWebApp\BlockBuster\obj\Debug\BlockBuster.pdb
+C:\Users\tranh\OneDrive\Máy tính\1611060586_TRANVIETOI_DATH\Source code\BlockBusterWebApp\BlockBuster\obj\Debug\BlockBuster.csprojAssemblyReference.cache

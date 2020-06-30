@@ -91,7 +91,7 @@
             <div class="col-md-3 col-xs-12 col-sm-12">
                 <div class="sidebar">
                     <div class="searh-form">
-                        <h4 class="sb-title">Search celebrity</h4>
+                        <h4 class="sb-title">filter</h4>
                         <form class="form-style-1 celebrity-form" action="@Url.Action("Celebrity_list", "Home", new { coun_id = ViewBag.coun_id, sort = ViewBag.sort, key = ViewBag.key, letter = ViewBag.letter, min = ViewBag.min, max = ViewBag.max })" method="post">
                             <div class="row">
                                 <div class="col-md-12 form-it">
@@ -137,7 +137,7 @@
                                         {
                                             <option value="-1">-------</option>
                                         }
-                                        @foreach (var item in ViewBag.category)
+                                        @foreach (var item in ViewBag.country)
                                         {
                                             if (item.id == ViewBag.coun_id)
                                             {
@@ -193,10 +193,11 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12 ">
-                                    <input class="submit" type="submit" value="submit">
+                                    <div><a style="color:white" href="@Url.Action("Celebrity_list", "Home")">Clean up</a></div>
+                                    <br />
                                 </div>
                                 <div class="col-md-12 ">
-                                    <div><a href="@Url.Action("Celebrity_list", "Home", new { coun_id = ViewBag.coun_id })" class="item item-2 yellowbtn"><i class="ion-card"></i></a></div>
+                                    <input class="submit" type="submit" value="filtering">
                                 </div>
                             </div>
                         </form>

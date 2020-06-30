@@ -109,14 +109,62 @@ namespace BlockBuster.Controllers
         public ActionResult Toprate_drama() { return PartialView(data.films.Where(or => or.form_id == 2).OrderByDescending(a => a.rate).Take(7).ToList()); }
         // Partial view danh sach ngau nhien 5 nguoi noi tieng
         public ActionResult Celebrities() { return PartialView(data.celebrities.OrderByDescending(a => a.id).Take(5).ToList()); }
-        // Partial view danh sach 6 trailer moi nhat
-        public ActionResult Newtrailer() { return PartialView(data.trailers.OrderByDescending(a => a.id).Take(3).ToList()); }
         // Tat ca the loai cua moi phim
         public ActionResult Category_film(int id) { return PartialView(data.film_categories.Where(or => or.film_id == id).OrderByDescending(a => a.id).ToList()); }
         // 2 the loai cua moi phim - chi lay 2 de hien thi tai partialview phim moi
         public ActionResult Category_film_2(int id) { return PartialView(data.film_categories.Where(or => or.film_id == id).OrderByDescending(a => a.id).Take(2).ToList()); }
         // Partial view menu
         public ActionResult Menu_film() { return PartialView(data.forms.OrderBy(a => a.id).ToList()); }
+        // Lay danh sach the loai
+        List<category> Get_cate_list()
+        {
+            List<category> cate_list = data.categories.ToList();
+            return (cate_list);
+        }
+        // Lay bang chu cai
+        public class letter
+        {
+            public int id;
+            public String value;
+        }
+        List<letter> Get_alphabet()
+        {
+            List<letter> alphabet = new List<letter>();
+            for (int i = 65; i <= 90; i++)
+            {
+                letter letter = new letter();
+                letter.id = i;
+                letter.value = ((char)i).ToString();
+                alphabet.Add(letter);
+            }
+            return (alphabet);
+        }
+        // Lay danh sach quoc gia
+        List<country> Get_country_list()
+        {
+            List<country> coun_list = data.countries.ToList();
+            return (coun_list);
+        }
+        // Tao danh sach nam tu be den lon
+        List<String> Get_year_min()
+        {
+            List<String> year_min = new List<String>();
+            for (int i = 1920; i <= 2020; i += 10)
+            {
+                year_min.Add(i.ToString());
+            }
+            return (year_min);
+        }
+        // Tao danh sach nam tu lon den be
+        List<String> Get_year_max()
+        {
+            List<String> year_max = new List<String>();
+            for (int i = 2020; i >= 1920; i -= 10)
+            {
+                year_max.Add(i.ToString());
+            }
+            return (year_max);
+        }
         // Partial view menu the loai
         public ActionResult Menu_category(int id)
         {
@@ -143,11 +191,13 @@ namespace BlockBuster.Controllers
             int cate_idd = 0;
             int coun_idd = 0;
             int ratee = 0;
-            if (collection["key"] != null) { key = collection["key"]; } else {; }
+
             if (form_id != null) { form_idd = int.Parse(form_id.ToString()); } else {; }
             if (sort != null) { sortt = int.Parse(sort.ToString()); } else {; }
             if (cate_id != null) { cate_idd = int.Parse(cate_id.ToString()); } else {; }
-            if (coun_id != null) { coun_idd = int.Parse(coun_id.ToString()); } else {; }
+            if (collection["cate_id"] != null) { cate_id = int.Parse(collection["cate_id"]); } else {; }
+            if (coun_id != null) { coun_idd = int.Parse(coun_idd.ToString()); } else {; }
+            if (collection["coun_id"] != null) { coun_idd = int.Parse(collection["coun_id"]); } else {; }
             if (rate != null) { ratee = int.Parse(rate.ToString()); } else {; }
             if (collection["rate"] != null) { ratee = int.Parse(collection["rate"]); } else {; }
 
@@ -157,6 +207,8 @@ namespace BlockBuster.Controllers
             ViewBag.coun_id = coun_idd;
             ViewBag.rate = ratee;
             ViewBag.key = key;
+            ViewBag.country = Get_country_list();
+            ViewBag.category = Get_cate_list();
             List<film> list_film = new List<film>();
             // tim theo tu khoa
             if (key != "none")
@@ -175,72 +227,24 @@ namespace BlockBuster.Controllers
                                        where fil.name.ToUpper().Contains(key.ToUpper()) && fil.form_id == form_idd
                                        orderby fil.view_count descending
                                        select fil;
-                            if (film.Count() > 0)
-                            {
-                                foreach (var item in film)
-                                {
-                                    list_film.Add(item);
-                                }
-                            }
-                            else
-                            {
-                                ViewBag.count = "0";
-                                return View();
-                            }
                             break;
                         case 1:
                             var film_ = from fil in data.films
                                         where fil.name.ToUpper().Contains(key.ToUpper()) && fil.form_id == form_idd
                                         orderby fil.rate descending
                                         select fil;
-                            if (film_.Count() > 0)
-                            {
-                                foreach (var item in film_)
-                                {
-                                    list_film.Add(item);
-                                }
-                            }
-                            else
-                            {
-                                ViewBag.count = "0";
-                                return View();
-                            }
                             break;
                         case 2:
                             var film__ = from fil in data.films
                                          where fil.name.ToUpper().Contains(key.ToUpper()) && fil.form_id == form_idd
                                          orderby fil.release descending
                                          select fil;
-                            if (film__.Count() > 0)
-                            {
-                                foreach (var item in film__)
-                                {
-                                    list_film.Add(item);
-                                }
-                            }
-                            else
-                            {
-                                ViewBag.count = "0";
-                                return View();
-                            }
                             break;
                         case 3:
                             var film___ = from fil in data.films
                                           where fil.name.ToUpper().Contains(key.ToUpper()) && fil.form_id == form_idd
                                           orderby fil.release ascending
                                           select fil;
-                            if (film___.Count() > 0)
-                            {
-                                foreach (var item in film___)
-                                {
-                                    list_film.Add(item);
-                                }
-                            }
-                            else
-                            {
-                                ViewBag.count = "0";
-                                return View();
-                            }
                             break;
                     }
                 }
@@ -266,9 +270,17 @@ namespace BlockBuster.Controllers
             }
             List<film> list_film_ = Get_list_film(list_film, cate_idd, coun_idd, ratee);// loc danh sach phim theo the loai, quoc gia va dien danh gia
             List<filmm> list_film_convert = Get_list_film_convert(list_film_);// convert lai danh sach phim
-            ViewBag.count = list_film_convert.Count;
-            Session["listfilm"] = list_film_convert;
-            return View(list_film_convert.ToPagedList(pageNum, pageSize));
+            int count = list_film_convert.Count;
+            if(count == 0) {
+                ViewBag.count = 0;
+                return View();
+            }
+            else
+            {
+                ViewBag.count = list_film_convert.Count;
+                Session["listfilm"] = list_film_convert;
+                return View(list_film_convert.ToPagedList(pageNum, pageSize));
+            }
         }
         // Lay danh sach phim theo the loai
         List<film> Get_film_cate(int id)
@@ -501,55 +513,11 @@ namespace BlockBuster.Controllers
             List<celebrity> list_celeb_ = Get_list_celeb(list_celeb, letterr, coun_idd, minn, maxx);// loc danh sach
             ViewBag.count = list_celeb_.Count;
             Session["listceleb"] = list_celeb_;
-            ViewBag.category = Get_country_list();
+            ViewBag.country = Get_country_list();
             ViewBag.alphabet = Get_alphabet();
             ViewBag.year_min = Get_year_min();
             ViewBag.year_max = Get_year_max();
             return View(list_celeb_.ToPagedList(pageNum, pageSize));
-        }
-        // Lay bang chu cai
-        public class letter
-        {
-            public int id;
-            public String value;
-        }
-        List<letter> Get_alphabet()
-        {
-            List<letter> alphabet = new List<letter>();
-            for (int i = 65; i <= 90; i++)
-            {
-                letter letter = new letter();
-                letter.id = i;
-                letter.value = ((char)i).ToString();
-                alphabet.Add(letter);
-            }
-            return (alphabet);
-        }
-        // Lay danh sach quoc gia
-        List<country> Get_country_list()
-        {
-            List<country> coun_list = data.countries.ToList();
-            return (coun_list);
-        }
-        // Tao danh sach nam tu be den lon
-        List<String> Get_year_min()
-        {
-            List<String> year_min = new List<String>();
-            for (int i = 1920; i <= 2020; i += 10)
-            {
-                year_min.Add(i.ToString());
-            }
-            return (year_min);
-        }
-        // Tao danh sach nam tu lon den be
-        List<String> Get_year_max()
-        {
-            List<String> year_max = new List<String>();
-            for (int i = 2020; i >= 1920; i -= 10)
-            {
-                year_max.Add(i.ToString());
-            }
-            return (year_max);
         }
         // Lay danh sach celeb theo tu dau tien trong ten
         List<celebrity> Get_celeb_letter(int letter)
@@ -973,17 +941,30 @@ namespace BlockBuster.Controllers
             else
             { return HttpNotFound(); }
         }
+        // Trailer cua tung phim hien thi trong trang film_single
         public ActionResult Trailer(int id)
         {
             return PartialView(data.trailers.Where(or => or.film_id == id).OrderByDescending(a => a.id).FirstOrDefault());
         }
-        public ActionResult Trailer_list(int id)
+        // Partial view danh sach trailer moi nhat
+        public ActionResult Trailer_new() { return PartialView(data.trailers.OrderByDescending(a => a.id).Take(2).ToList()); }
+        // Danh sach trailer
+        public ActionResult Trailer_list(int? film_id, int? page)
         {
-            return View(data.trailers.Where(or => or.film_id == id).OrderByDescending(a => a.id).ToList());
-        }
-        public ActionResult Trailer_all(int? id)
-        {
-            return View(data.trailers.OrderByDescending(a => a.id).Take(10).ToList());
+            // phan trang
+            int pageSize = 5;
+            int pageNum = (page ?? 1);
+
+            List<trailer> trailer_list = new List<trailer>();
+            if(film_id != null)
+            {
+                trailer_list = data.trailers.Where(or => or.film_id == film_id).OrderByDescending(a => a.id).ToList();
+            }
+            else
+            {
+                trailer_list = data.trailers.OrderByDescending(a => a.id).ToList();
+            }
+            return View(trailer_list.ToPagedList(pageNum, pageSize));
         }
         //search
         public ActionResult Search()

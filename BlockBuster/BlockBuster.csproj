@@ -605,7 +605,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Newfilm.cshtml" />
     <Content Include="Views\Home\Celebrities.cshtml" />
-    <Content Include="Views\Home\Newtrailer.cshtml" />
+    <Content Include="Views\Home\Trailer_new.cshtml" />
     <Content Include="Views\Home\Celeb_job.cshtml" />
     <Content Include="Views\Home\Review_count.cshtml" />
     <Content Include="Views\Home\Film_single.cshtml" />
@@ -679,7 +679,6 @@
     <Content Include="Views\Admin\Edit_film.cshtml" />
     <Content Include="Views\User\Login_to.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
-    <Content Include="Views\Home\Trailer_all.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
