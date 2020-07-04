@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Trailer_list";
+    Layout = "~/Views/Shared/_Layout_Home.cshtml";
+}
+<div class="hero common-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hero-ct">
+                    <h1>trailer list</h1>
+                    <ul class="breadcumb">
+                        <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                        <li> <span class="ion-ios-arrow-right"></span> trailer listing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- trailer section-->
+<div class="page-single">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 col-sm-12 col-xs-12">
+                <div class="row">
+                    @foreach (var items in Model)
+                    {
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <div class="blog-item-style-2">
+                                <a href="https://www.youtube.com/embed/@items.source"><img src="~/images/trailer/@items.image_link" alt=""></a>
+                                <div class="blog-it-infor">
+                                    <h3><a href="https://www.youtube.com/embed/@items.source">@items.name</a></h3>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end of trailer section-->

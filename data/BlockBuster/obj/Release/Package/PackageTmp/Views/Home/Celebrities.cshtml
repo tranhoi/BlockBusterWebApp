@@ -1,0 +1,10 @@
+﻿@foreach (var items in Model)
+{
+    <div class="celeb-item">
+        <img src="~/images/celeb/@items.avatar" alt="" width="70" height="70">
+        <div class="celeb-author">
+            <h6><a href="@Url.Action("Celebrity_single", "Home", new { id = items.id})">@items.name</a></h6>
+            @Html.Action("Celeb_job", "Home", new { id = items.id })
+        </div>
+    </div>
+}

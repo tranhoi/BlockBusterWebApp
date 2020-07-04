@@ -1,0 +1,12 @@
+﻿<ul class="dropdown-menu dropdown-user">
+    <li>
+        <a><i class="fa fa-user fa-fw"></i> @ViewBag.User_name </a>
+    </li>
+    <li>
+        <a><i class="fa fa-gear fa-fw"></i> @ViewBag.User_position </a>
+    </li>
+    <li class="divider"></li>
+    <li>
+        <a href="@Url.Action("Logout", "Admin")"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+    </li>
+</ul>

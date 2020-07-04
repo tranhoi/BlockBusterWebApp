@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Manager_film_country";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<p>
+    @Html.ActionLink("Add trailer", "Create_trailer", new { id = ViewBag.film_id })
+</p>
+<table class="table">
+    <tr>
+        <th style="width:30%">Trailer list of film - id: @ViewBag.film_id</th>
+        <th style="width:10%"></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.name
+            </td>
+            <td>
+                <img height="100" src="~/images/trailer/@item.image_link" />
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete_trailer", new { id = item.id })
+            </td>
+        </tr>
+    }
+</table>
+<div>
+    @Html.ActionLink("Come back", "Detail_film", new { id = ViewBag.film_id })
+</div>

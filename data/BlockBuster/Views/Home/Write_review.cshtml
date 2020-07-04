@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Write review";
+    Layout = "~/Views/Shared/_Layout_Home_2.cshtml";
+}
+<div class="page-single-2">
+    <div class="container">
+        <div class="row ipad-width">
+            <div class="left-content">
+                <a href="@Url.Action("Index", "Home")"><img class="md-logo" src="~/images/logo1.png" alt=""></a>
+                <h3>write review</h3>
+                <p>in the name of</p>
+                <h3>@ViewBag.first_name - @ViewBag.last_name</h3>
+                <br />
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <form action="/Home/Add_review" method="post">
+                            <div class="row">
+                                <input type="hidden" name="film" value=@ViewBag.film_id />
+                            </div>
+                            <div class="row">
+                                <input class="email" type="text" name="title" maxlength="100" placeholder="title" autofocus required>
+                            </div>
+                            <div class="row">
+                                <input class="email" type="number" name="point" max="5" min="1" value=@ViewBag.rate required>
+                            </div>
+                            <div class="row">
+                                <input class="email" type="text" name="comment" maxlength="2000" placeholder="your comment" required>
+                            </div>
+                            <div class="row">
+                                <input class="redbtn" type="submit" value="Rate">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <img class="cm-img" src="~/images/films/@Model.image_link" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

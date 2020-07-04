@@ -1,0 +1,9 @@
+﻿@foreach (var item in Model)
+{
+    <li>
+        @item.celebrity.name - @item.role.name
+        <br />
+        <img height="100" src="~/images/celeb/@item.celebrity.avatar" />
+    </li>
+    <br />
+}

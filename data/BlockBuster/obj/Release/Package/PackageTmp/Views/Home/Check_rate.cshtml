@@ -1,0 +1,49 @@
+﻿<div class="rate-star">
+    <!-- RATING - Form -->
+    @if (Model != null)
+    {
+        <p>Your rate:  </p>
+        for (int i = 0; i < Model.point; i++)
+        {
+            <i class="ion-ios-star"></i>
+        }
+        for (int i = 0; i < (5 - Model.point); i++)
+        {
+            <i class="ion-ios-star-outline"></i>
+        }
+    }
+    else
+    {
+        <p>Rate This Movie:  </p>
+        <div style="font-size:36px" class="rating">
+            @for (int i = 5; i >= 1; i--)
+            {
+                <a href="@Url.Action("Write_review","Home",new { id = ViewBag.id, rate = i })">☆</a>
+            }
+        </div>
+    }
+</div>
+<style>
+    .rating > a:hover:before {
+        content: "/2605";
+        position: absolute;
+        color:gold;
+    }
+    .rating {
+        unicode-bidi: bidi-override;
+        direction: rtl;
+    }
+
+        .rating > a {
+            display: inline-block;
+            position: relative;
+            width: 0.8em;
+        }
+
+            .rating > a:hover:before,
+            .rating > a:hover ~ a:before {
+                content: "\2605";
+                position: absolute;
+                color: gold;
+            }
+</style>

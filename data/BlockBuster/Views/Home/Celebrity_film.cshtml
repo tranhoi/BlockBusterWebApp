@@ -1,0 +1,15 @@
+﻿<div class="mvcast-item">
+    @foreach (var items in Model)
+    {
+        <div class="cast-it">
+            <div class="cast-left cebleb-film">
+                <img width="50" height="100" src="~/images/films/@items.Image_link" alt="">
+                <div>
+                    <a href="@Url.Action("Film_single", "Home", new { id = items.Id})">@items.Name </a>
+                </div>
+
+            </div>
+            <p>...  @items.Year</p>
+        </div>
+    }
+</div>

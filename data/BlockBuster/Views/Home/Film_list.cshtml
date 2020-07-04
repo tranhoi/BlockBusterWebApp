@@ -1,0 +1,492 @@
+﻿@using BlockBuster.Models
+@using PagedList.Mvc;
+@model PagedList.PagedList<filmm>
+@{
+    ViewBag.Title = "Film_list";
+    Layout = "~/Views/Shared/_Layout_Home.cshtml";
+}
+@helper Truncate(string input, int length)
+{
+    if (input.Length < length)
+    {
+        @input
+    }
+    else
+    {
+        @input.Substring(0, length)<text>...</text>
+    }
+}
+@{
+    // Sort style
+    String sort_popularity = "film_list?form_id=" + ViewBag.form_id + "&sort=0" + "&cate_id=" + ViewBag.cate_id + "&coun_id=" + ViewBag.coun_id + "&rate=" + ViewBag.rate + "&key=" + ViewBag.key + "&view_style=" + ViewBag.view_style + "&page_size=" + ViewBag.page_size;
+    String sort_rating = "film_list?form_id=" + ViewBag.form_id + "&sort=1" + "&cate_id=" + ViewBag.cate_id + "&coun_id=" + ViewBag.coun_id + "&rate=" + ViewBag.rate + "&key=" + ViewBag.key + "&view_style=" + ViewBag.view_style + "&page_size=" + ViewBag.page_size;
+    String sort_dereleased = "film_list?form_id=" + ViewBag.form_id + "&sort=2" + "&cate_id=" + ViewBag.cate_id + "&coun_id=" + ViewBag.coun_id + "&rate=" + ViewBag.rate + "&key=" + ViewBag.key + "&view_style=" + ViewBag.view_style + "&page_size=" + ViewBag.page_size;
+    String sort_released = "film_list?form_id=" + ViewBag.form_id + "&sort=3" + "&cate_id=" + ViewBag.cate_id + "&coun_id=" + ViewBag.coun_id + "&rate=" + ViewBag.rate + "&key=" + ViewBag.key + "&view_style=" + ViewBag.view_style + "&page_size=" + ViewBag.page_size;
+    // Page size
+    String PageSize_5 = "film_list?form_id=" + ViewBag.form_id + "&sort=0" + "&cate_id=" + ViewBag.cate_id + "&coun_id=" + ViewBag.coun_id + "&rate=" + ViewBag.rate + "&key=" + ViewBag.key + "&view_style=" + ViewBag.view_style + "&page_size=5";
+    String PageSize_10 = "film_list?form_id=" + ViewBag.form_id + "&sort=1" + "&cate_id=" + ViewBag.cate_id + "&coun_id=" + ViewBag.coun_id + "&rate=" + ViewBag.rate + "&key=" + ViewBag.key + "&view_style=" + ViewBag.view_style + "&page_size=10";
+    String PageSize_20 = "film_list?form_id=" + ViewBag.form_id + "&sort=1" + "&cate_id=" + ViewBag.cate_id + "&coun_id=" + ViewBag.coun_id + "&rate=" + ViewBag.rate + "&key=" + ViewBag.key + "&view_style=" + ViewBag.view_style + "&page_size=20";
+}
+<div class="hero common-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hero-ct">
+                    @if (ViewBag.form_id == 1)
+                    {
+                        if (ViewBag.view_style == 1)
+                        {
+                            <h1> movie listing - list</h1>
+                        }
+                        else
+                        {
+                            <h1> movie listing - grid</h1>
+                        }
+                        <ul class="breadcumb">
+                            <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                            <li> <span class="ion-ios-arrow-right"></span> movie listing</li>
+                        </ul>
+                    }
+                    else
+                    {
+                        if (ViewBag.view_style == 1)
+                        {
+                            <h1> movie listing - list</h1>
+                        }
+                        else
+                        {
+                            <h1> movie listing - grid</h1>
+                        }
+                        <ul class="breadcumb">
+                            <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                            <li> <span class="ion-ios-arrow-right"></span> drama listing</li>
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@if (ViewBag.view_style == 1)
+{
+    <div class="page-single movie_list">
+        <div class="container">
+            <div class="row ipad-width2">
+                <div class="col-md-8 col-sm-12 col-xs-12">
+                    <div class="topbar-filter">
+                        <p>Found <span>@ViewBag.count</span> in total</p>
+                        <label>Sort by:</label>
+                        <select name="forma" onchange="location = this.options[this.selectedIndex].value;">
+                                @switch (ViewBag.sort)
+                                {
+                                    case 0:
+                                        <option selected value=@sort_popularity>Popularity</option>
+                                        <option value=@sort_rating>Rating</option>
+                                        <option value=@sort_dereleased>Released Descending</option>
+                                        <option value=@sort_released>Released Ascending</option>
+                                        break;
+                                    case 1:
+                                        <option value=@sort_popularity>Popularity</option>
+                                        <option selected value=@sort_rating>Rating</option>
+                                        <option value=@sort_dereleased>Released Descending</option>
+                                        <option value=@sort_released>Released Ascending</option>
+                                        break;
+                                    case 2:
+                                        <option value=@sort_popularity>Popularity</option>
+                                        <option value=@sort_rating>Rating</option>
+                                        <option selected value=@sort_dereleased>Released Descending</option>
+                                        <option value=@sort_released>Released Ascending</option>
+                                        break;
+                                    case 3:
+                                        <option value=@sort_popularity>Popularity</option>
+                                        <option value=@sort_rating>Rating</option>
+                                        <option value=@sort_dereleased>Released Descending</option>
+                                        <option selected value=@sort_released>Released Ascending</option>
+                                        break;
+                                }
+                        </select>
+                        <a href="@Url.Action("Film_list", "Home", new { form_id = ViewBag.form_id, sort = ViewBag.sort, cate_id = ViewBag.cate_id, coun_id = ViewBag.coun_id, key = ViewBag.key, view_style = 1, page_size = 5 })" class="list"><i class="ion-ios-list-outline active"></i></a>
+                        <a href="@Url.Action("Film_list", "Home", new { form_id = ViewBag.form_id, sort = ViewBag.sort, cate_id = ViewBag.cate_id, coun_id = ViewBag.coun_id, key = ViewBag.key, view_style = 2, page_size = 10 })" class="grid"><i class="ion-grid"></i></a>
+                    </div>
+                    @if (Model != null)
+                    {
+                        foreach (var items in Model)
+                        {
+                            <div class="movie-item-style-2">
+                                <img src="~/images/films/@items.Image_link" alt="">
+                                <div class="mv-item-infor">
+                                    <h6><a href="@Url.Action("Film_single", "Home", new { id = items.Id })">@items.Name</a></h6>
+                                    <p class="rate"><span>@items.View_count</span> view <i class="ion-android-star"></i><span>@items.Rate</span> /10</p>
+                                    <p class="describe">@Truncate(items.Description, 100)</p>
+                                    <p class="run-time"> <span>Release: @items.Month @items.Day, @items.Year</span></p>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p style="color:#dd003f">There are no items for your terms!</p>
+                    }
+                    <!--page list-->
+                    <div class="topbar-filter">
+                        <label>Movies per page:</label>
+                        <select name="formb" onchange="location = this.options[this.selectedIndex].value;">
+                            @switch (ViewBag.page_size)
+                            {
+                                case 5:
+                                    <option selected value=@PageSize_5>5 film</option>
+                                    <option value=@PageSize_10>10 film</option>
+                                    <option value=@PageSize_20>20 film</option>
+                                    break;
+                                case 10:
+                                    <option value=@PageSize_5>5 film</option>
+                                    <option selected value=@PageSize_10>10 film</option>
+                                    <option value=@PageSize_20>20 film</option>
+                                    break;
+                                case 20:
+                                    <option value=@PageSize_5>5 film</option>
+                                    <option value=@PageSize_10>10 film</option>
+                                    <option selected value=@PageSize_20>20 film</option>
+                                    break;
+                            }
+                        </select>
+                        <div class="pagination2">
+                            @if (Model != null)
+                            {
+                                <span>Page<a>@Model.PageNumber</a>of @Model.PageCount</span>
+                            }
+                            else
+                            {
+                                <span>no data...</span>
+                            }
+                        </div>
+                    </div>
+                    @if (Model != null)
+                    {
+                        @Html.PagedListPager(Model, page => Url.Action("film_list", new { form_id = ViewBag.form_id, sort = ViewBag.sort, cate_id = ViewBag.cate_id, coun_id = ViewBag.coun_id, rate = ViewBag.rate, view_style = ViewBag.view_style, page_size = ViewBag.page_size, key = "none", page = page }))
+                    }
+                    else {; }
+                    <!--end page list-->
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <div class="sidebar">
+                        <div class="searh-form">
+                            <h4 class="sb-title">filter</h4>
+                            <form class="form-style-1" action="@Url.Action("Film_list", "Home", new { form_id = ViewBag.form_id, sort = ViewBag.sort, cate_id = ViewBag.cate_id, coun_id = ViewBag.coun_id, key = ViewBag.key, view_style = ViewBag.view_style, page_size = ViewBag.page_size })" method="post">
+                                <div class="row">
+                                    <div class="col-md-12 form-it">
+                                        <label>Rating Range</label>
+                                        <select name="rate">
+                                                @switch (ViewBag.rate)
+                                                {
+                                                    case 0:
+                                                        <option value="4">-- ☆☆☆☆☆ --</option>
+                                                        <option value="3">-- ☆☆☆☆--</option>
+                                                        <option value="2">-- ☆☆☆--</option>
+                                                        <option value="1">-- ☆☆--</option>
+                                                        <option selected value="0">-- ☆--</option>
+                                                        break;
+                                                    case 1:
+                                                        <option value="4">-- ☆☆☆☆☆ --</option>
+                                                        <option value="3">-- ☆☆☆☆--</option>
+                                                        <option value="2">-- ☆☆☆--</option>
+                                                        <option selected value="1">-- ☆☆--</option>
+                                                        <option value="0">-- ☆--</option>
+                                                        break;
+                                                    case 2:
+                                                        <option value="4">-- ☆☆☆☆☆ --</option>
+                                                        <option value="3">-- ☆☆☆☆--</option>
+                                                        <option selected value="2">-- ☆☆☆--</option>
+                                                        <option value="1">-- ☆☆--</option>
+                                                        <option value="0">-- ☆--</option>
+                                                        break;
+                                                    case 3:
+                                                        <option value="4">-- ☆☆☆☆☆ --</option>
+                                                        <option selected value="3">-- ☆☆☆☆--</option>
+                                                        <option value="2">-- ☆☆☆--</option>
+                                                        <option value="1">-- ☆☆--</option>
+                                                        <option value="0">-- ☆--</option>
+                                                        break;
+                                                    case 4:
+                                                        <option selected value="4">-- ☆☆☆☆☆ --</option>
+                                                        <option value="3">-- ☆☆☆☆--</option>
+                                                        <option value="2">-- ☆☆☆--</option>
+                                                        <option value="1">-- ☆☆--</option>
+                                                        <option value="0">-- ☆--</option>
+                                                        break;
+                                                }
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 form-it">
+                                        <label>Country</label>
+                                        <select name="coun_id">
+                                            @if (ViewBag.coun_id == null)
+                                            {
+                                                <option selected value="-1">-------</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="-1">-------</option>
+                                            }
+                                            @foreach (var item in ViewBag.country)
+                                            {
+                                                if (item.id == ViewBag.coun_id)
+                                                {
+                                                    <option selected value=@item.id>@item.name</option>
+                                                }
+                                                <option value=@item.id>@item.name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 form-it">
+                                        <label>Category</label>
+                                        <select name="cate_id">
+                                            @if (ViewBag.cate_id == null)
+                                            {
+                                                <option selected value="-1">-------</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="-1">-------</option>
+                                            }
+                                            @foreach (var item in ViewBag.category)
+                                            {
+                                                if (item.id == ViewBag.cate_id)
+                                                {
+                                                    <option selected value=@item.id>@item.name</option>
+                                                }
+                                                <option value=@item.id>@item.name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 ">
+                                        <div><a style="color:white" href="@Url.Action("film_list", "Home", new { form_id = ViewBag.form_id, key = "none", view_style = ViewBag.view_style, page_size = ViewBag.page_size })">Clean up</a></div>
+                                        <br />
+                                    </div>
+                                    <div class="col-md-12 ">
+                                        <input class="submit" type="submit" value="filtering">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="page-single">
+        <div class="container">
+            <div class="row ipad-width2">
+                <div class="col-md-8 col-sm-12 col-xs-12">
+                    <div class="topbar-filter">
+                        <p>Found <span>@ViewBag.count</span> in total</p>
+                        <label>Sort by:</label>
+                        <select name="forma" onchange="location = this.options[this.selectedIndex].value;">
+                                @switch (ViewBag.sort)
+                                {
+                                    case 0:
+                                        <option selected value=@sort_popularity>Popularity</option>
+                                        <option value=@sort_rating>Rating</option>
+                                        <option value=@sort_dereleased>Released Descending</option>
+                                        <option value=@sort_released>Released Ascending</option>
+                                        break;
+                                    case 1:
+                                        <option value=@sort_popularity>Popularity</option>
+                                        <option selected value=@sort_rating>Rating</option>
+                                        <option value=@sort_dereleased>Released Descending</option>
+                                        <option value=@sort_released>Released Ascending</option>
+                                        break;
+                                    case 2:
+                                        <option value=@sort_popularity>Popularity</option>
+                                        <option value=@sort_rating>Rating</option>
+                                        <option selected value=@sort_dereleased>Released Descending</option>
+                                        <option value=@sort_released>Released Ascending</option>
+                                        break;
+                                    case 3:
+                                        <option value=@sort_popularity>Popularity</option>
+                                        <option value=@sort_rating>Rating</option>
+                                        <option value=@sort_dereleased>Released Descending</option>
+                                        <option selected value=@sort_released>Released Ascending</option>
+                                        break;
+                                }
+                        </select>
+                        <a href="@Url.Action("Film_list", "Home", new { form_id = ViewBag.form_id, sort = ViewBag.sort, cate_id = ViewBag.cate_id, coun_id = ViewBag.coun_id, key = ViewBag.key, view_style = 1, page_size = 5 })" class="list"><i class="ion-ios-list-outline"></i></a>
+                        <a href="@Url.Action("Film_list", "Home", new { form_id = ViewBag.form_id, sort = ViewBag.sort, cate_id = ViewBag.cate_id, coun_id = ViewBag.coun_id, key = ViewBag.key, view_style = 2, page_size = 10 })" class="grid"><i class="ion-grid active"></i></a>
+                    </div>
+                    @if (Model != null)
+                    {
+                        <div class="flex-wrap-movielist">
+                            <div class="flex-wrap-movielist">
+                                @foreach (var items in Model)
+                                {
+                                    <div class="movie-item-style-2 movie-item-style-1">
+                                        <img src="~/images/films/@items.Image_link" alt="">
+                                        <div class="hvr-inner">
+                                            <a href="@Url.Action("Film_single", "Home", new { id = items.Id })"> Read more <i class="ion-android-arrow-dropright"></i> </a>
+                                        </div>
+                                        <div class="mv-item-infor">
+                                            <h6><a href="@Url.Action("Film_single", "Home", new { id = items.Id })">@items.Name</a></h6>
+                                            <p class="rate"><i class="ion-android-star"></i><span>@items.Rate</span> /10</p>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <p style="color:#dd003f">There are no items for your terms!</p>
+                    }
+                    <!--page list-->
+                    <div class="topbar-filter">
+                        <label>Movies per page:</label>
+                        <select name="formb" onchange="location = this.options[this.selectedIndex].value;">
+                            @switch (ViewBag.page_size)
+                            {
+                                case 5:
+                                    <option selected value=@PageSize_5>5 film</option>
+                                    <option value=@PageSize_10>10 film</option>
+                                    <option value=@PageSize_20>20 film</option>
+                                    break;
+                                case 10:
+                                    <option value=@PageSize_5>5 film</option>
+                                    <option selected value=@PageSize_10>10 film</option>
+                                    <option value=@PageSize_20>20 film</option>
+                                    break;
+                                case 20:
+                                    <option value=@PageSize_5>5 film</option>
+                                    <option value=@PageSize_10>10 film</option>
+                                    <option selected value=@PageSize_20>20 film</option>
+                                    break;
+                            }
+                        </select>
+                        <div class="pagination2">
+                            @if (Model != null)
+                            {
+                                <span>Page<a>@Model.PageNumber</a>of @Model.PageCount</span>
+                            }
+                            else
+                            {
+                                <span>no data...</span>
+                            }
+                        </div>
+                    </div>
+                    @if (Model != null)
+                    {
+                        @Html.PagedListPager(Model, page => Url.Action("film_list", new { form_id = ViewBag.form_id, sort = ViewBag.sort, cate_id = ViewBag.cate_id, coun_id = ViewBag.coun_id, rate = ViewBag.rate, view_style = ViewBag.view_style, page_size = ViewBag.page_size, key = "none", page = page }))
+                    }
+                    else {; }
+                    <!--end page list-->
+                </div>
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <div class="sidebar">
+                        <div class="searh-form">
+                            <h4 class="sb-title">filter</h4>
+                            <form class="form-style-1" action="@Url.Action("Film_list", "Home", new { form_id = ViewBag.form_id, sort = ViewBag.sort, cate_id = ViewBag.cate_id, coun_id = ViewBag.coun_id, key = ViewBag.key, view_style = ViewBag.view_style, page_size = ViewBag.page_size })" method="post">
+                                <div class="row">
+                                    <div class="col-md-12 form-it">
+                                        <label>Rating Range</label>
+                                        <select name="rate">
+                                            @{
+                                                switch (ViewBag.rate)
+                                                {
+                                                    case 0:
+                                                        <option value="4">-- ☆☆☆☆☆ --</option>
+                                                        <option value="3">-- ☆☆☆☆--</option>
+                                                        <option value="2">-- ☆☆☆--</option>
+                                                        <option value="1">-- ☆☆--</option>
+                                                        <option selected value="0">-- ☆--</option>
+                                                        break;
+                                                    case 1:
+                                                        <option value="4">-- ☆☆☆☆☆ --</option>
+                                                        <option value="3">-- ☆☆☆☆--</option>
+                                                        <option value="2">-- ☆☆☆--</option>
+                                                        <option selected value="1">-- ☆☆--</option>
+                                                        <option value="0">-- ☆--</option>
+                                                        break;
+                                                    case 2:
+                                                        <option value="4">-- ☆☆☆☆☆ --</option>
+                                                        <option value="3">-- ☆☆☆☆--</option>
+                                                        <option selected value="2">-- ☆☆☆--</option>
+                                                        <option value="1">-- ☆☆--</option>
+                                                        <option value="0">-- ☆--</option>
+                                                        break;
+                                                    case 3:
+                                                        <option value="4">-- ☆☆☆☆☆ --</option>
+                                                        <option selected value="3">-- ☆☆☆☆--</option>
+                                                        <option value="2">-- ☆☆☆--</option>
+                                                        <option value="1">-- ☆☆--</option>
+                                                        <option value="0">-- ☆--</option>
+                                                        break;
+                                                    case 4:
+                                                        <option selected value="4">-- ☆☆☆☆☆ --</option>
+                                                        <option value="3">-- ☆☆☆☆--</option>
+                                                        <option value="2">-- ☆☆☆--</option>
+                                                        <option value="1">-- ☆☆--</option>
+                                                        <option value="0">-- ☆--</option>
+                                                        break;
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 form-it">
+                                        <label>Country</label>
+                                        <select name="coun_id">
+                                            @if (ViewBag.coun_id == null)
+                                            {
+                                                <option selected value="-1">-------</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="-1">-------</option>
+                                            }
+                                            @foreach (var item in ViewBag.country)
+                                            {
+                                                if (item.id == ViewBag.coun_id)
+                                                {
+                                                    <option selected value=@item.id>@item.name</option>
+                                                }
+                                                <option value=@item.id>@item.name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 form-it">
+                                        <label>Category</label>
+                                        <select name="cate_id">
+                                            @if (ViewBag.cate_id == null)
+                                            {
+                                                <option selected value="-1">-------</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="-1">-------</option>
+                                            }
+                                            @foreach (var item in ViewBag.category)
+                                            {
+                                                if (item.id == ViewBag.cate_id)
+                                                {
+                                                    <option selected value=@item.id>@item.name</option>
+                                                }
+                                                <option value=@item.id>@item.name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 ">
+                                        <div><a style="color:white" href="@Url.Action("film_list", "Home", new { form_id = ViewBag.form_id, key = "none", view_style = ViewBag.view_style, page_size = ViewBag.page_size })">Clean up</a></div>
+                                        <br />
+                                    </div>
+                                    <div class="col-md-12 ">
+                                        <input class="submit" type="submit" value="filtering">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,21 @@
+﻿@if (ViewBag.User_name != null)
+{
+    <img width="50" height="50" src="~/images/uploads/user-img.png" />
+    <ul class="nav navbar-nav flex-child-menu menu-right">
+        <li class="dropdown first">
+            <a style="color:#dd003f" class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">@ViewBag.User_name</a>
+            <ul class="dropdown-menu level1">
+                <li><a href="@Url.Action("Account_deital", "User")">Your account</a></li>
+                <li><a href="@Url.Action("Logout", "User")">log out</a></li>
+            </ul>
+        </li>
+        <li><a style="color:#dd003f" href="@Url.Action("Account_deital", "User")"></a></li>
+    </ul>
+}
+else
+{
+    <ul class="nav navbar-nav flex-child-menu menu-right">
+        <li><a href="@Url.Action("Login", "User")">LOG In</a></li>
+        <li><a href="@Url.Action("Register", "User")">sign up</a></li>
+    </ul>
+}

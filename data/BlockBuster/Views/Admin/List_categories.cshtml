@@ -1,0 +1,46 @@
+﻿@model IEnumerable<BlockBuster.Models.category>
+@{
+    ViewBag.Title = "Categories";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<hr />
+<h2>Category Managemen</h2>
+<p>
+    @Html.ActionLink("Create new category", "Create_category", "Admin")
+</p>
+<hr />
+<table class="table">
+    <tr>
+        <th style="width:10%">Name</th>
+        <th style="width:10%">Color</th>
+        <th style="width:40%"></th>
+        <th style="width:40%"></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.color.color_name)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete_category", new { id = item.id })
+            </td>
+        </tr>
+    }
+</table>
+<div>
+    @Html.ActionLink("Back to home", "Home")
+</div>
+<script>
+    function on() {
+        var x = document.getElementById("myDIV");
+            x.style.display = "block";
+    }
+    function off() {
+        var x = document.getElementById("myDIV");
+        x.style.display = "none";
+    }
+</script>

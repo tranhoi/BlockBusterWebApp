@@ -1,0 +1,28 @@
+﻿@model IEnumerable<BlockBuster.Models.film_category>
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@Html.Action("List_film_category", "Admin", new { id = ViewBag.id })
+<h2>Select category</h2>
+@using (Html.BeginForm("Create_film_category", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div>
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.DropDownList("category_id")
+        </div>
+        <div class="form-group">
+            <label>film id</label>
+            <input type="text" name="film_id" value="@ViewBag.id" readonly>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Add">
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Continue", "Create_film_celebrity")
+</div>

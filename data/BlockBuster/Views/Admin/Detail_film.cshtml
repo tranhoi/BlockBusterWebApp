@@ -1,0 +1,125 @@
+﻿@model BlockBuster.Models.film
+@{
+    ViewBag.Title = "Deital_film";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+    <table class="table">
+        <tr>
+            <th style="width:60%">Detail</th>
+            <th style="width:20%">Country</th>
+            <th style="width:20%">Category</th>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.name)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.name)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.release)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.release)
+                        </dd>
+
+                        <dt>
+                            <h>poster</h>
+                        </dt>
+
+                        <dd>
+                            <img height="200" width="150" src="~/images/films/@Model.image_link" />
+                        </dd>
+
+                        <dt>
+                            <h>view count</h>
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.view_count)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.description)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.description)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.created)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.created)
+                        </dd>
+
+                        <dt>
+                            <h>form </h>
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.form.name)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.rate)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.rate) star
+                        </dd>
+                        | @Html.ActionLink("Edit", "Edit_film", new { id = Model.id }) |
+                    </dl>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <ul>
+                        @Html.Action("Film_country", "Admin", new { id = Model.id })
+                    </ul>
+                    | @Html.ActionLink("Management", "Manager_film_country", new { id = Model.id }) |
+                </div>
+            </td>
+            <td>
+                <div>
+                    <ul>
+                        @Html.Action("Film_category", "Admin", new { id = Model.id })
+                    </ul>
+                    | @Html.ActionLink("Management", "Manager_film_category", new { id = Model.id }) |
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th>Trailer</th>
+            <th>Cast & Crew</th>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <ul>
+                        @Html.Action("Film_trailer", "Admin", new { id = Model.id })
+                    </ul>
+                    | @Html.ActionLink("Management", "Manager_film_trailer", new { id = Model.id }) |
+                </div>
+            </td>
+            <td>
+                <div>
+                    <ul>
+                        @Html.Action("Film_celebrity", "Admin", new { id = Model.id })
+                    </ul>
+                    | @Html.ActionLink("Management", "Manager_film_celebrity", new { id = Model.id }) |
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div>
+        @Html.ActionLink("Back to List", "List_movies")
+    </div>

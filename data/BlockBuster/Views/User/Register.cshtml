@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout_Home_2.cshtml";
+}
+<div class="page-single-2">
+    <div class="container">
+        <div class="row ipad-width">
+            <div class="left-content">
+                <a href="@Url.Action("Index", "Home")"><img class="md-logo" src="~/images/logo1.png" alt=""></a>
+                <h1>Sign in</h1>
+                <p>to rate the movies you like</p>
+                @if (ViewBag.Notification != null)
+                {
+                    <p style="color:#dd003f; width:45%">@ViewBag.Notification</p>
+                }
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <form action="/User/Register" method="post">
+                            <div class="row">
+                                <input class="email" type="text" name="first_name" maxlength="50" placeholder="first name" required>
+                            </div>
+                            <div class="row">
+                                <input class="email" type="text" name="last_name" maxlength="50" placeholder="last name" required>
+                            </div>
+                            <div class="row">
+                                <input class="email" type="text" name="email" maxlength="50" placeholder="email" required>
+                            </div>
+                            <div class="row">
+                                <input class="email" type="password" name="password" minlength="8" maxlength="50" placeholder="password" required>
+                            </div>
+                            <div class="row">
+                                <input class="email" type="password" name="repassword" minlength="8" maxlength="50" placeholder="re password" required>
+                            </div>
+                            <div class="row">
+                                <input class="redbtn" type="submit" value="Sign up">
+                            </div>
+                        </form>
+                        <p>Already have an account? <a style="color:aqua" href="@Url.Action("Login", "User", new { noti = "", film_id = 0})">login now...</a></p>
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <img class="cm-img" src="~/images/uploads/cm-img.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

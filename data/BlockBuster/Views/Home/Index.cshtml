@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout_Home.cshtml";
+}
+<div class="slider movie-items">
+    <div class="container">
+        <div class="row">
+            <div class="social-link">
+                <p>Follow us: </p>
+                <a href="https://www.youtube.com/channel/UCBfwswJEpRVGE8jW-JXuWYQ"><i class="ion-social-youtube"></i></a>
+                <a href="https://www.facebook.com/hois.trann"><i class="ion-social-facebook"></i></a>
+                <a href="#"><i class="ion-social-twitter"></i></a>
+                <a href="#"><i class="ion-social-googleplus"></i></a>
+            </div>
+            @Html.Action("NewFilm", "Home")
+        </div>
+    </div>
+</div>
+<!-- trailer section-->
+<div class="trailers">
+    <div class="container">
+        <div class="row ipad-width">
+            <div class="col-md-12">
+                <div class="title-hd">
+                    <h2>new trailer</h2>
+                    <a href="@Url.Action("Trailer_list", "Home")" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
+                </div>
+                @Html.Action("Trailer_new", "Home")
+            </div>
+        </div>
+    </div>
+</div>
+<!-- fiml list section-->
+<div class="movie-items">
+    <div class="container">
+        <div class="row ipad-width">
+            <div class="col-md-8">
+                <div class="title-hd">
+                    <h2>in theater</h2>
+                    <a href="@Url.Action("film_list", "Home", new { form_id = 1, key = "none"})" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
+                </div>
+                <div class="tabs">
+                    <ul class="tab-links">
+                        <li class="active"><a href="#tab1">#Popular</a></li>
+                        <li><a href="#tab2"> #Top rated</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab1" class="tab active">
+                            @Html.Action("Popular_movie", "Home")
+                        </div>
+                        <div id="tab2" class="tab">
+                            @Html.Action("Toprate_movie", "Home")
+                        </div>
+                    </div>
+                </div>
+                <div class="title-hd">
+                    <h2>on tv</h2>
+                    <a href="@Url.Action("film_list", "Home", new { form_id = 2, key = "none"})" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
+                </div>
+                <div class="tabs">
+                    <ul class="tab-links-2">
+                        <li><a href="#tab3">#Popular</a></li>
+                        <li class="active"><a href="#tab4"> #Top rated</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab3" class="tab">
+                            @Html.Action("Popular_drama", "Home")
+                        </div>
+                        <div id="tab4" class="tab active">
+                            @Html.Action("Toprate_drama", "Home")
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="sidebar">
+                    <div class="celebrities">
+                        <h4 class="sb-title">Spotlight Celebrities</h4>
+                        @Html.Action("Celebrities", "Home")
+                        <a href="#" class="btn">See all celebrities<i class="ion-ios-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

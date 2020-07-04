@@ -1,0 +1,46 @@
+﻿@model IEnumerable<BlockBuster.Models.country>
+@{
+    ViewBag.Title = "Country";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<hr />
+<h2>Country Managemen</h2>
+<p>
+    @Html.ActionLink("Create new country", "Create_country", "Admin")
+</p>
+<hr />
+<table class="table">
+    <tr>
+        <th style="width:10%">Id</th>
+        <th style="width:10%">Name</th>
+        <th style="width:40%"></th>
+        <th style="width:40%"></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete_country", new { id = item.id })
+            </td>
+        </tr>
+    }
+</table>
+<div>
+    @Html.ActionLink("Back to home", "Home")
+</div>
+<script>
+    function on() {
+        var x = document.getElementById("myDIV");
+        x.style.display = "block";
+    }
+    function off() {
+        var x = document.getElementById("myDIV");
+        x.style.display = "none";
+    }
+</script>

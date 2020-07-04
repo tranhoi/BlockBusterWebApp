@@ -1,0 +1,459 @@
+﻿@using BlockBuster.Models
+@using PagedList.Mvc;
+@model PagedList.PagedList<celebrity>
+@{
+    ViewBag.Title = "Celebrity_list";
+    Layout = "~/Views/Shared/_Layout_Home.cshtml";
+}
+@helper Truncate(string input, int length)
+{
+    if (input.Length < length)
+    {
+        @input
+    }
+    else
+    {
+        @input.Substring(0, length)<text>...</text>
+    }
+}
+@{
+    // Sort style
+    String sort_name = "Celebrity_list?sort=0&coun_id=" + ViewBag.coun_id + "&key=" + ViewBag.key + "&letter=" + ViewBag.letter + "&min=" + ViewBag.min + "&max=" + ViewBag.max + "&view_style=" + ViewBag.view_style + "&page_size=" + ViewBag.page_size;
+    String sort_des_name = "Celebrity_list?sort=1&coun_id=" + ViewBag.coun_id + "&key=" + ViewBag.key + "&letter=" + ViewBag.letter + "&min=" + ViewBag.min + "&max=" + ViewBag.max + "&view_style=" + ViewBag.view_style + "&page_size=" + ViewBag.page_size;
+    String sort_birthday = "Celebrity_list?sort=2&coun_id=" + ViewBag.coun_id + "&key=" + ViewBag.key + "&letter=" + ViewBag.letter + "&min=" + ViewBag.min + "&max=" + ViewBag.max + "&view_style=" + ViewBag.view_style + "&page_size=" + ViewBag.page_size;
+    String sort_des_birthday = "Celebrity_list?sort=3&coun_id=" + ViewBag.coun_id + "&key=" + ViewBag.key + "&letter=" + ViewBag.letter + "&min=" + ViewBag.min + "&max=" + ViewBag.max + "&view_style=" + ViewBag.view_style + "&page_size=" + ViewBag.page_size;
+    // Page size
+    String PageSize_6 = "Celebrity_list?sort=" + ViewBag.sort + "&coun_id=" + ViewBag.coun_id + "&key=" + ViewBag.key + "&letter=" + ViewBag.letter + "&min=" + ViewBag.min + "&max=" + ViewBag.max + "&view_style=" + ViewBag.view_style + "&page_size=6";
+    String PageSize_12 = "Celebrity_list?sort=" + ViewBag.sort + "&coun_id=" + ViewBag.coun_id + "&key=" + ViewBag.key + "&letter=" + ViewBag.letter + "&min=" + ViewBag.min + "&max=" + ViewBag.max + "&view_style=" + ViewBag.view_style + "&page_size=12";
+    String PageSize_18 = "Celebrity_list?sort=" + ViewBag.sort + "&coun_id=" + ViewBag.coun_id + "&key=" + ViewBag.key + "&letter=" + ViewBag.letter + "&min=" + ViewBag.min + "&max=" + ViewBag.max + "&view_style=" + ViewBag.view_style + "&page_size=18";
+}
+<div class="hero common-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hero-ct">
+                    @if (ViewBag.view_style == 1)
+                    {
+                        <h1> celebrity listing - list </h1>
+                    }
+                    else
+                    {
+                        <h1> celebrity listing - grid </h1>
+                    }
+                    <ul class="breadcumb">
+                        <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                        <li> <span class="ion-ios-arrow-right"></span> celebrity listing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@if (ViewBag.view_style == 1)
+{
+    <!-- celebrity list section-->
+    <div class="page-single">
+        <div class="container">
+            <div class="row ipad-width2">
+                <div class="col-md-9 col-sm-12 col-xs-12">
+                    <div class="topbar-filter">
+                        <p class="pad-change">Found <span>@ViewBag.count</span> in total</p>
+                        <label>Sort by:</label>
+                        <select name="forma" onchange="location = this.options[this.selectedIndex].value;">
+                            <option value=@sort_name>Name Ascending</option>
+                            <option value=@sort_des_name>Name Descending</option>
+                            <option value=@sort_birthday>Birthday Ascending</option>
+                            <option value=@sort_des_birthday>Birthday Descending</option>
+                        </select>
+                        <a href="@Url.Action("Celebrity_list", "Home", new { coun_id = ViewBag.coun_id, sort = ViewBag.sort, key = ViewBag.key, letter = ViewBag.letter, min = ViewBag.min, max = ViewBag.max, view_style = 1, page_size = 6 })" class="list"><i class="ion-ios-list-outline active"></i></a>
+                        <a href="@Url.Action("Celebrity_list", "Home", new { coun_id = ViewBag.coun_id, sort = ViewBag.sort, key = ViewBag.key, letter = ViewBag.letter, min = ViewBag.min, max = ViewBag.max, view_style = 2, page_size = 12 })" class="grid"><i class="ion-grid"></i></a>
+                    </div>
+                    <div class="row">
+                        @if (Model != null)
+                        {
+                            foreach (var items in Model)
+                            {
+                                <div class="col-md-12">
+                                    <div class="ceb-item-style-2">
+                                        <img width="100" height="200" src="~/images/celeb/@items.avatar" alt="">
+                                        <div class="ceb-infor">
+                                            <h2><a href="@Url.Action("Celebrity_single", "Home", new { id = items.id})">@items.name</a></h2>
+                                            <span>@items.country.name</span>
+                                            <p>@Truncate(items.description, 200) </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-md-12">
+                                <p style="color: #dd003f">There are no items for your terms!</p>
+                            </div>
+                        }
+                    </div>
+                    <!--page list-->
+                    <div class="topbar-filter">
+                        <label>Celecrity page:</label>
+                        <select name="formb" onchange="location = this.options[this.selectedIndex].value;">
+                            @switch (ViewBag.page_size)
+                            {
+                                case 6:
+                                    <option selected value=@PageSize_6>6 celeb</option>
+                                    <option value=@PageSize_12>12 celeb</option>
+                                    <option value=@PageSize_18>18 celeb</option>
+                                    break;
+                                case 12:
+                                    <option value=@PageSize_6>6 celeb</option>
+                                    <option selected value=@PageSize_12>12 celeb</option>
+                                    <option value=@PageSize_18>18 celeb</option>
+                                    break;
+                                case 18:
+                                    <option value=@PageSize_6>6 celeb</option>
+                                    <option value=@PageSize_12>12 celeb</option>
+                                    <option selected value=@PageSize_18>18 celeb</option>
+                                    break;
+                            }
+                        </select>
+                        <div class="pagination2">
+                            @if (Model != null)
+                            {
+                                <span>Page<a>@Model.PageNumber</a>of @Model.PageCount</span>
+                            }
+                            else
+                            {
+                                <span>no data...</span>
+                            }
+                        </div>
+                    </div>
+                    @if (Model != null)
+                    {
+                        if (Model.PageCount > 1)
+                        {
+                            @Html.PagedListPager(Model, page => Url.Action("Celebrity_list", new { coun_id = ViewBag.coun_id, sort = ViewBag.sort, key = ViewBag.key, letter = ViewBag.letter, min = ViewBag.min, max = ViewBag.max, view_style = ViewBag.view_style, page_size = ViewBag.page_size, page = page }))
+                        }
+                        else {; }
+                    }
+                    else {; }
+                    <!--end page list-->
+                </div>
+                <div class="col-md-3 col-xs-12 col-sm-12">
+                    <div class="sidebar">
+                        <div class="searh-form">
+                            <h4 class="sb-title">filter</h4>
+                            <form class="form-style-1 celebrity-form" action="@Url.Action("Celebrity_list", "Home", new { coun_id = ViewBag.coun_id, sort = ViewBag.sort, key = ViewBag.key, letter = ViewBag.letter, min = ViewBag.min, max = ViewBag.max, view_style = ViewBag.view_style, page_size = ViewBag.page_size })" method="post">
+                                <div class="row">
+                                    <div class="col-md-12 form-it">
+                                        <label>Celebrity name</label>
+                                        @if (ViewBag.key != null && ViewBag.key != "" && ViewBag.key != "none")
+                                        {
+                                            <input type="text" name="key" value=@ViewBag.key placeholder="Enter keywords">
+                                        }
+                                        else
+                                        {
+                                            <input type="text" name="key" placeholder="Enter keywords">
+                                        }
+                                    </div>
+                                    <div class="col-md-12 form-it">
+                                        <label>Celebrity Letter</label>
+                                        <select name="letter">
+                                            @if (ViewBag.letter == null)
+                                            {
+                                                <option selected value="-1">-------</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="-1">-------</option>
+                                            }
+                                            @foreach (var item in ViewBag.alphabet)
+                                            {
+                                                if (item.id == ViewBag.letter)
+                                                {
+                                                    <option selected value=@item.id>@item.value</option>
+                                                }
+                                                <option value=@item.id>@item.value</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 form-it">
+                                        <label>Country</label>
+                                        <select name="coun_id">
+                                            @if (ViewBag.coun_id == null)
+                                            {
+                                                <option selected value="-1">-------</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="-1">-------</option>
+                                            }
+                                            @foreach (var item in ViewBag.country)
+                                            {
+                                                if (item.id == ViewBag.coun_id)
+                                                {
+                                                    <option selected value=@item.id>@item.name</option>
+                                                }
+                                                <option value=@item.id>@item.name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 form-it">
+                                        <label>Year of birth</label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <select name="min">
+                                                    @if (ViewBag.min < 1920)
+                                                    {
+                                                        <option selected value="1919">-------</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="1919">-------</option>
+                                                    }
+                                                    @foreach (var item in ViewBag.year_min)
+                                                    {
+                                                        if (int.Parse(item) == ViewBag.min)
+                                                        {
+                                                            <option selected value=@item>@item</option>
+                                                        }
+                                                        <option value=@item>@item</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <select name="max">
+                                                    @if (ViewBag.max > 2020)
+                                                    {
+                                                        <option selected value="2021">-------</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="2021">-------</option>
+                                                    }
+                                                    @foreach (var item in ViewBag.year_max)
+                                                    {
+                                                        if (int.Parse(item) == ViewBag.max)
+                                                        {
+                                                            <option selected value=@item>@item</option>
+                                                        }
+                                                        <option value=@item>@item</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 ">
+                                        <div><a style="color:white" href="@Url.Action("Celebrity_list", "Home", new { view_style = ViewBag.view_style, page_size = ViewBag.page_size })">Clean up</a></div>
+                                        <br />
+                                    </div>
+                                    <div class="col-md-12 ">
+                                        <input class="submit" type="submit" value="filtering">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end of celebrity list section-->
+}
+else
+{
+    <!-- celebrity grid v1 section-->
+    <div class="page-single">
+        <div class="container">
+            <div class="row ipad-width2">
+                <div class="col-md-9 col-sm-12 col-xs-12">
+                    <div class="topbar-filter">
+                        <p class="pad-change">Found <span>@ViewBag.count</span> in total</p>
+                        <label>Sort by:</label>
+                        <select name="forma" onchange="location = this.options[this.selectedIndex].value;">
+                            <option value=@sort_name>Name Ascending</option>
+                            <option value=@sort_des_name>Name Descending</option>
+                            <option value=@sort_birthday>Birthday Ascending</option>
+                            <option value=@sort_des_birthday>Birthday Descending</option>
+                        </select>
+                        <a href="@Url.Action("Celebrity_list", "Home", new { coun_id = ViewBag.coun_id, sort = ViewBag.sort, key = ViewBag.key, letter = ViewBag.letter, min = ViewBag.min, max = ViewBag.max, view_style = 1, page_size = 6 })" class="list"><i class="ion-ios-list-outline"></i></a>
+                        <a href="@Url.Action("Celebrity_list", "Home", new { coun_id = ViewBag.coun_id, sort = ViewBag.sort, key = ViewBag.key, letter = ViewBag.letter, min = ViewBag.min, max = ViewBag.max, view_style = 2, page_size = 12 })" class="grid"><i class="ion-grid active"></i></a>
+                    </div>
+                    <div class="celebrity-items">
+                        @if (Model != null)
+                        {
+                            foreach (var items in Model)
+                            {
+                                <div class="ceb-item">
+                                    <a href="@Url.Action("Celebrity_single", "Home", new { id = items.id})"><img width="270" height="400" src="~/images/celeb/@items.avatar" alt=""></a>
+                                    <div class="ceb-infor">
+                                        <h2><a href="@Url.Action("Celebrity_single", "Home", new { id = items.id})">@items.name</a></h2>
+                                        <span>@items.country.name</span>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <!--page list-->
+                    <div class="topbar-filter">
+                        <label>Celecrity page:</label>
+                        <select name="formb" onchange="location = this.options[this.selectedIndex].value;">
+                            @switch (ViewBag.page_size)
+                            {
+                                case 6:
+                                    <option selected value=@PageSize_6>6 celeb</option>
+                                    <option value=@PageSize_12>12 celeb</option>
+                                    <option value=@PageSize_18>18 celeb</option>
+                                    break;
+                                case 12:
+                                    <option value=@PageSize_6>6 celeb</option>
+                                    <option selected value=@PageSize_12>12 celeb</option>
+                                    <option value=@PageSize_18>18 celeb</option>
+                                    break;
+                                case 18:
+                                    <option value=@PageSize_6>6 celeb</option>
+                                    <option value=@PageSize_12>12 celeb</option>
+                                    <option selected value=@PageSize_18>18 celeb</option>
+                                    break;
+                            }
+                        </select>
+                        <div class="pagination2">
+                            @if (Model != null)
+                            {
+                                <span>Page<a>@Model.PageNumber</a>of @Model.PageCount</span>
+                            }
+                            else
+                            {
+                                <span>no data...</span>
+                            }
+                        </div>
+                    </div>
+                    @if (Model != null)
+                    {
+                        if (Model.PageCount > 1)
+                        {
+                            @Html.PagedListPager(Model, page => Url.Action("Celebrity_list", new { coun_id = ViewBag.coun_id, sort = ViewBag.sort, key = ViewBag.key, letter = ViewBag.letter, min = ViewBag.min, max = ViewBag.max, view_style = ViewBag.view_style, page_size = ViewBag.page_size, page = page }))
+                        }
+                        else {; }
+                    }
+                    else {; }
+                    <!--end page list-->
+                </div>
+                <div class="col-md-3 col-xs-12 col-sm-12">
+                    <div class="sidebar">
+                        <div class="searh-form">
+                            <h4 class="sb-title">filter</h4>
+                            <form class="form-style-1 celebrity-form" action="@Url.Action("Celebrity_list", "Home", new { coun_id = ViewBag.coun_id, sort = ViewBag.sort, key = ViewBag.key, letter = ViewBag.letter, min = ViewBag.min, max = ViewBag.max, view_style = ViewBag.view_style, page_size = ViewBag.page_size })" method="post">
+                                <div class="row">
+                                    <div class="col-md-12 form-it">
+                                        <label>Celebrity name</label>
+                                        @if (ViewBag.key != null && ViewBag.key != "" && ViewBag.key != "none")
+                                        {
+                                            <input type="text" name="key" value=@ViewBag.key placeholder="Enter keywords">
+                                        }
+                                        else
+                                        {
+                                            <input type="text" name="key" placeholder="Enter keywords">
+                                        }
+                                    </div>
+                                    <div class="col-md-12 form-it">
+                                        <label>Celebrity Letter</label>
+                                        <select name="letter">
+                                            @if (ViewBag.letter == null)
+                                            {
+                                                <option selected value="-1">-------</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="-1">-------</option>
+                                            }
+                                            @foreach (var item in ViewBag.alphabet)
+                                            {
+                                                if (item.id == ViewBag.letter)
+                                                {
+                                                    <option selected value=@item.id>@item.value</option>
+                                                }
+                                                <option value=@item.id>@item.value</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 form-it">
+                                        <label>Country</label>
+                                        <select name="coun_id">
+                                            @if (ViewBag.coun_id == null)
+                                            {
+                                                <option selected value="-1">-------</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="-1">-------</option>
+                                            }
+                                            @foreach (var item in ViewBag.country)
+                                            {
+                                                if (item.id == ViewBag.coun_id)
+                                                {
+                                                    <option selected value=@item.id>@item.name</option>
+                                                }
+                                                <option value=@item.id>@item.name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 form-it">
+                                        <label>Year of birth</label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <select name="min">
+                                                    @if (ViewBag.min < 1920)
+                                                    {
+                                                        <option selected value="1919">-------</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="1919">-------</option>
+                                                    }
+                                                    @foreach (var item in ViewBag.year_min)
+                                                    {
+                                                        if (int.Parse(item) == ViewBag.min)
+                                                        {
+                                                            <option selected value=@item>@item</option>
+                                                        }
+                                                        <option value=@item>@item</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <select name="max">
+                                                    @if (ViewBag.max > 2020)
+                                                    {
+                                                        <option selected value="2021">-------</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="2021">-------</option>
+                                                    }
+                                                    @foreach (var item in ViewBag.year_max)
+                                                    {
+                                                        if (int.Parse(item) == ViewBag.max)
+                                                        {
+                                                            <option selected value=@item>@item</option>
+                                                        }
+                                                        <option value=@item>@item</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 ">
+                                        <div><a style="color:white" href="@Url.Action("Celebrity_list", "Home", new { view_style = ViewBag.view_style, page_size = ViewBag.page_size })">Clean up</a></div>
+                                        <br />
+                                    </div>
+                                    <div class="col-md-12 ">
+                                        <input class="submit" type="submit" value="filtering">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!--end of celebrity grid v1 section-->
+}

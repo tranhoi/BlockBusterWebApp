@@ -1,0 +1,88 @@
+﻿@model BlockBuster.Models.film
+@{
+    ViewBag.Title = "Edit film";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@{
+    String name = Model.name;
+}
+<h2>Edit film - film id: @Model.id</h2>
+<br />
+<div class="form-horizontal">
+    @using (Html.BeginForm("Do_edit_film", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div>
+            <hr />
+            @Html.ValidationSummary(true)
+            <div>
+                <input name="id" value=@Model.id hidden />
+                <div class="form-group">
+                    <label>Film name </label>
+                    <br />
+                    <input type="text" name="name" value=@name maxlength="100" placeholder="movie name" required>
+                </div>
+                <div class="form-group">
+                    <label>Release </label>
+                    <br />
+                    <input type="date" value=@ViewBag.release name="release" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Poster</label>
+                    <br />
+                    @Model.image_link
+                    <input type="file" name="fileUpload">
+                </div>
+
+                <div class="form-group">
+                    <label>View count </label>
+                    <br />
+                    <input type="number" value=@Model.view_count name="view_count" min="0" max="999999" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Decription </label>
+                    <br />
+                    <textarea name="description" rows="5" cols="120" required>@Model.description</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Created </label>
+                    <br />
+                    <input type="date" name="created" value=@ViewBag.created readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Form </label>
+                    <br />
+                    <select name="form_id">
+                        @foreach (var item in ViewBag.form)
+                        {
+                            if (item.id == Model.form_id)
+                            {
+                                <option selected value=@item.id>@item.name</option>
+                            }
+                            else
+                            {
+                                <option value=@item.id>@item.name</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Rated points </label>
+                    <br />
+                    <input type="number" value=@Model.rate name="rate" min="0" max="5" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Submit">
+                </div>
+            </div>
+        </div>
+    }
+    <div>
+        @Html.ActionLink("Come back", "Detail_film", new { id = Model.id })
+    </div>

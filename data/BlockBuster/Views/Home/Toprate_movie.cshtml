@@ -1,0 +1,21 @@
+﻿<div class="row">
+    <div class="slick-multiItem">
+        @foreach (var items in Model)
+        {
+            <div class="slide-it">
+                <div class="movie-item">
+                    <div class="mv-img">
+                        <img src="~/images/films/@items.image_link" alt="" width="185" height="284">
+                    </div>
+                    <div class="hvr-inner">
+                        <a href="@Url.Action("Film_single", "Home", new { id = items.id})"> view <i class="ion-android-arrow-dropright"></i> </a>
+                    </div>
+                    <div class="title-in">
+                        <h6><a href="@Url.Action("Film_single", "Home", new { id = items.id})">@items.name</a></h6>
+                        <p><i class="ion-android-star"></i><span>@items.rate</span> /5</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,11 @@
+﻿@if (ViewBag.check == false)
+{
+    <p>No information...</p>
+}
+else
+{
+    foreach (var items in Model)
+    {
+        <p><a href="@Url.Action("Celebrity_single", "Home", new { id = items.celeb_id})">@items.celebrity.name</a></p>
+    }
+}

@@ -1,0 +1,24 @@
+﻿<div class="videos">
+    <div class="slider-for-2 video-ft">
+        @foreach (var items in Model)
+        {
+            <div>
+                <iframe class="item-video" src="#" data-src="https://www.youtube.com/embed/@items.source"></iframe>
+            </div>
+        }
+    </div>
+    <div class="slider-nav-2 thumb-ft">
+        @foreach (var items in Model)
+        {
+            <div class="item">
+                <div class="trailer-img">
+                    <img src="~/images/trailer/@items.image_link" alt="photo by Barn Images" width="40" height="27">
+                </div>
+                <div class="trailer-infor">
+                    <h4 class="desc">@items.name</h4>
+                    <p>2:30</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>

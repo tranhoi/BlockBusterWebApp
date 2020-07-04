@@ -1,0 +1,25 @@
+﻿<table class="table">
+    <tr>
+        <th style="width:10%">Id</th>
+        <th style="width:10%">Name</th>
+        <th style="width:10%"></th>
+        <th style="width:70%"></th>
+    </tr>
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <p>@item.film.name</p>
+                </td>
+                <td>
+                    <p>@item.category.name</p>
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "Delete_film_category", new { id = item.id }) |
+                </td>
+            </tr>
+        }
+    }
+</table>
